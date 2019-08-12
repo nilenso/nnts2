@@ -11,28 +11,19 @@
                  [yogthos/config "1.1.5"]
                  [ring "1.7.1"]
                  [aero "1.1.3"]]
-
   :plugins []
-
   :min-lein-version "2.5.3"
-
   :source-paths ["src/clj" "src/cljs"]
-
-  :test-paths   ["test/cljs"]
-
+  :test-paths ["test/cljs"]
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"
                                     "test/js"]
 
-
   :aliases {"dev"  ["with-profile" "dev" "run" "-m" "shadow.cljs.devtools.cli" "watch" "app"]
             "prod" ["with-profile" "prod" "run" "-m" "shadow.cljs.devtools.cli" "release" "app"]}
-
   :profiles
   {:dev
-   {:dependencies [[binaryage/devtools "0.9.10"]]}
-
-   :prod { }
-
+            {:dependencies [[binaryage/devtools "0.9.10"]]}
+   :prod    {}
    :uberjar {:source-paths ["env/prod/clj"]
              :omit-source  true
              :main         nnts2.server

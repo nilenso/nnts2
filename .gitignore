@@ -5,3 +5,6 @@
 out
 .dir-locals.el
 .nrepl-port
+.idea
+.lein-repl-history
+*.iml
