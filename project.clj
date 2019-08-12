@@ -10,7 +10,8 @@
                  [compojure "1.6.1"]
                  [yogthos/config "1.1.5"]
                  [ring "1.7.1"]
-                 [aero "1.1.3"]]
+                 [aero "1.1.3"]
+                 [org.clojure/java.jdbc "0.7.9"]]
   :plugins []
   :main nnts2.core
   :min-lein-version "2.5.3"
