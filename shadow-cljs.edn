@@ -1,0 +1,31 @@
+{:lein   true
+
+ :nrepl {:port 8777}
+
+ :builds {:app {:target          :browser
+                :output-dir      "resources/public/js/compiled"
+                :asset-path      "/js/compiled"
+                :dev             {:modules          {:app {:entries [devtools.preload
+                                                                     nnts2.core]}}}
+                :release         {:modules          {:app {:entries [nnts2.core]}}
+                                  :compiler-options {:optimizations :advanced
+                                                     :pretty-print  false
+                                                     :closure-defines {goog.DEBUG                           false}}}
+                :devtools        {:http-root    "resources/public"
+                                  :http-port    8280
+                                  :http-handler nnts2.handler/dev-handler
+                                  :preloads     [devtools.preload]
+                                  :after-load   nnts2.core/mount-root}}
+
+          :browser-test
+          {:target :browser-test
+           :ns-regexp "-test$"
+           :runner-ns shadow.test.browser
+           :test-dir "target/browser-test"
+           :devtools {:http-root "target/browser-test"
+                      :http-port 8290}}
+
+          :karma-test
+          {:target :karma
+           :ns-regexp "-test$"
+           :output-to "target/karma-test.js"}}}

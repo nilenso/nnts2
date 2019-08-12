@@ -1,0 +1,5 @@
+language: clojure
+dist: bionic
+addons:
+  postgresql: "10"
+

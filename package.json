@@ -1,0 +1,13 @@
+{
+  "devDependencies": {
+    "shadow-cljs": "^2.8.45",
+    "karma": "^4.2.0",
+    "karma-chrome-launcher": "^3.0.0",
+    "karma-cljs-test": "^0.1.0"
+  },
+  "dependencies":{
+    "create-react-class": "^15.6.3",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}
