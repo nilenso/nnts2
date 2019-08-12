@@ -4,6 +4,9 @@
             [ring.adapter.jetty :refer [run-jetty]])
   (:gen-class))
 
- (defn start [& args]
-   (let [port (Integer/parseInt (or (env :port) "3000"))]
-     (run-jetty handler {:port port :join? false})))
+(defn start [server-spec]
+  (let [port (:port server-spec)
+        host (:ip server-spec)]
+    (run-jetty handler {:port  port
+                        :host  host
+                        :join? false})))

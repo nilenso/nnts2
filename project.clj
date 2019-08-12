@@ -12,6 +12,7 @@
                  [ring "1.7.1"]
                  [aero "1.1.3"]]
   :plugins []
+  :main nnts2.core
   :min-lein-version "2.5.3"
   :source-paths ["src/clj" "src/cljs"]
   :test-paths ["test/cljs"]
@@ -29,5 +30,4 @@
              :main         nnts2.server
              :aot          [nnts2.server]
              :uberjar-name "nnts2.jar"
-             :prep-tasks   ["compile" ["prod"]]}
-   })
+             :prep-tasks   ["compile" ["prod"]]}})

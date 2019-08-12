@@ -8,3 +8,6 @@ out
 .idea
 .lein-repl-history
 *.iml
+.shadow-cljs/
+node_modules/
+package-lock.json
