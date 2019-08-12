@@ -4,3 +4,4 @@
 /resources/public/js/compiled
 out
 .dir-locals.el
+.nrepl-port
