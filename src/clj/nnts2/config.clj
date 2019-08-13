@@ -12,4 +12,3 @@
     (reset! server-spec (:server-spec config))
     config))
 
-(read :dev)

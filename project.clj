@@ -29,7 +29,7 @@
    :prod    {}
    :uberjar {:source-paths ["env/prod/clj"]
              :omit-source  true
-             :main         nnts2.server
-             :aot          [nnts2.server]
+             :main         nnts2.core
+             :aot          [nnts2.core]
              :uberjar-name "nnts2.jar"
              :prep-tasks   ["compile" ["prod"]]}})
