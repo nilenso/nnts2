@@ -2,7 +2,7 @@
   (:require [clojure.test :refer :all]
             [nnts2.core :refer :all]))
 
-(deftest config-test
+#_(deftest config-test
   (testing "Given a valid profile should read db-spec and server-spec from config"
     (let [config (-main "dev")]
       (is (every? #(contains? config %) [:db-spec :server-spec]))))
