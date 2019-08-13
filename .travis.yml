@@ -23,6 +23,8 @@ before_deploy:
   - ls $HOME/build/nilenso/nnts2/target
   - scp $HOME/build/nilenso/nnts2/target/nnts2-0.1.0-SNAPSHOT.jar
     $REMOTE_USER@$REMOTE_TARGET:~/
- deploy:
-   provider: script
-   script: ls ~/
+deploy:
+  provider: script
+  script: ls /home/ubuntu
+  on:
+    branch: master
