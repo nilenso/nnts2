@@ -1,6 +1,6 @@
 {:db-spec #profile
- {:dev "jdbc:postgresql://localhost:5342/nnts2_dev" 
-  :test "jdbc:postgresql://localhost:5432/nnts2_test"
+ {:dev "jdbc:postgresql://localhost:7001:5342/nnts2_dev" 
+  :test "jdbc:postgresql://localhost:7002:5432/nnts2_test"
   :prod #envf ["jdbc:postgresql://%s:%s/nnts2" DB_HOST DB_PORT]}
 
  :server-spec #profile
