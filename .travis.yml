@@ -28,6 +28,6 @@ before_deploy:
   - scp $HOME/build/nilenso/nnts2/target/nnts2.jar $REMOTE_USER@$REMOTE_TARGET:~/
 deploy:
   provider: script
-  script: pwd
+  script: ssh $REMOTE_USER@$REMOTE_TARGET "sudo systemctl restart nnts2.service"
   on:
     branch: master

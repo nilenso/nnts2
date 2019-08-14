@@ -14,5 +14,5 @@
   (cond
        (= (first args) "dev") (config/read :dev)
        (= (first args) "test") (config/read :test)
-       :else (config/read :dev))
+       :else (config/read :prod))
   (start))
