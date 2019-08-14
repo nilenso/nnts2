@@ -1,9 +1,7 @@
 (ns nnts2.server
   (:require [nnts2.handler :refer [handler]]
-            #_[config.core :refer [env]]
             [ring.adapter.jetty :refer [run-jetty]]
-            [nnts2.config :refer [server-spec]])
-  #_(:gen-class))
+            [nnts2.config :refer [server-spec]]))
 
 (defn start []
   (let [port (:port @server-spec)
