@@ -7,7 +7,7 @@
 (defn read 
   "Use the provided environment to get it's profile"
   [env]
-  (let [config (aero/read-config "config/config.edn" {:profile env})]
+  (let [config (aero/read-config (clojure.java.io/resource "config/config.edn") {:profile env})]
     (reset! db-spec (:db-spec config))
     (reset! server-spec (:server-spec config))
     config))
