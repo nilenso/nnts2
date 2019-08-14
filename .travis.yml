@@ -7,7 +7,11 @@ cache:
     - "$HOME/.m2"
 addons:
   postgresql: '10'
-  ssh_known_hosts: ec2-13-235-113-104.ap-south-1.compute.amazonaws.com
+  ssh_known_hosts: ec2-52-66-197-33.ap-south-1.compute.amazonaws.com
+notifications:
+  email:
+    on_failure: never
+    on_success: never
 install:
   - lein deps
   - npm install react create-react-class react-dom
@@ -21,10 +25,9 @@ before_deploy:
   - lein clean
   - lein uberjar
   - ls $HOME/build/nilenso/nnts2/target
-  - scp $HOME/build/nilenso/nnts2/target/nnts2.jar
-    $REMOTE_USER@$REMOTE_TARGET:~/
+  - scp $HOME/build/nilenso/nnts2/target/nnts2.jar $REMOTE_USER@$REMOTE_TARGET:~/
 deploy:
   provider: script
-  script: ls /home/ubuntu
+  script: pwd
   on:
     branch: master
