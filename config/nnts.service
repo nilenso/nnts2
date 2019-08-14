@@ -1,0 +1,11 @@
+[Unit]
+Description=nnts
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/bin/java -jar /home/ubuntu/nnts2.jar
+RestartSec=30
+
+[Install]
+WantedBy=nulti-user.target
