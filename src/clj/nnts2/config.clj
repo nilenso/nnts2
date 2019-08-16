@@ -1,14 +1,21 @@
 (ns nnts2.config
- (:require [aero.core :as aero]))
+  (:require [aero.core :as aero]))
 
-(def db-spec (atom nil))
-(def server-spec (atom nil))
+(def ^:private specs (atom nil))
 
-(defn read 
+(defn db-spec []
+  (:db-spec @specs))
+
+(defn server-spec []
+  (:server-spec @specs))
+
+(defn oauth2-spec []
+  (prn (:oauth2-spec @specs))
+  (:oauth2-spec @specs))
+
+(defn read
   "Use the provided environment to get it's profile"
   [env]
   (let [config (aero/read-config (clojure.java.io/resource "config/config.edn") {:profile env})]
-    (reset! db-spec (:db-spec config))
-    (reset! server-spec (:server-spec config))
-    config))
+    (reset! specs config)))
 

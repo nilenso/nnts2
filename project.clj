@@ -9,6 +9,8 @@
                  [re-frame "0.10.8"]
                  [secretary "1.2.3"]
                  [compojure "1.6.1"]
+                 [ring-oauth2 "0.1.4"]
+                 [ring/ring-defaults "0.3.2"]
                  [yogthos/config "1.1.5"]
                  [ring "1.7.1"]
                  [aero "1.1.3"]
