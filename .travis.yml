@@ -7,7 +7,7 @@ cache:
     - "$HOME/.m2"
 addons:
   postgresql: '10'
-  ssh_known_hosts: ec2-52-66-197-33.ap-south-1.compute.amazonaws.com
+  ssh_known_hosts: ec2-13-233-79-223.ap-south-1.compute.amazonaws.com
 notifications:
   email:
     on_failure: never
@@ -28,6 +28,6 @@ before_deploy:
   - scp $HOME/build/nilenso/nnts2/target/nnts2.jar $REMOTE_USER@$REMOTE_TARGET:~/
 deploy:
   provider: script
-  script: sudo systemctl restart nnts2.service
+  script: ssh $REMOTE_USER@$REMOTE_TARGET "sudo systemctl restart nnts2.service"
   on:
     branch: master
