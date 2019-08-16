@@ -1,19 +1,19 @@
-{:db-spec #profile
- {:dev "jdbc:postgresql://localhost:5342/nnts2_dev" 
-  :test "jdbc:postgresql://localhost:5432/nnts2_test"
-  :prod #envf ["jdbc:postgresql://%s:%s/nnts2" DB_HOST DB_PORT]}
+{:db-spec     #profile
+                  {:dev  "jdbc:postgresql://localhost:5342/nnts2_dev"
+                   :test "jdbc:postgresql://localhost:5432/nnts2_test"
+                   :prod #envf ["jdbc:postgresql://%s:%s/nnts2" DB_HOST DB_PORT]}
 
  :server-spec #profile
- {:dev {:ip "127.0.0.1" :port "8000"}
-  :test {:ip "127.0.0.1" :port "8001"}
-  :prod  {:ip "0.0.0.0" :port #env PORT}}
+                  {:dev  {:ip "127.0.0.1" :port "8000"}
+                   :test {:ip "127.0.0.1" :port "8001"}
+                   :prod {:ip "0.0.0.0" :port #env PORT}}
 
  :oauth2-spec #profile
- {:dev {:authorize-uri    "https://accounts.google.com/o/oauth2/v2/auth"
-        :access-token-uri "https://accounts.google.com/o/oauth2/v4/token"
-        :client-secret    #env client_secret
-        :client-id        #env client_id
-        :scopes           ["email"]
-        :launch-uri       "/login"
-        :redirect-uri     "/redirect_uri"
-        :landing-uri      "/"}}}
+                  {:dev {:google {:authorize-uri    "https://accounts.google.com/o/oauth2/v2/auth"
+                                  :access-token-uri "https://www.googleapis.com/oauth2/v4/token"
+                                  :client-secret    #env client_secret
+                                  :client-id        #env client_id
+                                  :scopes           ["email"]
+                                  :launch-uri       "/login"
+                                  :redirect-uri     "http://localhost:8000/"
+                                  :landing-uri      "/"}}}}

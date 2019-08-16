@@ -10,7 +10,6 @@
   (:server-spec @specs))
 
 (defn oauth2-spec []
-  (prn (:oauth2-spec @specs))
   (:oauth2-spec @specs))
 
 (defn read
