@@ -6,7 +6,7 @@
 
 (defn- start
   []
-  #_(db/migrate)
+  (db/migrate)
   (server/start))
 
 (defn -main

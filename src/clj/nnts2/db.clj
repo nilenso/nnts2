@@ -14,4 +14,4 @@
 
 (defn rollback 
   []
-  (repl/rollback (load-config db-spec)))
+  (repl/rollback (load-config)))
