@@ -5,6 +5,7 @@
             [compojure.route :refer [resources]]
             [ring.util.response :refer [resource-response]]
             [ring.middleware.reload :refer [wrap-reload]]
+            [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.middleware.oauth2 :refer [wrap-oauth2]]
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.session :refer [wrap-session]]
@@ -21,6 +22,7 @@
 (defn handler []
   (-> user/routes
       (wrap-oauth2 (oauth2-spec))
+      wrap-keyword-params
       wrap-params
       (wrap-defaults (-> site-defaults (assoc-in [:session :cookie-attrs :same-site] :lax)))
       wrap-json-response

@@ -1,5 +1,5 @@
 {:up ["CREATE TABLE users (id serial primary key,
-                           email  text not null,
+                           email  text not null UNIQUE,
                            first_name text,
                            last_name text,
                            image_url text);"]

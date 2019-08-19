@@ -16,7 +16,10 @@
                  [aero "1.1.3"]
                  [clj-http "3.10.0"]
                  [ring/ring-json "0.5.0"]
+                 [nilenso/honeysql-postgres "0.2.6"]
                  [ring-logger "1.0.1"]
+                 [honeysql "0.9.5"]
+                 [cheshire "5.9.0"]
                  [org.postgresql/postgresql "42.2.6"]]
   :plugins []
   :main nnts2.core
