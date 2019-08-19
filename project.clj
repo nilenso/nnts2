@@ -14,6 +14,9 @@
                  [yogthos/config "1.1.5"]
                  [ring "1.7.1"]
                  [aero "1.1.3"]
+                 [clj-http "3.10.0"]
+                 [ring/ring-json "0.5.0"]
+                 [ring-logger "1.0.1"]
                  [org.clojure/java.jdbc "0.7.9"]]
   :plugins []
   :main nnts2.core
