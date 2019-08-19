@@ -17,7 +17,7 @@
                  [clj-http "3.10.0"]
                  [ring/ring-json "0.5.0"]
                  [ring-logger "1.0.1"]
-                 [org.clojure/java.jdbc "0.7.9"]]
+                 [org.postgresql/postgresql "42.2.6"]]
   :plugins []
   :main nnts2.core
   :min-lein-version "2.5.3"

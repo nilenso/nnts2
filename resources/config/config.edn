@@ -1,7 +1,7 @@
 {:db-spec     #profile
-                  {:dev  "jdbc:postgresql://localhost:5342/nnts2_dev"
-                   :test "jdbc:postgresql://localhost:5432/nnts2_test"
-                   :prod #envf ["jdbc:postgresql://%s:%s/nnts2" DB_HOST DB_PORT]}
+                  {:dev  {:connection-uri "jdbc:postgresql://localhost:5432/nnts2_dev"}
+                   :test {:connection-uri "jdbc:postgresql://localhost:5432/nnts2_test"}
+                   :prod {:connection-uri #envf ["jdbc:postgresql://%s:%s/nnts2" DB_HOST DB_PORT]}}
 
  :server-spec #profile
                   {:dev  {:ip "127.0.0.1" :port "8000"}
@@ -13,7 +13,7 @@
                                   :access-token-uri "https://www.googleapis.com/oauth2/v4/token"
                                   :client-secret    #env client_secret
                                   :client-id        #env client_id
-                                  :scopes           ["email","profile"]
+                                  :scopes           ["email", "profile"]
                                   :launch-uri       "/login"
                                   :redirect-uri     "http://localhost:8000/"
                                   :landing-uri      "/user"}}}}
