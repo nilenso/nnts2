@@ -16,5 +16,6 @@
   "Use the provided environment to get it's profile"
   [env]
   (let [config (aero/read-config (clojure.java.io/resource "config/config.edn") {:profile env})]
+    (prn config)
     (reset! specs config)))
 
