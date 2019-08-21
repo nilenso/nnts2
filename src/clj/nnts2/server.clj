@@ -7,6 +7,7 @@
             [ring.middleware.reload :refer [wrap-reload]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.middleware.oauth2 :refer [wrap-oauth2]]
+            [nnts2.middleware :refer [wrap-kebab-case]]
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.session :refer [wrap-session]]
             [ring.middleware.json :refer [wrap-json-response]]
@@ -22,6 +23,7 @@
 (defn handler []
   (-> user/routes
       (wrap-oauth2 (oauth2-spec))
+      wrap-kebab-case
       wrap-keyword-params
       wrap-params
       (wrap-defaults (-> site-defaults (assoc-in [:session :cookie-attrs :same-site] :lax)))

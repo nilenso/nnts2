@@ -8,11 +8,13 @@
 
 (defn add
   ([user] (add user db-spec))
-  ([{:keys [email given_name family_name image_url]} db-spec]
+  ([{:keys [email given-name family-name picture]} db-spec]
    (jdbc/execute! (db-spec) (-> (h/insert-into :users)
                                 (h/values [{:email      email
-                                            :first_name given_name
-                                            :last_name  family_name
-                                            :image_url  image_url}])
+                                            :first_name given-name
+                                            :last_name  family-name
+                                            :image_url  picture}])
+                                (ph/upsert (-> (ph/on-conflict :email)
+                                               (ph/do-update-set :first_name :last_name :image_url)))
                                 (ph/returning :*)
                                 sql/format))))
