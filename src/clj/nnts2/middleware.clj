@@ -4,16 +4,15 @@
 
 (defn snake->kebab
   [word]
-  (-> word
-      (name)
-      (str/replace "_" "-")
-      (keyword)))
+  (-> word keyword str (str/replace "_" "-") (subs 1) keyword))
 
-(defn create-transform-map
+(defn hyphenize-collection
   [data]
-  (if (map? data)
-    (reduce-kv #(assoc %1 (snake->kebab %2) %3) {} data)
-    data))
+  (let [transform-map (fn [form]
+                        (if (map? form)
+                          (reduce-kv #(assoc %1 (snake->kebab %2) %3) {} form)
+                          form))]
+    (walk/postwalk transform-map data)))
 
 (defn wrap-kebab-case
   [handler]
@@ -21,6 +20,6 @@
     (let [kebab-request (select-keys request [:session :params :body])]
       (-> request
           (dissoc [:session :params :body])
-          (conj (walk/postwalk create-transform-map kebab-request))
+          (conj (hyphenize-collection kebab-request))
           (handler)))))
 
