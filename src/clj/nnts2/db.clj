@@ -3,15 +3,15 @@
             [ragtime.repl :as repl]
             [nnts2.config :refer [db-spec]]))
 
-(defn- load-config
+(defn- migration-config
   []
   {:datastore  (jdbc/sql-database (db-spec))
    :migrations (jdbc/load-resources "migrations")})
 
 (defn migrate
   []
-  (repl/migrate (load-config)))
+  (repl/migrate (migration-config)))
 
 (defn rollback
   []
-  (repl/rollback (load-config)))
+  (repl/rollback (migration-config)))

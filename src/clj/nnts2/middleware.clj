@@ -3,14 +3,17 @@
             [clojure.string :as str]))
 
 (defn snake->kebab
-  [data]
-  (let [snake->kebab #(-> % str (str/replace "_" "-") (subs 1) keyword)
-        transform-map (fn [form]
-                        (if (map? form)
-                          (reduce-kv #(assoc %1 (snake->kebab %2) %3) {} form)
-                          form))]
-    (walk/postwalk transform-map data)))
+  [word]
+  (-> word
+      (name)
+      (str/replace "_" "-")
+      (keyword)))
 
+(defn create-transform-map
+  [data]
+  (if (map? data)
+    (reduce-kv #(assoc %1 (snake->kebab %2) %3) {} data)
+    data))
 
 (defn wrap-kebab-case
   [handler]
@@ -18,6 +21,6 @@
     (let [kebab-request (select-keys request [:session :params :body])]
       (-> request
           (dissoc [:session :params :body])
-          (conj (snake->kebab kebab-request))
+          (conj (walk/postwalk create-transform-map kebab-request))
           (handler)))))
 

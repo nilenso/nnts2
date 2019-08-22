@@ -3,7 +3,7 @@
 
 (def ^:private specs (atom nil))
 
-(defn db-spec []
+(defn ^:dynamic db-spec []
   (:db-spec @specs))
 
 (defn server-spec []

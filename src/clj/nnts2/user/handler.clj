@@ -6,8 +6,7 @@
             [nnts2.user.spec :as spec]
             [nnts2.spec-helpers :as spec-helper]))
 
-(defn add [{{:keys [user-info]} :session}]
+(defn create [{{:keys [user-info]} :session}]
   (if (spec/valid? user-info)
-    (do (db/add user-info)
-        (str user-info))
+    (db/create user-info)
     (spec-helper/invalid (spec/explain-str user-info))))
