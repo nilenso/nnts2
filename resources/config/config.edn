@@ -15,5 +15,5 @@
                                   :client-id        #env client_id
                                   :scopes           ["email", "profile"]
                                   :launch-uri       "/login"
-                                  :redirect-uri     "http://localhost:8000/"
+                                  :redirect-uri     "/redirect"
                                   :landing-uri      "/user"}}}}

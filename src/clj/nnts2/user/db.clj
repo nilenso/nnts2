@@ -32,4 +32,13 @@
                    {:identifiers snake->kebab})
        first)))
 
+(defn get-by-id
+  ([id] (get-by-id id db-spec))
+  ([id db-spec]
+   (-> (jdbc/query (db-spec) (-> (h/select :*)
+                                 (h/from :users)
+                                 (h/where [:= :id id])
+                                 sql/format)
+                   {:identifiers snake->kebab})
+       first)))
 

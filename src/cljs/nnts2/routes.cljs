@@ -2,31 +2,22 @@
   (:require-macros [secretary.core :refer [defroute]])
   (:import goog.History)
   (:require
-   [secretary.core :as secretary]
-   [goog.events :as gevents]
-   [goog.history.EventType :as EventType]
-   [re-frame.core :as re-frame]
-   [nnts2.events :as events]))
+    [pushy.core :as pushy]
+    [secretary.core :as secretary]
+    [goog.events :as gevents]
+    [goog.history.EventType :as EventType]
+    [re-frame.core :as re-frame]
+    [nnts2.events :as events]))
 
-(defn hook-browser-navigation! []
-  (doto (History.)
-    (gevents/listen
-     EventType/NAVIGATE
-     (fn [event]
-       (secretary/dispatch! (.-token event))))
-    (.setEnabled true)))
+(defroute #"/home/(\d+)" [id]
+          (re-frame/dispatch [::events/get-user-info id]))
 
-(defn app-routes []
-  (secretary/set-config! :prefix "#")
-  ;; --------------------
-  ;; define routes here
-  (defroute "/" []
-    (re-frame/dispatch [::events/set-active-panel :home-panel])
-    )
+(defroute "/about" []
+          (re-frame/dispatch [::events/set-active-panel :about-panel]))
 
-  (defroute "/about" []
-    (re-frame/dispatch [::events/set-active-panel :about-panel]))
+(def history (pushy/pushy secretary/dispatch!
+                          (fn [route]
+                            (secretary/locate-route route) route)))
 
-
-  ;; --------------------
-  (hook-browser-navigation!))
+(defn init []
+  (pushy/start! history))

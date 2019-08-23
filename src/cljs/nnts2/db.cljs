@@ -2,3 +2,6 @@
 
 (def default-db
   {:name "re-frame"})
+
+#_(def user-info
+  {:user-info ""})

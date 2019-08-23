@@ -35,7 +35,8 @@
             "prod" ["with-profile" "prod" "run" "-m" "shadow.cljs.devtools.cli" "release" "app"]}
   :profiles
   {:dev
-            {:dependencies [[binaryage/devtools "0.9.10"]]}
+            {:dependencies [[binaryage/devtools "0.9.10"]
+                            [kibu/pushy "0.3.8"]]}
    :prod    {}
    :uberjar {:source-paths ["env/prod/clj"]
              :omit-source  true
