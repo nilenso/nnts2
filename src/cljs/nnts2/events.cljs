@@ -5,23 +5,24 @@
     [nnts2.user.api :as user-api]))
 
 (re-frame/reg-event-db
-  ::initialize-db
+  :initialize-db
   (fn [_ _]
     db/default-db))
 
 (re-frame/reg-event-db
-  ::set-active-panel
+  :set-active-panel
   (fn [db [_ active-panel]]
-    (prn "Active panel db" db)
     (assoc db :active-panel active-panel)))
 
 (re-frame/reg-event-db
-  ::get-user-info
+  :get-user-info
   (fn [db event]
-    (user-api/get-info (second event) db)))
-
+    (user-api/get-info (second event) db)
+    (assoc-in db [:state :loading] true)))
 
 (re-frame/reg-event-db
-  :user-info
-  (fn [db [_ info]]
-    (assoc db/default-db :user-id (:id info))))
+  :user-info-retrieved
+  (fn [db [_ user-info]]
+    (-> db
+        (assoc-in [:state :loading] true)
+        (assoc :user-info user-info))))

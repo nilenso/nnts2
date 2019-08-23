@@ -3,16 +3,16 @@
     [re-frame.core :as re-frame]))
 
 (re-frame/reg-sub
-  ::name
+  :name
   (fn [db]
     (:name db)))
 
 (re-frame/reg-sub
-  ::active-panel
+  :active-panel
   (fn [db _]
     (:active-panel db)))
 
 (re-frame/reg-sub
-  ::user-id
-  (fn [_ _]
-    (prn "User info effect handler: ")))
+  :user-info
+  (fn [db _]
+    (:user-info db)))

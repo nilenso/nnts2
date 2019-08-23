@@ -10,10 +10,10 @@
     [nnts2.events :as events]))
 
 (defroute #"/home/(\d+)" [id]
-          (re-frame/dispatch [::events/get-user-info id]))
+          (re-frame/dispatch [:get-user-info id]))
 
 (defroute "/about" []
-          (re-frame/dispatch [::events/set-active-panel :about-panel]))
+          (re-frame/dispatch [:set-active-panel :about-panel]))
 
 (def history (pushy/pushy secretary/dispatch!
                           (fn [route]

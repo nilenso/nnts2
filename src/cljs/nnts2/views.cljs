@@ -8,7 +8,7 @@
 ;; home
 
 (defn home-panel []
-  (let [name (re-frame/subscribe [::subs/name])]
+  (let [name (re-frame/subscribe [:name])]
     [:div
      [:h1 (str "Hello from " @name ". This is the Home Page.")]
 
@@ -41,6 +41,6 @@
   [panels panel-name])
 
 (defn main-panel []
-  (let [active-panel (re-frame/subscribe [::subs/active-panel])
-        user-id (re-frame/subscribe [::subs/user-id])]
+  (let [active-panel (re-frame/subscribe [:active-panel])
+        user-id (re-frame/subscribe [:user-info])]
     [show-panel @active-panel]))
