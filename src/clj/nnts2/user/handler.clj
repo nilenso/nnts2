@@ -8,5 +8,5 @@
 
 (defn create [{{:keys [user-info]} :session}]
   (if (spec/valid? user-info)
-    (db/create user-info)
+    (str (db/create user-info))
     (spec-helper/invalid (spec/explain-str user-info))))

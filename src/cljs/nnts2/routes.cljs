@@ -6,8 +6,7 @@
    [goog.events :as gevents]
    [goog.history.EventType :as EventType]
    [re-frame.core :as re-frame]
-   [nnts2.events :as events]
-   ))
+   [nnts2.events :as events]))
 
 (defn hook-browser-navigation! []
   (doto (History.)

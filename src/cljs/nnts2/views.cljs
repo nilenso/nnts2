@@ -1,8 +1,8 @@
 (ns nnts2.views
   (:require
-   [re-frame.core :as re-frame]
-   [nnts2.subs :as subs]
-   ))
+    [re-frame.core :as re-frame]
+    [nnts2.subs :as subs]
+    [nnts2.user.login-component :as login]))
 
 
 ;; home
@@ -28,13 +28,13 @@
     [:a {:href "#/"}
      "go to Home Page"]]])
 
-
 ;; main
 
 (defn- panels [panel-name]
   (case panel-name
     :home-panel [home-panel]
     :about-panel [about-panel]
+    :login-panel [login/login-panel]
     [:div]))
 
 (defn show-panel [panel-name]
