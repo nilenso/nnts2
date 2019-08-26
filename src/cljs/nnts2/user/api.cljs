@@ -10,6 +10,5 @@
        {:params          {:id id}
         :response-format :json
         :keywords?       true
-        ;:handler         #(assoc db :user-info %)
         :handler         #(re-frame/dispatch [:user-info %])
         }))

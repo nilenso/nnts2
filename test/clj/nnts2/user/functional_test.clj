@@ -8,12 +8,7 @@
 (use-fixtures :each clear)
 (use-fixtures :once setup)
 
-(defn correct-output [output]
-  (-> output
-      (dissoc :id)
-      (set/rename-keys {:image-url  :picture
-                        :first-name :given-name
-                        :last-name  :family-name})))
+
 
 (def session {:session {:user-info {:email       "dirk@gmail.com"
                                     :given-name  "Dirk"
@@ -24,12 +19,17 @@
   (testing "Given correct user name, new email -> add user"
     (let [response (create session)
           input (get-in session [:session :user-info])
-          output (correct-output response)]
-      (is (= (:status output) 302))))
+          db-row (dissoc (get-by-email (:email input)) :id)]
+      (is (= (:status response) 302))
+      (is (= (vals db-row) (vals input)))))
 
   (testing "Edit user"
-    (let [response-1 (create session)
-          new-given-name "Ford"
-          response-2 (create (assoc-in session [:session :user-info :given-name] new-given-name))
-          corrected-output (correct-output response-2)]
-       (is (= (:status corrected-output) 302)))))
+    (let [new-given-name "Ford"
+          new-session (assoc-in session [:session :user-info :given-name] new-given-name)
+          new-input (get-in new-session [:session :user-info])
+          old-db-row (get-by-email (:email new-input))
+          response (create new-session)
+          new-db-row (get-by-email (:email new-input))]
+      (is (= (:status response) 302))
+      (is (= (:id old-db-row) (:id new-db-row)))
+      (is (= (vals (dissoc new-db-row :id)) (vals new-input))))))

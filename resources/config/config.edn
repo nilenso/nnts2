@@ -9,19 +9,19 @@
                    :prod {:ip "0.0.0.0" :port #env PORT}}
 
  :oauth2-spec #profile
- {{:dev {:google {:authorize-uri    "https://accounts.google.com/o/oauth2/v2/auth"
-                  :access-token-uri "https://www.googleapis.com/oauth2/v4/token"
-                  :client-secret    #env client_secret
-                  :client-id        #env client_id
-                  :scopes           ["email", "profile"]
-                  :launch-uri       "/login"
-                  :redirect-uri     "/redirect"
-                  :landing-uri      "/user"}}}
-  {:prod {:google {:authorize-uri    "https://accounts.google.com/o/oauth2/v2/auth"
+ {:dev {:google {:authorize-uri    "https://accounts.google.com/o/oauth2/v2/auth"
                    :access-token-uri "https://www.googleapis.com/oauth2/v4/token"
                    :client-secret    #env client_secret
                    :client-id        #env client_id
                    :scopes           ["email", "profile"]
                    :launch-uri       "/login"
                    :redirect-uri     "/redirect"
-                   :landing-uri      "/user"}}}}}
+                   :landing-uri      "/user"}}
+  :prod {:google {:authorize-uri    "https://accounts.google.com/o/oauth2/v2/auth"
+                    :access-token-uri "https://www.googleapis.com/oauth2/v4/token"
+                    :client-secret    #env client_secret
+                    :client-id        #env client_id
+                    :scopes           ["email", "profile"]
+                    :launch-uri       "/login"
+                    :redirect-uri     "/redirect"
+                    :landing-uri      "/user"}}}}
