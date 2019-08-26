@@ -7,7 +7,7 @@
             [ring.middleware.reload :refer [wrap-reload]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.middleware.oauth2 :refer [wrap-oauth2]]
-            [nnts2.middleware :refer [wrap-kebab-case not-found wrap-exception-handling wrap-log-request-response]]
+            [nnts2.middleware :refer [wrap-kebab-case not-found wrap-exception-handling wrap-log-request-response wrap-validate-access-token]]
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.session :refer [wrap-session]]
             [ring.middleware.json :refer [wrap-json-response]]
@@ -26,6 +26,7 @@
 
 (defroutes app-routes
            (ANY "*" [] (-> user/routes
+                           wrap-validate-access-token
                            (wrap-oauth2 (oauth2-spec))))
            (ANY "*" [] (not-found (io/resource "public/index.html"))))
 
@@ -33,13 +34,13 @@
   (-> app-routes
       wrap-kebab-case
       wrap-keyword-params
+      wrap-exception-handling
+      wrap-log-request-response
       cookies/wrap-cookies
       wrap-params
       (wrap-defaults (-> site-defaults (assoc-in [:session :cookie-attrs :same-site] :lax)))
       wrap-json-response
       (resource/wrap-resource "public")
-      wrap-exception-handling
-      wrap-log-request-response
       (wrap-session {:store all-sessions})))
 
 (defn start []

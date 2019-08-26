@@ -18,10 +18,10 @@
 (re-frame/reg-event-fx
   ::get-user-info
   (fn [_ event]
-    (user-api/get-info (second event))))
+    (user-api/get-info)))
 
 
 (re-frame/reg-event-db
   :user-info
   (fn [db [_ info]]
-    (assoc db :user-id (:first-name info))))
+    (assoc db :user-id (:given-name info))))

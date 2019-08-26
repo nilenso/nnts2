@@ -3,7 +3,9 @@
             [clojure.string :as str]
             [compojure.response :as response]
             [clojure.stacktrace :as st]
-            [clojure.tools.logging :as log])
+            [clj-http.client :as clj-http]
+            [clojure.tools.logging :as log]
+            [cheshire.core :as json])
   (:import (java.io InputStream)))
 
 (defn snake->kebab
@@ -31,7 +33,7 @@
   [handler]
   (fn [request]
     (let [response (handler request)]
-      (log/debug {:event    ::request-response
+      (prn {:event    ::request-response
                   :request  request
                   :response (if (instance? InputStream (:body response))
                               (assoc response :body-type :input-stream)
@@ -59,3 +61,13 @@
          (cond-> (= (:request-method request) :head) (assoc :body nil))))
     ([request respond raise]
      (respond (handler request)))))
+
+(defn wrap-validate-access-token [handler]
+  (fn [request]
+    (let [access-token (get-in request [:session :ring.middleware.oauth2/access-tokens :google :token])
+          user-info (-> (clj-http/get "https://www.googleapis.com/oauth2/v3/userinfo"
+                             {:headers {"Authorization" (str "Bearer " access-token)}} {:as :json})
+                        (:body)
+                        (json/parse-string true)
+                        (hyphenize-collection))]
+      (handler (assoc-in request [:session :user-info] user-info)))))

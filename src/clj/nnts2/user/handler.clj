@@ -8,7 +8,8 @@
 
 (defn create [{{:keys [user-info]} :session :as session}]
   (if (spec/valid? user-info)
-    (-> (res/redirect (str "/home/" (:id (db/create user-info)))))
+    (do (db/create user-info)
+        (-> (res/redirect (str "/home"))))
     (spec-helper/invalid (spec/explain-str user-info))))
 
 (defn info [id]

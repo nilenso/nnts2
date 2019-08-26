@@ -5,10 +5,8 @@
 
 (enable-console-print!)
 
-(defn get-info [id]
+(defn get-info []
   (GET "/user-info"
-       {:params          {:id id}
-        :response-format :json
+       {:response-format :json
         :keywords?       true
-        :handler         #(re-frame/dispatch [:user-info %])
-        }))
+        :handler         #(re-frame/dispatch [:user-info %])}))

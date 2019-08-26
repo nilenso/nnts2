@@ -9,12 +9,10 @@
     [re-frame.core :as re-frame]
     [nnts2.events :as events]))
 
-(defroute #"/home/(\d+)" [id]
+(defroute "/home" []
   (do
-    (re-frame/dispatch [::events/set-active-panel :home-panel id])
-    (re-frame/dispatch [::events/get-user-info id])
-    )
-  )
+    (re-frame/dispatch [::events/set-active-panel :home-panel])
+    (re-frame/dispatch [::events/get-user-info])))
 
 
 (defroute "/about" []
