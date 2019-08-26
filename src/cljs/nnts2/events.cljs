@@ -17,12 +17,13 @@
 (re-frame/reg-event-db
   :get-user-info
   (fn [db event]
-    (user-api/get-info (second event) db)
+    (user-api/get-info (second event))
     (assoc-in db [:state :loading] true)))
 
 (re-frame/reg-event-db
   :user-info-retrieved
   (fn [db [_ user-info]]
+    (prn user-info)
     (-> db
-        (assoc-in [:state :loading] true)
-        (assoc :user-info user-info))))
+        (assoc-in [:state :loading] false)
+        (assoc :header-panel {:user-info-panel user-info}))))

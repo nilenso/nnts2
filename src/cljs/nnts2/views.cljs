@@ -2,7 +2,7 @@
   (:require
     [re-frame.core :as re-frame]
     [nnts2.subs :as subs]
-    [nnts2.user.components :as login]))
+    [nnts2.user.components :as user]))
 
 
 ;; home
@@ -34,13 +34,11 @@
   (case panel-name
     :home-panel [home-panel]
     :about-panel [about-panel]
-    :login-panel [login/login-panel]
     [:div]))
 
 (defn show-panel [panel-name]
   [panels panel-name])
 
 (defn main-panel []
-  (let [active-panel (re-frame/subscribe [:active-panel])
-        user-id (re-frame/subscribe [:user-info])]
+  (let [active-panel (re-frame/subscribe [:active-panel])]
     [show-panel @active-panel]))

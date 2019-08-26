@@ -13,6 +13,6 @@
     (:active-panel db)))
 
 (re-frame/reg-sub
-  :user-info
+  :header-panel
   (fn [db _]
-    (:user-info db)))
+    (:header-panel db)))

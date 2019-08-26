@@ -6,7 +6,7 @@
    [nnts2.routes :as routes]
    [nnts2.views :as views]
    [nnts2.config :as config]
-   ))
+   [nnts2.user.components :refer [header]]))
 
 
 (defn dev-setup []
@@ -16,6 +16,8 @@
 
 (defn mount-root []
   (re-frame/clear-subscription-cache!)
+  (reagent/render [header]
+                  (.getElementById js/document "app_header"))
   (reagent/render [views/main-panel]
                   (.getElementById js/document "app")))
 

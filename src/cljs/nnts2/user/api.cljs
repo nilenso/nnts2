@@ -4,7 +4,8 @@
 
 (enable-console-print!)
 
-(defn get-info [id db]
+(defn get-info [id]
+  (prn "Getting user-info")
   (GET "/user-info"
        {:params          {:id id}
         :response-format :json
