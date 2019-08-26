@@ -5,7 +5,8 @@
             [clojure.stacktrace :as st]
             [clj-http.client :as clj-http]
             [clojure.tools.logging :as log]
-            [cheshire.core :as json])
+            [cheshire.core :as json]
+            [ring.util.response :as res])
   (:import (java.io InputStream)))
 
 (defn snake->kebab
@@ -34,10 +35,10 @@
   (fn [request]
     (let [response (handler request)]
       (prn {:event    ::request-response
-                  :request  request
-                  :response (if (instance? InputStream (:body response))
-                              (assoc response :body-type :input-stream)
-                              response)})
+            :request  request
+            :response (if (instance? InputStream (:body response))
+                        (assoc response :body-type :input-stream)
+                        response)})
       response)))
 
 (defn wrap-exception-handling
@@ -62,12 +63,18 @@
     ([request respond raise]
      (respond (handler request)))))
 
+(defn debug [x] (prn x) x)
+
 (defn wrap-validate-access-token [handler]
   (fn [request]
-    (let [access-token (get-in request [:session :ring.middleware.oauth2/access-tokens :google :token])
-          user-info (-> (clj-http/get "https://www.googleapis.com/oauth2/v3/userinfo"
-                             {:headers {"Authorization" (str "Bearer " access-token)}} {:as :json})
-                        (:body)
-                        (json/parse-string true)
-                        (hyphenize-collection))]
-      (handler (assoc-in request [:session :user-info] user-info)))))
+    (let [access-token (get-in request [:session :ring.middleware.oauth2/access-tokens :google :token])]
+      (try (let [response (clj-http/get "https://www.googleapis.com/oauth2/v3/userinfo"
+                                        {:headers {"Authorization" (str "Bearer " access-token)}} {:as :json :throw-exceptions false})
+                 user-info (-> response
+                               (:body)
+                               (json/parse-string true)
+                               (hyphenize-collection))]
+             (handler (assoc-in request [:session :user-info] user-info)))
+           (catch Exception e
+             (-> (res/response "Not authorized")
+                 (res/status 401)))))))
