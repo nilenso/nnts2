@@ -3,6 +3,7 @@
 /*-init.clj
 /resources/public/js/compiled
 out
+.projectile
 .dir-locals.el
 .nrepl-port
 .idea

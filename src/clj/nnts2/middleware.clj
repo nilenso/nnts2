@@ -1,6 +1,7 @@
 (ns nnts2.middleware
   (:require [clojure.walk :as walk]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [compojure.response :as response]))
 
 (defn snake->kebab
   [word]
@@ -23,3 +24,12 @@
           (conj (hyphenize-collection kebab-request))
           (handler)))))
 
+(defn not-found
+  [body]
+  (fn handler
+    ([request]
+     (-> (response/render body request)
+         (ring.util.response/status 200)
+         (cond-> (= (:request-method request) :head) (assoc :body nil))))
+    ([request respond raise]
+     (respond (handler request)))))
