@@ -25,11 +25,11 @@
     (let [response (create session)
           input (get-in session [:session :user-info])
           output (correct-output response)]
-      (is (= input output))))
+      (is (= (:status output) 302))))
 
   (testing "Edit user"
     (let [response-1 (create session)
           new-given-name "Ford"
           response-2 (create (assoc-in session [:session :user-info :given-name] new-given-name))
           corrected-output (correct-output response-2)]
-      (is (= (:given-name corrected-output) new-given-name)))))
+       (is (= (:status corrected-output) 302)))))

@@ -3,7 +3,7 @@ Description=nnts
 
 [Service]
 Type=simple
-EnvironmentFile=-/home/ubuntu/env
+EnvironmentFile=-/home/ubuntu/.env
 Restart=always
 ExecStart=/usr/bin/java -jar /home/ubuntu/nnts2.jar
 RestartSec=30
