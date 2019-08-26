@@ -14,5 +14,5 @@
 
 (re-frame/reg-sub
   ::user-id
-  (fn [_ _]
-    (prn "User info effect handler: ")))
+  (fn [db _]
+    (:user-id db)))

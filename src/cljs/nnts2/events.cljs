@@ -12,16 +12,16 @@
 (re-frame/reg-event-db
   ::set-active-panel
   (fn [db [_ active-panel]]
-    (prn "Active panel db" db)
     (assoc db :active-panel active-panel)))
 
-(re-frame/reg-event-db
+
+(re-frame/reg-event-fx
   ::get-user-info
-  (fn [db event]
-    (user-api/get-info (second event) db)))
+  (fn [_ event]
+    (user-api/get-info (second event))))
 
 
 (re-frame/reg-event-db
   :user-info
   (fn [db [_ info]]
-    (assoc db/default-db :user-id (:id info))))
+    (assoc db :user-id (:first-name info))))

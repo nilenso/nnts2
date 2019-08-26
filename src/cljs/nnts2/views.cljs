@@ -1,16 +1,15 @@
 (ns nnts2.views
   (:require
     [re-frame.core :as re-frame]
-    [nnts2.subs :as subs]
-    [nnts2.user.components :as login]))
+    [nnts2.subs :as subs]))
 
 
 ;; home
 
 (defn home-panel []
-  (let [name (re-frame/subscribe [::subs/name])]
+  (let [name (re-frame/subscribe [::subs/user-id])]
     [:div
-     [:h1 (str "Hello from " @name ". This is the Home Page.")]
+     [:h1 (str "Hello " @name ". This is the Home Page.")]
 
      [:div
       [:a {:href "#/about"}
@@ -34,7 +33,6 @@
   (case panel-name
     :home-panel [home-panel]
     :about-panel [about-panel]
-    :login-panel [login/login-panel]
     [:div]))
 
 (defn show-panel [panel-name]
