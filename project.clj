@@ -33,10 +33,12 @@
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target" "test/js"]
 
   :aliases {"dev"  ["with-profile" "dev" "run" "-m" "shadow.cljs.devtools.cli" "watch" "app"]
-            "prod" ["with-profile" "prod" "run" "-m" "shadow.cljs.devtools.cli" "release" "app"]}
+            "prod" ["with-profile" "prod" "run" "-m" "shadow.cljs.devtools.cli" "release" "app"]
+            "migrate-dev"    ["run" "-m" "nnts2.db/lein-migrate-db" "dev"]
+            "rollback-dev"   ["run" "-m" "nnts2.db/lein-rollback-db" "dev"]}
   :profiles
   {:dev
-            {:dependencies [[binaryage/devtools "0.9.10"]]}
+   {:dependencies [[binaryage/devtools "0.9.10"]]}
    :prod    {}
    :uberjar {:source-paths ["env/prod/clj"]
              :omit-source  true
