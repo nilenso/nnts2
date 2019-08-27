@@ -15,4 +15,5 @@ package-lock.json
 *.lein-failures
 .DS_Store
 .env
-#*
+*#
+*~
