@@ -1,0 +1,21 @@
+{:up ["create extension if not exists \"uuid-ossp\";
+      create table organizations (id UUID default uuid_generate_v4() primary key,
+                                  name text not null,
+                                  slug text not null,
+                                  created_at timestamp not null default now(),
+                                  updated_at timestamp not null default now());
+
+       create or replace function trigger_set_timestamp()
+       returns trigger as $$
+       begin
+         NEW.updated_at = NOW();
+         return NEW;
+       end;
+      $$ language plpgsql;
+
+      create trigger set_timestamp
+      before update on organizations
+      for each row
+      execute procedure trigger_set_timestamp();"]
+ :down ["drop table organizations;
+        drop extension \"uuid-ossp\";"]}
