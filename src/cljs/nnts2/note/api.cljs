@@ -5,11 +5,10 @@
 (enable-console-print!)
 
 (defn create-note [data]
-  (prn "why the fuck is it getting to post" data)
-  #_(GET "/note/create"
+  (POST "/note/create"
         {:response-format :json
-         ;:keywords? true
-         :params {:title "some" :content "thing"}
-         ;:handler #(re-frame/dispatch [:note-get-list])
-         }
-        ))
+         :keywords? true
+         :params (first data)
+         :format :json
+         :handler #(prn "api successs")
+}))

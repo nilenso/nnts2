@@ -26,5 +26,6 @@
      (-> (jdbc/query (db-spec) (-> (h/insert-into :notes)
                                    (h/values [sql-data])
                                    (ph/returning :*)
-                                   sql/format))
-         {:identifiers snake->kebab}))))
+                                   sql/format)
+                     {:identifiers snake->kebab})
+         first))))

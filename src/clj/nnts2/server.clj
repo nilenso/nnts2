@@ -10,11 +10,12 @@
             [nnts2.middleware :refer [wrap-kebab-case not-found wrap-exception-handling wrap-log-request-response wrap-validate-access-token]]
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.session :refer [wrap-session]]
-            [ring.middleware.json :refer [wrap-json-response]]
+            [ring.middleware.json :refer [wrap-json-response  wrap-json-body]]
             [nnts2.config :refer [oauth2-spec]]
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
             [ring.middleware.resource :as resource]
             [ring.middleware.session.memory :as mem]
+            [nnts2.user.middleware :refer [wrap-nnts-user-id]]
             [nnts2.user.routes :as user]
             [nnts2.note.routes :as note]
             [ring.middleware.cookies :as cookies]
@@ -23,28 +24,33 @@
             [ring.util.response :refer [file-response resource-response
                                         status content-type]]))
 
+
 (defonce ^:private all-sessions (mem/memory-store))
 
-(defroutes authenticated-routes
+(def auth-routes (compojure.core/routes
+                   user/routes
+                   note/routes))
+
+#_(defroutes authenticated-routes
   (context "/note" [] note/routes)
   user/routes)
 
 (defroutes app-routes
-  (ANY "*" [] (-> authenticated-routes
+  (ANY "*" [] (-> auth-routes
+                  wrap-nnts-user-id
                   wrap-validate-access-token
                   (wrap-oauth2 (oauth2-spec))))
   (ANY "*" [] (not-found (io/resource "public/index.html"))))
 
+
 (defn handler []
   (-> app-routes
-      wrap-kebab-case
-      wrap-keyword-params
       wrap-exception-handling
-      ;wrap-log-request-response
-      cookies/wrap-cookies
-      wrap-params
-      (wrap-defaults (-> site-defaults (assoc-in [:session :cookie-attrs :same-site] :lax)))
+      wrap-kebab-case
       wrap-json-response
+      wrap-params
+      (wrap-json-body {:keywords? true})
+      wrap-log-request-response
       (resource/wrap-resource "public")
       (wrap-session {:store all-sessions})))
 
