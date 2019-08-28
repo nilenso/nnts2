@@ -12,18 +12,23 @@
     (fn []
       [:div
        [:div
+        {:class "Row"}
         [:textarea
          {:rows 1 :cols 100
           :value @title-text
           :placeholder "Note Title"
-          :on-change #(reset! title-text (-> % .-target .-value))}]
+          :on-change #(reset! title-text (-> % .-target .-value))}]]
+       [:div
+        {:class "Row"}
         [:textarea
-         {:rows 20 :cols 100
+         {:align "left"
+          :rows 20 :cols 100
           :value @content-text
           :on-change #(reset! content-text (-> % .-target .-value))
           }]]
        [:button
         {:type "submit"
+         :align "left"
          :on-click (fn [e]
                      (.preventDefault e)
                      (re-frame/dispatch [:note-submit {:title @title-text :content @content-text}]))}

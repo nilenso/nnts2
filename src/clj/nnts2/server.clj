@@ -29,11 +29,7 @@
 
 (def auth-routes (compojure.core/routes
                    user/routes
-                   note/routes))
-
-#_(defroutes authenticated-routes
-  (context "/note" [] note/routes)
-  user/routes)
+                   (context "/note" [] note/routes)))
 
 (defroutes app-routes
   (ANY "*" [] (-> auth-routes
