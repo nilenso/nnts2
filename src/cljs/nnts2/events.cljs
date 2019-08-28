@@ -2,7 +2,10 @@
   (:require
     [re-frame.core :as re-frame]
     [nnts2.db :as db]
-    [nnts2.user.api :as user-api]))
+    [nnts2.user.api :as user-api]
+    [nnts2.note.events :as note-events]))
+
+(enable-console-print!)
 
 (re-frame/reg-event-db
   ::initialize-db
@@ -16,7 +19,7 @@
 
 
 (re-frame/reg-event-fx
-  ::get-user-info
+ ::get-user-info
   (fn [_ event]
     (user-api/get-info)))
 
