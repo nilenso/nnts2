@@ -9,7 +9,6 @@
 (re-frame/reg-event-fx
  :note-submit
  (fn [_ event]
-   (prn "received note submit" (rest event))
    (api/create-note (rest event))))
 
 (re-frame/reg-event-db

@@ -12,13 +12,6 @@
   (into {} (for [[k v] sub-form]
              [(kebab->snake k) v])))
 
-#_(defn clojure-data->sql-data
-  "change keywords in data collection from kebab to snake case"
-  [coll]
-  (clojure.walk/prewalk changek coll)
-  )
-
-
 (defn add
   ([note-data] (add note-data db-spec))
   ([note-data db-spec]
