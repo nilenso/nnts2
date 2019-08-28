@@ -9,7 +9,7 @@
 (defn create [{{:keys [user-info]} :session :as session}]
   (if (spec/valid? user-info)
     (do (db/create user-info)
-        (-> (res/redirect (str "/home"))))
+        (-> (res/redirect (str "/note"))))
     (spec-helper/invalid (spec/explain-str user-info))))
 
 (defn info [id]
