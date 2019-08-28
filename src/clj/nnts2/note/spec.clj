@@ -10,3 +10,6 @@
 
 (defn valid? [note-data]
   (s/valid? ::note note-data))
+
+(defn explain-str [note-data]
+  (s/explain-str ::note note-data))
