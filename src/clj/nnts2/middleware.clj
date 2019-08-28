@@ -69,16 +69,21 @@
 
 (defn debug [x] (prn x) x)
 
+
 (defn wrap-validate-access-token [handler]
   (fn [request]
-    (let [access-token (get-in request [:session :ring.middleware.oauth2/access-tokens :google :token])]
-      (try (let [response (clj-http/get "https://www.googleapis.com/oauth2/v3/userinfo"
-                                        {:headers {"Authorization" (str "Bearer " access-token)}} {:as :json :throw-exceptions false})
-                 user-info (-> response
-                               (:body)
-                               (json/parse-string true)
-                               (hyphenize-collection))]
-             (handler (assoc-in request [:session :user-info] user-info)))
-           (catch Exception e
-             (-> (res/response "Not authorized")
-                 (res/status 401)))))))
+    (let [access-token (or (get-in request [:session :ring.middleware.oauth2/access-tokens :google :token])
+                           (get-in request [:headers "authorization"]))]
+
+      (let [response (clj-http/get "https://www.googleapis.com/oauth2/v3/userinfo"
+                                   {:throw-exceptions false
+                                    :headers          {"Authorization" (if (not (str/starts-with? access-token "Bearer "))
+                                                                         (str "Bearer " access-token)
+                                                                         access-token)}
+                                    :as               :json})]
+        (if (< (:status response) 400)
+          (handler (assoc-in request [:session :user-info] (-> response
+                                                               (:body)
+                                                               (hyphenize-collection))))
+          (-> (res/response "Not authorized")
+              (res/status 401)))))))

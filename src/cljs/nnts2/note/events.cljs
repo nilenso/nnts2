@@ -10,7 +10,7 @@
  :note-submit
  (fn [_ event]
    (prn "received note submit" (rest event))
-   #_(api/create-note (rest event))))
+   (api/create-note (rest event))))
 
 (re-frame/reg-event-db
  :note-get-list
