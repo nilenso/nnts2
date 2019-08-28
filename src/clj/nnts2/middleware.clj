@@ -64,24 +64,18 @@
     ([request respond raise]
      (respond (handler request)))))
 
-(defn debug [x] (prn x) x)
-
-(defn wrap-body-string [handler]
-  (fn [request]
-    (let [body-str (ring.util.request/body-string request)]
-      (handler (assoc request :body (StringReader. body-str))))))
-
 (defn wrap-validate-access-token [handler]
   (fn [request]
     (let [access-token (or (get-in request [:session :ring.middleware.oauth2/access-tokens :google :token])
                            (get-in request [:headers "authorization"]))]
-
+      (prn access-token)
       (let [response (clj-http/get "https://www.googleapis.com/oauth2/v3/userinfo"
                                    {:throw-exceptions false
                                     :headers          {"Authorization" (if (not (starts-with? access-token "Bearer "))
                                                                          (str "Bearer " access-token)
                                                                          access-token)}
                                     :as               :json})]
+        (prn response)
         (if (< (:status response) 400)
           (handler (assoc-in request [:session :user-info] (-> response
                                                                (:body)

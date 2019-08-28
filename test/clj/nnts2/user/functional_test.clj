@@ -8,8 +8,6 @@
 (use-fixtures :each clear)
 (use-fixtures :once setup)
 
-
-
 (def session {:session {:user-info {:email       "dirk@gmail.com"
                                     :given-name  "Dirk"
                                     :family-name "Gently"

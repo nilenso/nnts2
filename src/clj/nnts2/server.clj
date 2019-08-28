@@ -9,7 +9,7 @@
             [ring.middleware.oauth2 :refer [wrap-oauth2]]
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
             [nnts2.middleware :refer [wrap-kebab-case not-found wrap-exception-handling
-                                      wrap-log-request-response wrap-validate-access-token wrap-body-string]]
+                                      wrap-log-request-response wrap-validate-access-token]]
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.multipart-params :refer [wrap-multipart-params]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]

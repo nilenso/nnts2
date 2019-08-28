@@ -12,7 +12,6 @@
 (defn insert
   ([details] (insert details db-spec))
   ([details db-spec]
-   (prn details)
    (-> (jdbc/query (db-spec) (-> (h/insert-into :organizations)
                                  (h/values [details])
                                  (ph/on-conflict :slug)

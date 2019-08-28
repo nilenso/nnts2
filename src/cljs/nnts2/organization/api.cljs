@@ -6,10 +6,9 @@
 (enable-console-print!)
 
 (defn create [org-details]
-  (prn "ORG DETAILS " org-details)
   (POST "/create-organization"
        {:params          org-details
         :response-format :json
         :keywords?       true
         :format          :json
-        :handler         #(prn "Org created! " %)}))
+        :handler         (prn "Org created! ")}))
