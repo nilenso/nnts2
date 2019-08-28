@@ -1,7 +1,7 @@
 {:up ["create extension if not exists \"uuid-ossp\";
       create table organizations (id UUID default uuid_generate_v4() primary key,
                                   name text not null,
-                                  slug text not null,
+                                  slug text not null UNIQUE,
                                   created_at timestamp not null default now(),
                                   updated_at timestamp not null default now());
 

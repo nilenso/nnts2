@@ -6,8 +6,9 @@
             [clj-http.client :as clj-http]
             [clojure.tools.logging :as log]
             [cheshire.core :as json]
-            [ring.util.response :as res])
-  (:import (java.io InputStream)))
+            [ring.util.response :as res]
+            [clojure.string :refer [starts-with?]])
+  (:import (java.io InputStream StringReader)))
 
 (defn snake->kebab
   [word]
@@ -65,16 +66,25 @@
 
 (defn debug [x] (prn x) x)
 
+(defn wrap-body-string [handler]
+  (fn [request]
+    (let [body-str (ring.util.request/body-string request)]
+      (handler (assoc request :body (StringReader. body-str))))))
+
 (defn wrap-validate-access-token [handler]
   (fn [request]
-    (let [access-token (get-in request [:session :ring.middleware.oauth2/access-tokens :google :token])]
-      (try (let [response (clj-http/get "https://www.googleapis.com/oauth2/v3/userinfo"
-                                        {:headers {"Authorization" (str "Bearer " access-token)}} {:as :json :throw-exceptions false})
-                 user-info (-> response
-                               (:body)
-                               (json/parse-string true)
-                               (hyphenize-collection))]
-             (handler (assoc-in request [:session :user-info] user-info)))
-           (catch Exception e
-             (-> (res/response "Not authorized")
-                 (res/status 401)))))))
+    (let [access-token (or (get-in request [:session :ring.middleware.oauth2/access-tokens :google :token])
+                           (get-in request [:headers "authorization"]))]
+
+      (let [response (clj-http/get "https://www.googleapis.com/oauth2/v3/userinfo"
+                                   {:throw-exceptions false
+                                    :headers          {"Authorization" (if (not (starts-with? access-token "Bearer "))
+                                                                         (str "Bearer " access-token)
+                                                                         access-token)}
+                                    :as               :json})]
+        (if (< (:status response) 400)
+          (handler (assoc-in request [:session :user-info] (-> response
+                                                               (:body)
+                                                               (hyphenize-collection))))
+          (-> (res/response "Not authorized")
+              (res/status 401)))))))

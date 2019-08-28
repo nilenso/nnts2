@@ -11,6 +11,7 @@
 
 (defroute "/home" []
   (do
+    (prn "Home called")
     (re-frame/dispatch [::events/set-active-panel :home-panel])
     (re-frame/dispatch [::events/get-user-info])))
 
