@@ -18,7 +18,6 @@
 
 (defroute "/note" []
   (do
-    (prn "note panel")
     (re-frame/dispatch [::events/set-active-panel :note-panel])))
 
 (defroute "/about" []

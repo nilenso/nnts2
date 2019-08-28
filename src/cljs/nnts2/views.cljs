@@ -15,8 +15,8 @@
      [:h1 (str "Hello " @name ". This is the Home Page.")]
 
      [:div
-      [:a {:href "#/about"}
-       "go to About Page"]]
+      [:a {:href "/note"}
+       "Create Note"]]
      ]))
 
 
@@ -40,7 +40,6 @@
     [:div]))
 
 (defn show-panel [panel-name]
-  (prn panel-name)
   [panels panel-name])
 
 (defn main-panel []
