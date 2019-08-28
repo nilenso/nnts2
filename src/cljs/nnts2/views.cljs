@@ -1,8 +1,11 @@
 (ns nnts2.views
   (:require
     [re-frame.core :as re-frame]
-    [nnts2.subs :as subs]))
+    [nnts2.subs :as subs]
+    [nnts2.note.components :as note]))
 
+
+(enable-console-print!)
 
 ;; home
 
@@ -33,9 +36,11 @@
   (case panel-name
     :home-panel [home-panel]
     :about-panel [about-panel]
+    :note-panel [note/note-panel]
     [:div]))
 
 (defn show-panel [panel-name]
+  (prn panel-name)
   [panels panel-name])
 
 (defn main-panel []

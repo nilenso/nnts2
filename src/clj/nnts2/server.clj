@@ -1,7 +1,7 @@
 (ns nnts2.server
   (:require [ring.adapter.jetty :refer [run-jetty]]
             [nnts2.config :refer [server-spec]]
-            [compojure.core :refer [GET defroutes ANY]]
+            [compojure.core :refer [GET defroutes ANY context]]
             [compojure.route :refer [resources]]
             [ring.util.response :refer [resource-response redirect]]
             [ring.middleware.reload :refer [wrap-reload]]
@@ -16,6 +16,7 @@
             [ring.middleware.resource :as resource]
             [ring.middleware.session.memory :as mem]
             [nnts2.user.routes :as user]
+            [nnts2.note.routes :as note]
             [ring.middleware.cookies :as cookies]
             [compojure.response :refer [render]]
             [clojure.java.io :as io]
@@ -24,11 +25,15 @@
 
 (defonce ^:private all-sessions (mem/memory-store))
 
+(defroutes authenticated-routes
+  (context "/note" [] note/routes)
+  user/routes)
+
 (defroutes app-routes
-           (ANY "*" [] (-> user/routes
-                           wrap-validate-access-token
-                           (wrap-oauth2 (oauth2-spec))))
-           (ANY "*" [] (not-found (io/resource "public/index.html"))))
+  (ANY "*" [] (-> authenticated-routes
+                  wrap-validate-access-token
+                  (wrap-oauth2 (oauth2-spec))))
+  (ANY "*" [] (not-found (io/resource "public/index.html"))))
 
 (defn handler []
   (-> app-routes
