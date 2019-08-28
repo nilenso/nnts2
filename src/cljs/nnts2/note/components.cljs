@@ -10,17 +10,23 @@
         title-text* (r/atom "")]
     (fn []
       [:div
-       [:form
-        {:on-submit #(re-frame/dispatch [:note-submit {:title @title-text* :content @content-text*}])}
-        [:div [:textarea {:rows 1 :cols 100
-                          :value @title-text*
-                          :placeholder "Note Title"
-                          :on-change #(reset! title-text* (-> % .-target .-value))}]
-         [:textarea {:rows 20 :cols 100
-                     :value @content-text*
-                     :on-change #(reset! content-text* (-> % .-target .-value))
-                     }]]
-        [:button {:type "submit"} "Create Note"]]
+       ;[:form]
+       ;{:on-submit  }
+       [:div [:textarea {:rows 1 :cols 100
+                         :value @title-text*
+                         :placeholder "Note Title"
+                         :on-change #(reset! title-text* (-> % .-target .-value))}]
+        [:textarea {:rows 20 :cols 100
+                    :value @content-text*
+                    :on-change #(reset! content-text* (-> % .-target .-value))
+                    }]]
+       [:button
+        {:type "submit"
+         :on-click (fn [e]
+                     (.preventDefault e)
+                     (prn "clicking button")
+                     (re-frame/dispatch [:note-submit {:title @title-text* :content @content-text*}]))}
+        "Create Note"]
        ])))
 
 

@@ -40,7 +40,7 @@
       wrap-kebab-case
       wrap-keyword-params
       wrap-exception-handling
-      wrap-log-request-response
+      ;wrap-log-request-response
       cookies/wrap-cookies
       wrap-params
       (wrap-defaults (-> site-defaults (assoc-in [:session :cookie-attrs :same-site] :lax)))

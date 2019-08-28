@@ -2,4 +2,7 @@
   (:require [compojure.core :refer [GET POST defroutes]]))
 
 (defroutes routes
-  (POST "/create" [] "create"))
+  (GET "/create" []
+       (fn [request]
+         (prn request)
+         (str request))))
