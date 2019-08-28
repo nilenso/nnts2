@@ -45,6 +45,8 @@
       wrap-kebab-case
       wrap-json-response
       wrap-params
+      (wrap-json-body {:keywords? true})
+      (resource/wrap-resource "public")
       (wrap-session {:store all-sessions})))
 
 (defn start []

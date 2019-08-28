@@ -1,6 +1,6 @@
 (ns nnts2.organization.handler
   (:require [nnts2.organization.db :as db]))
 
-(defn create [{:keys [params] :as request}]
-  (prn request)
-  (db/insert (dissoc params :*)))
+(defn create [{:keys [body] :as request}]
+  (prn "REQUEST " request)
+  (db/insert body))

@@ -2,6 +2,7 @@
   (:require
     [re-frame.core :as re-frame]
     [nnts2.db :as db]
+    [nnts2.organization.api :as org-api]
     [nnts2.user.api :as user-api]))
 
 (re-frame/reg-event-db
@@ -20,6 +21,16 @@
   (fn [_ event]
     (user-api/get-info)))
 
+(re-frame/reg-event-db
+  :create-organization
+  (fn [db [_ org-details]]
+    (org-api/create org-details)
+    (assoc-in db [:create-organization :state] :loading)))
+
+(re-frame/reg-event-db
+  :organization-created
+  (fn [db [_ org-details]]
+    (assoc db :organization-list org-details)))
 
 (re-frame/reg-event-db
   :user-info

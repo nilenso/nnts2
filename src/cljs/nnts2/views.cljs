@@ -1,20 +1,19 @@
 (ns nnts2.views
   (:require
     [re-frame.core :as re-frame]
-    [nnts2.subs :as subs]))
+    [nnts2.subs :as subs]
+    [re-frame.core :as re-frame]
+    [nnts2.organization.create :as create-org]))
 
-
-;; home
 
 (defn home-panel []
   (let [name (re-frame/subscribe [::subs/user-id])]
     [:div
      [:h1 (str "Hello " @name ". This is the Home Page.")]
-
+     [(create-org/form)]
      [:div
       [:a {:href "#/about"}
-       "go to About Page"]]
-     ]))
+       "go to About Page"]]]))
 
 
 ;; about
