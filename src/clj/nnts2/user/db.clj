@@ -41,4 +41,3 @@
                                  sql/format)
                    {:identifiers snake->kebab})
        first)))
-
