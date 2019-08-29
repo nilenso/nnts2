@@ -9,27 +9,17 @@
 (use-fixtures :once fixtures/setup fixtures/adduser)
 
 
-(def request {:session {:user-info {:nnts-id 1}}
-              :body {:title "note-title" :content "note-content"}})
+(deftest create-note-success
+  (testing "String title, content and valid user id -> note success"
+    (let [request {:nnts-user 1 :body {:title "note-title" :content "note-content"}}
+          {:keys [body status]} (create request)
+          input (into (:body request) {:created-by-id 1})]
+      (is (= status 200))
+      (is (= input (select-keys body [:title :content :created-by-id]))))))
 
-
-(deftest create-note
-  (testing "Note create success"
-    (let [response (create request)
-          input (assoc
-                 (:body request)
-                 :created-by-id
-                 (get-in request [:session :user-info :nnts-id]))
-          output (select-keys (:body response) [:title :content :created-by-id])]
-      (is (= (:status response) 200))
-      (is (= input output))))
-
-  (testing "Note spec failure"
-    (let [request-mod (assoc-in request [:body :title] 12334)
-          response (create request-mod)
-          input (assoc
-                 (:body request-mod)
-                 :created-by-id
-                 (get-in request-mod [:session :user-info :nnts-id]))]
-      (is (= (:status response) 400))
-      (is (string? (:body response))))))
+(deftest create-note-failure
+  (testing "Given integer title, receive 400 error with string explanation "
+    (let [request {:nnts-user 1 :body {:title 12344 :content "note-content"}}
+          {:keys [body status]} (create request)]
+      (is (= status 400))
+      (is (string? body)))))
