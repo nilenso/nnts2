@@ -82,7 +82,7 @@
                                                                          access-token)}
                                     :as               :json})]
         (if (< (:status response) 400)
-          (handler (assoc-in request [:session :user-info] (-> response
+          (handler (assoc-in request [:google-user] (-> response
                                                                (:body)
                                                                (hyphenize-collection))))
           (-> (res/response "Not authorized")
