@@ -4,6 +4,6 @@
 
 (defn wrap-nnts-user-id [handler]
   (fn [request]
-    (let [email (get-in request [:session :user-info :email])
+    (let [email (get-in request [:google-user :email])
           user (db/get-by-email email)]
-      (handler (assoc-in request [:session :user-info :nnts-id] (:id user))))))
+      (handler (assoc-in request [:nnts-user] (:id user))))))

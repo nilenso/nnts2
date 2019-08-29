@@ -10,26 +10,24 @@
 
 
 
-(def session {:session {:user-info {:email       "dirk@gmail.com"
-                                    :given-name  "Dirk"
-                                    :family-name "Gently"
-                                    :picture     "www.some-url.com"}}})
+(def request {:google-user {:email       "dirk@gmail.com"
+                            :given-name  "Dirk"
+                            :family-name "Gently"
+                            :picture     "www.some-url.com"}})
 
 (deftest create-user
   (testing "Given correct user name, new email -> add user"
-    (let [response (create session)
-          input (get-in session [:session :user-info])
+    (let [{:keys [status]} (create request)
+          input (get-in request [:google-user])
           db-row (dissoc (get-by-email (:email input)) :id)]
-      (is (= (:status response) 302))
+      (is (= status 302))
       (is (= (vals db-row) (vals input)))))
 
   (testing "Edit user"
-    (let [new-given-name "Ford"
-          new-session (assoc-in session [:session :user-info :given-name] new-given-name)
-          new-input (get-in new-session [:session :user-info])
-          old-db-row (get-by-email (:email new-input))
-          response (create new-session)
-          new-db-row (get-by-email (:email new-input))]
-      (is (= (:status response) 302))
+    (let [new-req {:google-user {:email "dirk@gmail.com" :given-name "Ford" :family-name "Gently" :picture "www.some-other-url.com"}}
+          old-db-row (get-by-email "dirk@gmail.com")
+          {:keys [status]} (create new-req)
+          new-db-row (get-by-email "dirk@gmail.com")]
+      (is (= status 302))
       (is (= (:id old-db-row) (:id new-db-row)))
-      (is (= (vals (dissoc new-db-row :id)) (vals new-input))))))
+      (is (= (:first-name new-db-row) "Ford")))))
