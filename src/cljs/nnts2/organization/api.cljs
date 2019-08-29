@@ -6,7 +6,7 @@
 (enable-console-print!)
 
 (defn create [org-details]
-  (POST "/create-organization"
+  (POST "/org"
        {:params          org-details
         :response-format :json
         :keywords?       true

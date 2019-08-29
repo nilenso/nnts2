@@ -27,6 +27,7 @@
                                         status content-type]]))
 
 (defonce ^:private all-sessions (mem/memory-store))
+(defonce server (atom nil))
 
 (def auth-routes (compojure.core/routes
                    user/routes
@@ -49,9 +50,14 @@
       (resource/wrap-resource "public")
       (wrap-session {:store all-sessions})))
 
+(defn stop []
+  (.stop @server)
+  (reset! server nil))
+
 (defn start []
   (let [port (Integer/parseInt (:port (server-spec)))
         host (:ip (server-spec))]
-    (run-jetty (handler) {:port  port
-                          :host  host
-                          :join? false})))
+    (reset! server
+            (run-jetty (handler) {:port  port
+                                  :host  host
+                                  :join? false}))))
