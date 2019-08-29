@@ -1,0 +1,9 @@
+{:up ["create type role as enum ('admin', 'member', 'guest');
+       create table members (id UUID default uuid_generate_v4() primary key,
+                             org_id UUID references organizations(id) not null,
+                             user_id UUID references users(id) not null,
+                             role role not null);
+       alter table members add constraint unique_org_id_user_id UNIQUE(org_id, user_id);"]
+ :down ["drop table members;
+         drop constraint unique_org_id_user_id;
+         drop type role;"]}
