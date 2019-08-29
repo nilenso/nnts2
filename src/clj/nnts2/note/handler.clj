@@ -7,17 +7,14 @@
 
 #_(defn now [] (new java.util.Date))
 
-(defn create [request]
-  (let [note-body (select-keys (:body request) [:title :content])
-        user (get-in request [:session :user-info :nnts-id])
-        note-data (assoc note-body :created-by-id user)]
+(defn create [{:keys [body nnts-user]}]
+  (let [note-data (assoc body :created-by-id nnts-user)]
     (if (spec/valid? note-data)
       (res/response (db/create note-data))
       (spec-helper/invalid (spec/explain-str note-data)))))
 
 
 
-(defn getnotes [request]
-  (let [user (get-in request [:session :user-info :nnts-id])
-        params {:created-by-id user}]
+(defn getnotes [{:keys [nnts-user]}]
+  (let [params {:created-by-id nnts-user}]
     (res/response (db/get params))))

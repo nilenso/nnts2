@@ -6,11 +6,13 @@
             [nnts2.user.spec :as spec]
             [nnts2.spec-helpers :as spec-helper]))
 
-(defn create [{{:keys [user-info]} :session :as session}]
-  (if (spec/valid? user-info)
-    (do (db/create user-info)
-        (res/redirect (str "/home")))
-    (spec-helper/invalid (spec/explain-str user-info))))
+
+(defn create [{:keys [google-user]}]
+  (if (spec/valid? google-user)
+    (do (db/create google-user)
+        (-> (res/redirect (str "/home"))))
+    (spec-helper/invalid (spec/explain-str google-user))))
+
 
 (defn info [id]
   (res/response (db/get-by-id (Integer/parseInt id))))
