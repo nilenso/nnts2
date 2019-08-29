@@ -7,8 +7,6 @@
             [nnts2.middleware :refer [snake->kebab]]
             [clojure.java.jdbc :as jdbc]))
 
-(defn debug [x] (prn x) x)
-
 (defn insert
   ([details] (insert details db-spec))
   ([details db-spec]

@@ -31,3 +31,6 @@
       (is (= (:status response) 302))
       (is (= (:id old-db-row) (:id new-db-row)))
       (is (= (vals (dissoc new-db-row :id)) (vals new-input))))))
+
+(deftest get-user-organizations
+  (testing "User does not exist. Return 400"))
