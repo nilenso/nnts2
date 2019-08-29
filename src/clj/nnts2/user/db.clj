@@ -3,12 +3,12 @@
             [honeysql.core :as sql]
             [honeysql-postgres.format :refer :all]
             [honeysql-postgres.helpers :as ph]
-            [nnts2.config :refer [db-spec]]
+            [nnts2.config :as config]
             [nnts2.middleware :refer [snake->kebab]]
             [clojure.java.jdbc :as jdbc]))
 
 (defn create
-  ([user] (create user db-spec))
+  ([user] (create user config/db-spec))
   ([{:keys [email given-name family-name picture]} db-spec]
    (-> (jdbc/query (db-spec) (-> (h/insert-into :users)
                                  (h/values [{:email      email
@@ -23,7 +23,7 @@
        first)))
 
 (defn get-by-email
-  ([email] (get-by-email email db-spec))
+  ([email] (get-by-email email config/db-spec))
   ([email db-spec]
    (-> (jdbc/query (db-spec) (-> (h/select :*)
                                  (h/from :users)
@@ -33,7 +33,7 @@
        first)))
 
 (defn get-by-id
-  ([id] (get-by-id id db-spec))
+  ([id] (get-by-id id config/db-spec))
   ([id db-spec]
    (-> (jdbc/query (db-spec) (-> (h/select :*)
                                  (h/from :users)
@@ -41,4 +41,3 @@
                                  sql/format)
                    {:identifiers snake->kebab})
        first)))
-

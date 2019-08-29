@@ -12,5 +12,12 @@
         user (get-in request [:session :user-info :nnts-id])
         note-data (assoc note-body :created-by-id user)]
     (if (spec/valid? note-data)
-      (res/response (db/add note-data))
+      (res/response (db/create note-data))
       (spec-helper/invalid (spec/explain-str note-data)))))
+
+
+
+(defn getnotes [request]
+  (let [user (get-in request [:session :user-info :nnts-id])
+        params {:created-by-id user}]
+    (res/response (db/get params))))

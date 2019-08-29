@@ -2,7 +2,6 @@
   (:require [clojure.test :refer :all]
             [clojure.java.jdbc :as sql]
             [honeysql.helpers :as h]
-            [honeysql-postgres.helpers :as ph]
             [honeysql.core :as hcore]
             [nnts2.config :as config]
             [nnts2.db :as db]))
