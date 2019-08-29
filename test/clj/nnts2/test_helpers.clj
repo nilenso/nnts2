@@ -2,6 +2,7 @@
   (:require  [clojure.test :as t]
              [clojure.string :as str]
              [org.httpkit.client :as http]
+             [nnts2.core :as core]
              [cheshire.core :as json]))
 
 (defn settings
@@ -27,3 +28,9 @@
   [& args]
   (let [response (apply http-request-raw args)]
     (assoc response :body (json/decode (:body response)))))
+
+(defn start-server []
+  (core/-main "test"))
+
+(defn stop-server []
+  (core/stop!))
