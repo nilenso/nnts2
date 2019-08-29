@@ -3,6 +3,6 @@
             [nnts2.note.handler :as api]))
 
 (defroutes routes
-  (GET "/" [] api/getnotes)
+  (GET "/get" [] api/getnotes)
   (POST "/create" []
         api/create))

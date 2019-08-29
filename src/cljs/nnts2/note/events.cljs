@@ -11,7 +11,12 @@
  (fn [_ event]
    (api/create-note (rest event))))
 
-(re-frame/reg-event-db
+(re-frame/reg-event-fx
  :note-get-list
+ (fn [_ event]
+   (api/get-notes)))
+
+(re-frame/reg-event-db
+ :note-received
  (fn [db event]
-   db))
+   (assoc db :notes (rest event))))

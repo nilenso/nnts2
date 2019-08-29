@@ -4,7 +4,6 @@
 
 (enable-console-print!)
 
-(def full (r/atom ""))
 
 (defn write-notes []
   (let [content-text (r/atom "")
@@ -36,12 +35,20 @@
        ])))
 
 
-(defn list-notes []
-  [:div [:h1 "I will list notes here"]])
+#_(defn note [note-data]
+  [:div
+   [:h3 (:title note-data)]
+   [:h4 (:content note-data)]])
+
+#_(defn list-notes [note-list]
+  [:div
+   (for [k note-list] [note k])])
 
 
 (defn note-panel []
   [:div
-   ;[:div [list-notes]]
-   [:div [write-notes]]
-   [:div @full]])
+
+   #_[:div [list-notes [{:title "title" :content "dfa fadfa"}
+                      {:title "titl2e" :content "dfa 2fadfa"}
+                      {:title "title3" :content "dfa3 fadfa"}]]]
+   [:div [write-notes]]])

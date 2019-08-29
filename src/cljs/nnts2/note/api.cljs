@@ -5,10 +5,17 @@
 (enable-console-print!)
 
 (defn create-note [data]
+  (prn "Creat enote called")
   (POST "/note/create"
         {:response-format :json
          :keywords? true
          :params (first data)
          :format :json
-         :handler #(prn "api successs")
-}))
+         :handler #(re-frame/dispatch [:note-get-list])}))
+
+(defn get-notes []
+  (GET "/note/get"
+       {:response-format :json
+        :keywords? true
+        ;:handler #(prn "api succcess" %)
+        }))
