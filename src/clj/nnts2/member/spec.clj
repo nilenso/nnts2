@@ -2,9 +2,10 @@
   (:require [clojure.spec.alpha :as s]
             [clojure.string :as str]))
 
-(s/def ::org-id int?)
-(s/def ::user-id int?)
-(s/def ::members (s/keys :req-un [::org-id ::user-id]))
+(s/def ::org-id uuid?)
+(s/def ::user-id uuid?)
+(s/def ::role string?)
+(s/def ::members (s/keys :req-un [::org-id ::user-id ::role]))
 
 (defn valid? [m]
   (s/valid? ::members m))
