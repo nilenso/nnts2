@@ -7,20 +7,18 @@
             [nnts2.middleware :refer [snake->kebab]]
             [clojure.java.jdbc :as jdbc]))
 
-(defn debug [x] (prn x) x)
-
 (defn add
   ([data] (add data db-spec))
   ([data db-spec]
    (let [casted-data (assoc data :role (sql/call :cast (:role data) :role))]
      (-> (jdbc/query (db-spec)
-                        (-> (h/insert-into :members)
-                            (h/values [casted-data])
-                            (ph/on-conflict-constraint :unique_org_id_user_id)
-                            (ph/do-nothing)
-                            (ph/returning :*)
-                            sql/format)
-                        {:identifiers snake->kebab})
+                     (-> (h/insert-into :members)
+                         (h/values [casted-data])
+                         (ph/on-conflict-constraint :unique_org_id_user_id)
+                         (ph/do-nothing)
+                         (ph/returning :*)
+                         sql/format)
+                     {:identifiers snake->kebab})
          first))))
 
 (defn get-orgs
