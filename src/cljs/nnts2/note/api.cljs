@@ -17,5 +17,4 @@
   (GET "/note/get"
        {:response-format :json
         :keywords? true
-        ;:handler #(prn "api succcess" %)
-        }))
+        :handler #(re-frame/dispatch [:note-received-list %])}))

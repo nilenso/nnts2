@@ -17,6 +17,6 @@
    (api/get-notes)))
 
 (re-frame/reg-event-db
- :note-received
+ :note-received-list
  (fn [db event]
-   (assoc db :notes (rest event))))
+   (assoc db :notes (first (rest event)))))

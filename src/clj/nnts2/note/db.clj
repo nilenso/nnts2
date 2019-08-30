@@ -39,5 +39,6 @@
      (jdbc/query (db-spec) (-> (h/select :*)
                                (h/from :notes)
                                (#(apply h/where % filter-params))
+                               (h/order-by [:created-at :desc])
                                (sql/format))
                  {:identifiers snake->kebab}))))

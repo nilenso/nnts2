@@ -4,5 +4,4 @@
 
 (defroutes routes
   (GET "/get" [] api/getnotes)
-  (POST "/create" []
-        api/create))
+  (POST "/create" [] api/create))

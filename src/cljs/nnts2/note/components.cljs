@@ -1,6 +1,7 @@
 (ns nnts2.note.components
   (:require [re-frame.core :as re-frame]
-            [reagent.core :as r]))
+            [reagent.core :as r]
+            [nnts2.note.subs :as subs]))
 
 (enable-console-print!)
 
@@ -35,20 +36,30 @@
        ])))
 
 
-#_(defn note [note-data]
-  [:div
-   [:h3 (:title note-data)]
-   [:h4 (:content note-data)]])
 
-#_(defn list-notes [note-list]
-  [:div
-   (for [k note-list] [note k])])
+(defn note [note-data]
+  [:div {:id (:id note-data)
+         :style {:margin-top ".5em"}}
+   [:div {:style {:background-color (str "rgb(100,100,100)")
+                  :padding ".5em"}
+          } (:title note-data)]
+   [:div {:style {:color "white"
+                  :padding ".5em"
+                  :background-color (str "rgb(40,44,52)")}}
+    (:content note-data)]])
+
+
+
+(defn list-notes [notes]
+  [:div {:style {:overflow-y "auto"
+                 :height "300px"
+                 :margin-bottom "1em"}}
+   (for [k notes] ^{:key (:id k)}[note k])])
+
 
 
 (defn note-panel []
-  [:div
-
-   #_[:div [list-notes [{:title "title" :content "dfa fadfa"}
-                      {:title "titl2e" :content "dfa 2fadfa"}
-                      {:title "title3" :content "dfa3 fadfa"}]]]
-   [:div [write-notes]]])
+  (let [notes (re-frame/subscribe [::subs/notes])]
+    [:div {:style {:max-width "620px"}}
+     [write-notes]
+     [list-notes @notes]]))

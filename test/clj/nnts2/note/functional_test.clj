@@ -45,6 +45,6 @@
   (testing "getting 2 notes if 2 notes hv been created"
     (let [request {:nnts-user 1 :body {:title "new-note-title" :content "new-note-content"}}
           response (api/create request)
-          get-response (api/getnotes request)]
-      (is (= (:status get-response) 200))
-      (is (= (count (:body get-response)) 2)))))
+          {:keys [body status]} (api/getnotes request)]
+      (is (= status 200))
+      (is (= (count body) 2)))))
