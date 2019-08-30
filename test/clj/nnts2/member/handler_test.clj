@@ -17,8 +17,8 @@
 (def organization {:name "Foo"
                    :slug "foo-bar"})
 
-(deftest add-member-to-members-table
-  (testing "adding a member twice should result in a conflict and respond with status 409"
+(deftest add-member-handler-test
+  (testing "adding a member twice should result in a conflict and return with status 409"
     (let [org (org-db/create {:name "test1"
                               :slug "test-1"})
           user (user-db/create user)
@@ -35,5 +35,25 @@
           user (user-db/create user)
           params {:params  {:user-id (str (:id user))
                             :org-id (str (:id org))}}
+          response (handler/add params)]
+      (is (= (:status response) 400))))
+
+  (testing "adding a member with the correct information should return the record with a 200"
+    (let [org (org-db/create {:name "test3"
+                              :slug "test-3"})
+          user (user-db/create user)
+          params {:params  {:user-id (str (:id user))
+                            :org-id (str (:id org))
+                            :role "admin"}}
+          response (handler/add params)]
+      (is (= (:status response) 200))))
+
+  (testing "adding a member with an invalid role should return in spec error with 400"
+    (let [org (org-db/create {:name "test4"
+                              :slug "test-4"})
+          user (user-db/create user)
+          params {:params  {:user-id (str (:id user))
+                            :org-id (str (:id org))
+                            :role "owner"}}
           response (handler/add params)]
       (is (= (:status response) 400)))))

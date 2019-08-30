@@ -13,6 +13,6 @@
 
 (defn clear [test]
   (sql/with-db-transaction [db (config/db-spec)]
-                           (sql/db-set-rollback-only! db)
-                           (binding [config/db-spec (constantly db)]
-                             (test))))
+    (sql/db-set-rollback-only! db)
+    (with-redefs [config/db-spec (constantly db)]
+      (test))))
