@@ -1,8 +1,8 @@
 (ns nnts2.note.functional-test
   (:require  [clojure.test :refer :all]
              [nnts2.fixtures :as fixtures]
-             [nnts2.note.handler :refer [create]]
-             [nnts2.note.db :refer [add]]))
+             [nnts2.handler.note :refer [create]]
+             [nnts2.db.note :refer [add]]))
 
 
 (use-fixtures :each fixtures/clear)

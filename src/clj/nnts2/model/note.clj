@@ -1,4 +1,4 @@
-(ns nnts2.note.spec
+(ns nnts2.model.note
   (:require [clojure.spec.alpha :as s]))
 
 

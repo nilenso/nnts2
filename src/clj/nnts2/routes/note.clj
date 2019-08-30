@@ -1,7 +1,7 @@
-(ns nnts2.note.routes
+(ns nnts2.routes.note
   (:require [compojure.core :refer [GET POST defroutes]]
-            [nnts2.note.handler :as api]))
+            [nnts2.handler.note :as handler]))
 
 (defroutes routes
     (POST "/create" []
-       api/create))
+       handler/create))
