@@ -6,7 +6,7 @@
 
 (defn create [{:keys [body] :as request}]
   (if (spec/valid? body)
-    (let [org (db/insert body)]
+    (let [org (db/create body)]
       (if (nil? org)
         (->  (res/response "Slug exists")
              (res/status 409))
