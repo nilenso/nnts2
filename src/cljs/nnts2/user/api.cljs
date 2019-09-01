@@ -8,5 +8,8 @@
 (defn get-info []
   (GET "/user-info"
        {:response-format :json
+        :format          :json
         :keywords?       true
-        :handler         #(re-frame/dispatch [:user-info %])}))
+        :handler         (fn [response]
+                           (re-frame/dispatch [:user-info response])
+                           (re-frame/dispatch [:get-orgs]))}))

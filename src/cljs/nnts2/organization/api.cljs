@@ -5,10 +5,17 @@
 
 (enable-console-print!)
 
+(defn get-all []
+  (GET "/org"
+       {:response-format :json
+        :keywords? true
+        :format :json
+        :handler #(prn (str "ALL ORGS" %))}))
+
 (defn create [org-details]
   (POST "/org"
-       {:params          org-details
-        :response-format :json
-        :keywords?       true
-        :format          :json
-        :handler         (prn "Org created! ")}))
+        {:params          org-details
+         :response-format :json
+         :keywords?       true
+         :format          :json
+         :handler         (get-all)}))

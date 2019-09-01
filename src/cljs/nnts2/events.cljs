@@ -35,4 +35,9 @@
 (re-frame/reg-event-db
   :user-info
   (fn [db [_ info]]
-    (assoc db :user-id (:given-name info))))
+    (assoc db :user info)))
+
+(re-frame/reg-event-fx
+ :get-orgs
+ (fn [coeffects [_ data]]
+   (org-api/get-all)))

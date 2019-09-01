@@ -1,6 +1,6 @@
 (ns nnts2.server
   (:require [ring.adapter.jetty :refer [run-jetty]]
-            [nnts2.config :refer [server-spec]]
+            [nnts2.config :refer [server-spec oauth2-spec]]
             [compojure.core :refer [GET defroutes ANY]]
             [compojure.route :refer [resources]]
             [ring.util.response :refer [resource-response redirect]]
@@ -14,12 +14,12 @@
             [ring.middleware.multipart-params :refer [wrap-multipart-params]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.middleware.session :refer [wrap-session]]
-            [nnts2.config :refer [oauth2-spec]]
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
             [ring.middleware.resource :as resource]
             [ring.middleware.session.memory :as mem]
             [nnts2.user.routes :as user]
             [nnts2.organization.routes :as organization]
+            [nnts2.user.middleware :as user-middleware]
             [ring.middleware.cookies :as cookies]
             [compojure.response :refer [render]]
             [clojure.java.io :as io]
@@ -30,14 +30,15 @@
 (defonce server (atom nil))
 
 (def auth-routes (compojure.core/routes
-                   user/routes
-                   organization/routes))
+                  user/routes
+                  organization/routes))
 
 (defroutes app-routes
-           (ANY "*" [] (-> auth-routes
-                           wrap-validate-access-token
-                           (wrap-oauth2 (oauth2-spec))))
-           (ANY "*" [] (not-found (io/resource "public/index.html"))))
+  (ANY "*" [] (-> auth-routes
+                  user-middleware/wrap-nnts-user-id
+                  wrap-validate-access-token
+                  (wrap-oauth2 (oauth2-spec))))
+  (ANY "*" [] (not-found (io/resource "public/index.html"))))
 
 (defn handler []
   (-> app-routes

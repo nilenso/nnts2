@@ -14,7 +14,6 @@
     (re-frame/dispatch [::events/set-active-panel :home-panel])
     (re-frame/dispatch [::events/get-user-info])))
 
-
 (defroute "/about" []
           (re-frame/dispatch [::events/set-active-panel :about-panel]))
 

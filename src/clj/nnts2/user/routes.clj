@@ -7,4 +7,4 @@
   (GET "/user" [] handler/create)
 
   (GET "/user-info" []
-       #(res/response (get-in % [:session :user-info]))))
+       #(res/response (:google-user %))))
