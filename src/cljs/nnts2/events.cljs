@@ -54,4 +54,4 @@
  (fn [db [_ org-details]]
    (-> db
        (update-in [:organization :event :get :state] :retrieved)
-       (update-in [:organization :data :all] (fnil conj []) org-details))))
+       (assoc-in [:organization :data :all] org-details))))

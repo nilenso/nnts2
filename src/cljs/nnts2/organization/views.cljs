@@ -1,8 +1,19 @@
-(ns nnts2.organization.create
+(ns nnts2.organization.views
   (:require [reagent.core :as reagent]
             [re-frame.core :as re-frame]))
 
-(defn form []
+(defn sidenav-item [{:keys [name]}]
+  ^{:key name}
+  [:a {:href "#"} name])
+
+(defn sidenav []
+  (let [orgs-subscription (re-frame/subscribe [:organization])]
+    (fn []
+      (let [orgs @orgs-subscription]
+        [:div
+         (map sidenav-item orgs)]))))
+
+(defn create-form []
   (let [org-details (reagent/atom {:name ""
                                    :slug ""})]
     (fn []
