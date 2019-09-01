@@ -7,12 +7,13 @@
             [nnts2.spec-helpers :as spec-helper]
             [clojure.string :as str]))
 
-(defn create [{{:keys [user-info]} :session}]
-  (if (spec/valid? user-info)
-    (let [user (db/create user-info)]
-      (-> (res/redirect (str "/home"))
-          (assoc :body user)))
-    (spec-helper/invalid (spec/explain-str user-info))))
+(defn debug [x] (prn x) x)
+
+(defn create [{:keys [google-user] :as request}]
+  (if (spec/valid? google-user)
+    (let [user (db/create google-user)]
+       (res/redirect (str "/home")))
+    (spec-helper/invalid (spec/explain-str google-user))))
 
 (defn info [id]
   (res/response (db/get-by-id (Integer/parseInt id))))

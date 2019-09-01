@@ -13,3 +13,10 @@
    :params details
    :uri "/org"
    :on-success [:organization-created]})
+
+(defn get-all []
+  (GET "/org"
+       {:response-format :json
+        :keywords? true
+        :format :json
+        :handler #(prn (str "ALL ORGS" %))}))
