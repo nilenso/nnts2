@@ -7,19 +7,31 @@
 
 
 (defn home-panel []
-  (let [name (re-frame/subscribe [::subs/user-id])]
-    [:div
-     [:h1 (str "Hello " @name ". This is the Home Page.")]
-     [(create-org/form)]
-     [:div
-      [:a {:href "#/about"}
-       "go to About Page"]]]))
+  (let [user-info (re-frame/subscribe [:user])]
+    (fn []
+      (let [name (:given-name @user-info)]
+        [:div.main
+         [:h1 (str "Hello " name ". This is the Home Page.")]
+         [(create-org/form)]
+         [:div
+          [:a {:href "#/about"}
+           "go to About Page"]]]))))
 
+(defn- org-item [{:keys [name]}]
+  ^{:key name}
+  [:a {:href "#"} name])
+
+(defn side-panel []
+  (let [orgs-subscription (re-frame/subscribe [:organization])]
+    (fn []
+      (let [orgs (first @orgs-subscription)]
+        [:div.sidenav
+         (map org-item orgs)]))))
 
 ;; about
 
 (defn about-panel []
-  [:div
+  [:div.main
    [:h1 "This is the About Page."]
 
    [:div
@@ -38,6 +50,5 @@
   [panels panel-name])
 
 (defn main-panel []
-  (let [active-panel (re-frame/subscribe [::subs/active-panel])
-        user-id (re-frame/subscribe [::subs/user-id])]
+  (let [active-panel (re-frame/subscribe [::subs/active-panel])]
     [show-panel @active-panel]))

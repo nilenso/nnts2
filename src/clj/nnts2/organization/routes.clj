@@ -4,4 +4,4 @@
 
 (defroutes routes
            (POST "/org" [] handler/create)
-           (GET "/org" [] handler/get-orgs))
+           (GET "/orgs" [] handler/get-orgs))

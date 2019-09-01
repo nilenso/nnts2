@@ -2,6 +2,7 @@
   (:require [nnts2.organization.db :as db]
             [nnts2.spec-helpers :as spec-helper]
             [nnts2.organization.spec :as spec]
+            [nnts2.organization.member-spec :as member-spec]
             [ring.util.response :as res])
   (:import (java.util UUID)))
 
@@ -24,7 +25,7 @@
   (let [params {:user-id (UUID/fromString (:user-id params))
                 :org-id  (UUID/fromString (:org-id params))
                 :role    (:role params)}]
-    (if (spec/valid? params)
+    (if (member-spec/valid? params)
       (let [member (db/add-user params)]
         (if (nil? member)
           (-> (res/response "User is already a member of this organization")

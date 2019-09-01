@@ -14,9 +14,9 @@
    :uri "/org"
    :on-success [:organization-created]})
 
-(defn get-all []
-  (GET "/org"
-       {:response-format :json
-        :keywords? true
-        :format :json
-        :handler #(prn (str "ALL ORGS" %))}))
+(def get-all-map
+  {:method :get
+   :response-format (ajax/json-response-format {:keywords? true})
+   :format (ajax/json-request-format)
+   :uri "/orgs"
+   :on-success [:organizations-retrieved]})

@@ -5,7 +5,6 @@
 (defn form []
   (let [org-details (reagent/atom {:name ""
                                    :slug ""})]
-    (prn "ORGANIZATIONS CALLED")
     (fn []
       (let [{:keys [name slug]} @org-details]
         [:div

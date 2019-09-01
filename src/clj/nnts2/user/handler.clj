@@ -7,8 +7,6 @@
             [nnts2.spec-helpers :as spec-helper]
             [clojure.string :as str]))
 
-(defn debug [x] (prn x) x)
-
 (defn create [{:keys [google-user] :as request}]
   (if (spec/valid? google-user)
     (let [user (db/create google-user)]

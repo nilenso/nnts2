@@ -10,4 +10,4 @@
   {:method          :get
    :uri             "/user-info"
    :response-format (ajax/json-response-format {:keywords? true})
-   :on-success      [:user-info]})
+   :on-success      [:user-info-retrieved]})
