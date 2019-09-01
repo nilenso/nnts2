@@ -11,27 +11,27 @@
 
 (deftest create-org-test
 
-  (testing "Invalid name. Organization is not created"
+  (testing "creating organization with an invalid name should return a spec error"
     (let [body {:body (assoc organization :name 12345)}
           response (handler/create body)]
       (is (= (:status response) 400))))
 
-  (testing "Invalid slug. Organization not created"
+  (testing  "creating organization with an invalid slug should return a spec error"
     (let [body {:body (assoc organization :slug 12345)}
           response (handler/create body)]
       (is (= (:status response) 400))))
 
-  (testing "Name field missing. Organization not created"
+  (testing  "creating organization with an missing name should return a spec error"
     (let [body {:body (dissoc organization :name)}
           response (handler/create body)]
       (is (= (:status response) 400))))
 
-  (testing "Slug field missing. Organization not created"
+  (testing  "creating organization with a missing slug should return a spec error"
     (let [body {:body (dissoc organization :slug)}
           response (handler/create body)]
       (is (= (:status response) 400))))
 
-  (testing "Valid organization detals. Organization created"
+  (testing  "creating organization with an valid details should return a success"
     (let [body {:body organization}
           response (handler/create body)]
       (is (= (get-in response [:body :name]) (:name organization)))

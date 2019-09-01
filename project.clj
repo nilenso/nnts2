@@ -17,6 +17,7 @@
                  [yogthos/config "1.1.5"]
                  [ring "1.7.1"]
                  [aero "1.1.3"]
+                 [day8.re-frame/http-fx "0.1.6"]
                  [slingshot "0.12.2"]
                  [clj-http "3.10.0"]
                  [ring/ring-json "0.5.0"]
