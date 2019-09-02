@@ -2,8 +2,6 @@
   (:require [re-frame.core :as re-frame]
             [nnts2.note.api :as api]))
 
-
-
 (enable-console-print!)
 
 (re-frame/reg-event-fx

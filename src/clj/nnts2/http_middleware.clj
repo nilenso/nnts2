@@ -1,14 +1,15 @@
 (ns nnts2.http-middleware
   (:require [clojure.string :as str]
-            [compojure.response :as response]
             [clojure.stacktrace :as st]
-            [clj-http.client :as clj-http]
             [clojure.tools.logging :as log]
+            [compojure.response :as response]
+            [clj-http.client :as clj-http]
             [cheshire.core :as json]
             [ring.util.response :as res]
             [nnts2.db.user :as user-db]
             [nnts2.utils :as utils])
-  (:import (java.io InputStream)))
+  (:import (java.io InputStream StringReader)))
+
 
 
 (defn wrap-kebab-case

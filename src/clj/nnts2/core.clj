@@ -4,8 +4,11 @@
             [nnts2.db :as db])
   (:gen-class))
 
-(defn- start
-  []
+(defn stop! []
+  (db/rollback)
+  (server/stop))
+
+(defn- start! []
   (db/migrate)
   (server/start))
 
@@ -15,4 +18,4 @@
        (= (first args) "dev") (config/read :dev)
        (= (first args) "test") (config/read :test)
        :else (config/read :prod))
-  (start))
+  (start!))
