@@ -1,14 +1,14 @@
-(ns nnts2.organization.db
+(ns nnts2.db.organization
   (:require [honeysql.helpers :as h]
             [honeysql.core :as sql]
             [honeysql-postgres.format :refer :all]
             [honeysql-postgres.helpers :as ph]
-            [nnts2.config :refer [db-spec]]
-            [nnts2.middleware :refer [snake->kebab]]
+            [nnts2.config :as config]
+            [nnts2.utils :as utils]
             [clojure.java.jdbc :as jdbc]))
 
 (defn create
-  ([details] (create details db-spec))
+  ([details] (create details config/db-spec))
   ([details db-spec]
    (-> (jdbc/query (db-spec) (-> (h/insert-into :organizations)
                                  (h/values [details])
@@ -16,11 +16,11 @@
                                  (ph/do-nothing)
                                  (ph/returning :*)
                                  sql/format)
-                   {:identifiers snake->kebab})
+                   {:identifiers utils/snake->kebab})
        first)))
 
 (defn add-user
-  ([data] (add-user data db-spec))
+  ([data] (add-user data config/db-spec))
   ([data db-spec]
    (let [casted-data (assoc data :role (sql/call :cast (:role data) :role))]
      (-> (jdbc/query (db-spec)
@@ -30,11 +30,11 @@
                          (ph/do-nothing)
                          (ph/returning :*)
                          sql/format)
-                     {:identifiers snake->kebab})
+                     {:identifiers utils/snake->kebab})
          first))))
 
 (defn get-by-user-id
-  ([user-id] (get-by-user-id user-id db-spec))
+  ([user-id] (get-by-user-id user-id config/db-spec))
   ([user-id db-spec]
    (jdbc/query (db-spec)
                (-> (h/select :name :slug :org.id)
@@ -42,5 +42,5 @@
                    (h/join [:organizations :org] [:= :org.id :m.org-id])
                    (h/where [:= :m.user-id user-id])
                    sql/format)
-               {:identifiers snake->kebab})))
+               {:identifiers utils/snake->kebab})))
 

@@ -1,9 +1,11 @@
 (ns nnts2.organization.functional-test
   (:require [clojure.test :refer :all]
             [nnts2.fixtures :refer [clear setup]]
-            [nnts2.organization.handler :as handler]
-            [nnts2.user.db :as user-db]
-            [nnts2.organization.db :as db]))
+            [nnts2.db.user :as user-db]
+            [nnts2.handler.organization :as handler]
+            [nnts2.db.organization :as db])
+  (:import (java.util UUID)))
+
 
 (use-fixtures :each clear)
 (use-fixtures :once setup)
@@ -38,14 +40,22 @@
           response (handler/create body)]
       (is (= (:status response) 400))))
 
-  (testing "creating organization with an valid details should return a success"
+  (testing "creating organization with valid details should return a success"
     (let [user (user-db/create user)
           body {:body      organization
                 :nnts-user (:id user)}
           response (handler/create body)]
       (is (= (get-in response [:body :name]) (:name organization)))
       (is (= (get-in response [:body :slug]) (:slug organization)))
-      (is (= (:status response) 200)))))
+      (is (= (:status response) 200))))
+
+  (testing "creating organization with a slug that already exists should return a 409"
+    (let [user (user-db/create user)
+          body {:body      organization
+                :nnts-user (:id user)}
+          response (handler/create body)
+          response-2 (handler/create body)]
+      (is (= (:status response-2) 409)))))
 
 (deftest add-member-handler-test
   (testing "adding a member twice should result in a conflict and return with status 409"
@@ -87,4 +97,3 @@
                            :role    "owner"}}
           response (handler/add-user params)]
       (is (= (:status response) 400)))))
-

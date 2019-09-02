@@ -1,8 +1,8 @@
-(ns nnts2.organization.handler
-  (:require [nnts2.organization.db :as db]
+(ns nnts2.handler.organization
+  (:require [nnts2.db.organization :as db]
             [nnts2.spec-helpers :as spec-helper]
-            [nnts2.organization.spec :as spec]
-            [nnts2.organization.member-spec :as member-spec]
+            [nnts2.model.organization-spec :as spec]
+            [nnts2.model.member-spec :as member-spec]
             [ring.util.response :as res])
   (:import (java.util UUID)))
 

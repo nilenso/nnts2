@@ -4,16 +4,20 @@
     [nnts2.subs :as subs]
     [re-frame.core :as re-frame]
     [nnts2.user.views :as user-views]
+    [nnts2.note.components :as note]
     [nnts2.organization.views :as org-views]))
 
+(enable-console-print!)
+
+;; home
 
 (defn home-panel []
   (fn []
     [:div.main
      [(org-views/create-form)]
      [:div
-      [:a {:href "#/about"}
-       "go to About Page"]]]))
+      [:a {:href "/note"}
+       "Create Note"]]]))
 
 (defn side-panel []
   (fn []
@@ -37,6 +41,7 @@
   (case panel-name
     :home-panel [home-panel]
     :about-panel [about-panel]
+    :note-panel [note/note-panel]
     [:div]))
 
 (defn show-panel [panel-name]

@@ -9,10 +9,16 @@
     [re-frame.core :as re-frame]
     [nnts2.events :as events]))
 
+(enable-console-print!)
+
 (defroute "/home" []
   (do
     (re-frame/dispatch [::events/set-active-panel :home-panel])
     (re-frame/dispatch [::events/get-user-info])))
+
+(defroute "/note" []
+  (do
+    (re-frame/dispatch [::events/set-active-panel :note-panel])))
 
 (defroute "/about" []
           (re-frame/dispatch [::events/set-active-panel :about-panel]))

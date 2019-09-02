@@ -1,6 +1,6 @@
 (ns nnts2.organization.db-test
-  (:require [nnts2.organization.db :as db]
-            [nnts2.user.db :as user-db]
+  (:require [nnts2.db.organization :as db]
+            [nnts2.db.user :as user-db]
             [nnts2.fixtures :refer [clear setup]]
             [clojure.test :refer :all]))
 

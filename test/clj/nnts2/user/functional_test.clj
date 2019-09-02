@@ -2,28 +2,28 @@
   (:require [clojure.test :refer :all]
             [clojure.set :as set]
             [nnts2.fixtures :refer [clear setup]]
-            [nnts2.user.handler :refer [create]]
-            [nnts2.user.db :refer [get-by-email]]))
+            [nnts2.handler.user :refer [create]]
+            [nnts2.db.user :refer [get-by-email]]))
 
 (use-fixtures :each clear)
 (use-fixtures :once setup)
 
-(def session {:google-user {:email       "dirk@gmail.com"
+(def request {:google-user {:email       "dirk@gmail.com"
                             :given-name  "Dirk"
                             :family-name "Gently"
                             :picture     "www.some-url.com"}})
 
 (deftest create-user
   (testing "Given correct user name, new email -> add user"
-    (let [response (create session)
-          input (:google-user session)
+    (let [{:keys [status]} (create request)
+          input (:google-user request)
           db-row (dissoc (get-by-email (:email input)) :id)]
-      (is (= (:status response) 302))
+      (is (= status 302))
       (is (= (vals db-row) (vals input)))))
 
   (testing "Edit user"
     (let [new-given-name "Ford"
-          new-session (assoc-in session [:google-user :given-name] new-given-name)
+          new-session (assoc-in request [:google-user :given-name] new-given-name)
           new-input (:google-user new-session)
           old-db-row (get-by-email (:email new-input))
           response (create new-session)
@@ -31,6 +31,3 @@
       (is (= (:status response) 302))
       (is (= (:id old-db-row) (:id new-db-row)))
       (is (= (vals (dissoc new-db-row :id)) (vals new-input))))))
-
-(deftest get-user-organizations
-  (testing "User does not exist. Return 400"))

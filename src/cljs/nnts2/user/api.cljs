@@ -1,7 +1,5 @@
 (ns nnts2.user.api
-  (:require [ajax.core :as ajax]
-            [re-frame.core :as re-frame]
-            [nnts2.db :as db]))
+  (:require [ajax.core :as ajax]))
 
 (enable-console-print!)
 

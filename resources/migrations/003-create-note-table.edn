@@ -1,0 +1,8 @@
+{:up ["CREATE TABLE notes (id serial primary key,
+                           title text,
+                           content text,
+                           created_by_id UUID references users(id) not null,
+                           created_at timestamp not null default now(),
+                           updated_at timestamp not null default now(),
+                           note_time timestamp not null default now());"]
+ :down ["DROP TABLE notes"]}

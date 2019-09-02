@@ -1,5 +1,5 @@
 (ns nnts2.organization.member-spec-test
-  (:require [nnts2.organization.member-spec :as member-spec]
+  (:require [nnts2.model.member-spec :as member-spec]
             [clojure.test :refer :all])
   (:import (java.util UUID)))
 
