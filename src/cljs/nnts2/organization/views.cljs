@@ -11,6 +11,7 @@
     (fn []
       (let [orgs @orgs-subscription]
         [:div
+         [:h3 "Organizations"]
          (map sidenav-item orgs)]))))
 
 (defn create-form []

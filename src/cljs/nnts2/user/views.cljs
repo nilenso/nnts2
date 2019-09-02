@@ -5,4 +5,4 @@
   (let [user-info (re-frame/subscribe [:user])]
     (fn []
       (let [name (:given-name @user-info)]
-        [:h1 (str "Hello " name ". This is the Home Page.")]))))
+        [:h1 (str "Hello, " name)]))))

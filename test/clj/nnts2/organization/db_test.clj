@@ -32,7 +32,7 @@
           params {:user-id (:id user)
                   :org-id  (:id org)
                   :role    "member"}]
-      (is (contains? (db/add-user params) :id))))
+      (is (contains? (db/add-user params) :role))))
 
 
   (testing "adding a member without a role should result in an exception"

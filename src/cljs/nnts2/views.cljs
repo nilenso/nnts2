@@ -10,7 +10,6 @@
 (defn home-panel []
   (fn []
     [:div.main
-     [(user-views/greeting)]
      [(org-views/create-form)]
      [:div
       [:a {:href "#/about"}
@@ -19,6 +18,7 @@
 (defn side-panel []
   (fn []
     [:div.sidenav
+     [(user-views/greeting)]
      [(org-views/sidenav)]]))
 
 ;; about
