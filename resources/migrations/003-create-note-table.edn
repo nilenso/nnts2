@@ -5,5 +5,5 @@
                            created_at timestamptz not null default now(),
                            updated_at timestamptz not null default now(),
                            note_time timestamptz not null default now(),
-                           created_by_id references users (id));"]
+                           foreign key (created_by_id) references users (id));"]
  :down ["DROP TABLE notes"]}

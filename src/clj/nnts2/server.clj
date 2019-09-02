@@ -15,7 +15,7 @@
             [ring.middleware.resource :as resource]
             [ring.middleware.session.memory :as mem]
             [ring.middleware.cookies :as cookies]
-            [nnts2.middleware :refer [wrap-kebab-case not-found wrap-exception-handling wrap-log-request-response wrap-validate-access-token wrap-nnts-user-id]]
+            [nnts2.http-middleware :refer [wrap-kebab-case not-found wrap-exception-handling wrap-log-request-response wrap-validate-access-token wrap-nnts-user-id]]
             [nnts2.config :refer [server-spec oauth2-spec]]
             [nnts2.routes.user :as user-routes]
             [nnts2.routes.note :as note-routes]))

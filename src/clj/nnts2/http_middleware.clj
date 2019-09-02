@@ -1,4 +1,4 @@
-(ns nnts2.middleware
+(ns nnts2.http-middleware
   (:require [clojure.string :as str]
             [compojure.response :as response]
             [clojure.stacktrace :as st]
