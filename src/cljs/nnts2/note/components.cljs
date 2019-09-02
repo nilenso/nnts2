@@ -6,9 +6,11 @@
 (enable-console-print!)
 
 
-(defn write-notes []
-  (let [content-text (r/atom "")
-        title-text (r/atom "")]
+(defn write-note []
+  [:div "empty"]
+  (let [note-form (re-frame/subscribe [::subs/note-form])
+        title-text (r/atom (:title @note-form))
+        content-text (r/atom (:content @note-form))]
     (fn []
       [:div
        [:div
@@ -61,5 +63,5 @@
 (defn note-panel []
   (let [notes (re-frame/subscribe [::subs/notes])]
     [:div {:style {:max-width "620px"}}
-     [write-notes]
+     [write-note]
      [list-notes @notes]]))

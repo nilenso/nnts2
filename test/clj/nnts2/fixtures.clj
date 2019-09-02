@@ -6,12 +6,16 @@
             [nnts2.config :as config]
             [nnts2.db :as db]))
 
+(def ^:private test-specs (atom nil))
 
 (defn setup
   [tests]
-  (config/read :test)
-  (db/migrate)
-  (tests))
+  (binding [config/db-spec #(:db-spec @test-specs)]
+    (config/read :test test-specs)
+    (db/migrate)
+    (tests)))
+
+
 
 (defn clear [test]
   (sql/with-db-transaction [db (config/db-spec)]

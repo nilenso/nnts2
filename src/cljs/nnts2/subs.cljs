@@ -1,6 +1,7 @@
 (ns nnts2.subs
   (:require
-    [re-frame.core :as re-frame]))
+   [re-frame.core :as re-frame]
+   [nnts2.note.subs :as note-subs]))
 
 (re-frame/reg-sub
   ::name

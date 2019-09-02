@@ -1,29 +1,15 @@
-(ns nnts2.middleware
-  (:require [clojure.walk :as walk]
-            [clojure.string :as str]
-            [compojure.response :as response]
+(ns nnts2.http-middleware
+  (:require [clojure.string :as str]
             [clojure.stacktrace :as st]
-            [clj-http.client :as clj-http]
             [clojure.tools.logging :as log]
+            [compojure.response :as response]
+            [clj-http.client :as clj-http]
             [cheshire.core :as json]
-            [ring.util.response :as res])
-  (:import (java.io InputStream)))
+            [ring.util.response :as res]
+            [nnts2.db.user :as user-db]
+            [nnts2.utils :as utils])
+  (:import (java.io InputStream StringReader)))
 
-(defn snake->kebab
-  [word]
-  (-> word keyword str (str/replace "_" "-") (subs 1) keyword))
-
-(defn kebab->snake
-  [word]
-  (-> word keyword str (str/replace "-" "_") (subs 1) keyword))
-
-(defn hyphenize-collection
-  [data]
-  (let [transform-map (fn [form]
-                        (if (map? form)
-                          (reduce-kv #(assoc %1 (snake->kebab %2) %3) {} form)
-                          form))]
-    (walk/postwalk transform-map data)))
 
 (defn wrap-kebab-case
   [handler]
@@ -31,7 +17,7 @@
     (let [kebab-request (select-keys request [:session :params :body])]
       (-> request
           (dissoc [:session :params :body])
-          (conj (hyphenize-collection kebab-request))
+          (conj (utils/hyphenize-collection kebab-request))
           (handler)))))
 
 (defn wrap-log-request-response
@@ -67,7 +53,6 @@
     ([request respond raise]
      (respond (handler request)))))
 
-(defn debug [x] (prn x) x)
 
 
 (defn wrap-validate-access-token [handler]
@@ -84,6 +69,14 @@
         (if (< (:status response) 400)
           (handler (assoc-in request [:google-user] (-> response
                                                                (:body)
-                                                               (hyphenize-collection))))
+                                                               (utils/hyphenize-collection))))
           (-> (res/response "Not authorized")
               (res/status 401)))))))
+
+
+
+(defn wrap-nnts-user-id [handler]
+  (fn [request]
+    (let [email (get-in request [:google-user :email])
+          user (user-db/get-by-email email)]
+      (handler (assoc-in request [:nnts-user] (:id user))))))

@@ -2,8 +2,8 @@
   (:require
     [re-frame.core :as re-frame]
     [nnts2.subs :as subs]
-    [nnts2.note.components :as note]))
-
+    [nnts2.note.components :as note]
+    [nnts2.organization.create :as create-org]))
 
 (enable-console-print!)
 
@@ -13,11 +13,10 @@
   (let [name (re-frame/subscribe [::subs/user-id])]
     [:div
      [:h1 (str "Hello " @name ". This is the Home Page.")]
-
+     [(create-org/form)]
      [:div
       [:a {:href "/note"}
-       "Create Note"]]
-     ]))
+       "Create Note"]]]))
 
 
 ;; about

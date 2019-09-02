@@ -21,6 +21,7 @@
     (re-frame/dispatch [::events/set-active-panel :note-panel])
     (re-frame/dispatch [:note-get-list])))
 
+
 (defroute "/about" []
   (re-frame/dispatch [::events/set-active-panel :about-panel]))
 

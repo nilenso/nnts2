@@ -1,10 +1,10 @@
-(ns nnts2.user.db
+(ns nnts2.db.user
   (:require [honeysql.helpers :as h]
             [honeysql.core :as sql]
             [honeysql-postgres.format :refer :all]
             [honeysql-postgres.helpers :as ph]
             [nnts2.config :as config]
-            [nnts2.middleware :refer [snake->kebab]]
+            [nnts2.utils :as utils]
             [clojure.java.jdbc :as jdbc]))
 
 (defn create
@@ -19,7 +19,7 @@
                                                 (ph/do-update-set :first_name :last_name :image_url)))
                                  (ph/returning :*)
                                  sql/format)
-                   {:identifiers snake->kebab})
+                   {:identifiers utils/snake->kebab})
        first)))
 
 (defn get-by-email
@@ -29,7 +29,7 @@
                                  (h/from :users)
                                  (h/where [:= :email email])
                                  sql/format)
-                   {:identifiers snake->kebab})
+                   {:identifiers utils/snake->kebab})
        first)))
 
 (defn get-by-id
@@ -39,5 +39,5 @@
                                  (h/from :users)
                                  (h/where [:= :id id])
                                  sql/format)
-                   {:identifiers snake->kebab})
+                   {:identifiers utils/snake->kebab})
        first)))

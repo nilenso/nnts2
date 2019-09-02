@@ -2,12 +2,11 @@
   (:require [clojure.test :refer :all]
             [clojure.set :as set]
             [nnts2.fixtures :refer [clear setup]]
-            [nnts2.user.handler :refer [create]]
-            [nnts2.user.db :refer [get-by-email]]))
+            [nnts2.handler.user :refer [create]]
+            [nnts2.db.user :refer [get-by-email]]))
 
 (use-fixtures :each clear)
 (use-fixtures :once setup)
-
 
 
 (def request {:google-user {:email       "dirk@gmail.com"
@@ -24,12 +23,14 @@
       (is (= (vals db-row) (vals input)))))
 
   (testing "Edit user"
-    (let [new-given-name "Ford"
-          new-req (assoc-in request [:google-user :given-name] new-given-name)
-          new-input (get-in new-req [:google-user])
-          old-db-row (get-by-email (:email new-input))
+    (let [new-req {:google-user
+                   {:email "dirk@gmail.com"
+                    :given-name "Ford"
+                    :family-name "Gently"
+                    :picture "www.some-other-url.com"}}
+          old-db-row (get-by-email "dirk@gmail.com")
           {:keys [status]} (create new-req)
-          new-db-row (get-by-email (:email new-input))]
+          new-db-row (get-by-email "dirk@gmail.com")]
       (is (= status 302))
       (is (= (:id old-db-row) (:id new-db-row)))
-      (is (= (vals (dissoc new-db-row :id)) (vals new-input))))))
+      (is (= (:first-name new-db-row) "Ford")))))

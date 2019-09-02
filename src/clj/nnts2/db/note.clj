@@ -1,28 +1,25 @@
-(ns nnts2.note.db
+(ns nnts2.db.note
   (:require [honeysql.helpers :as h]
             [honeysql-postgres.helpers :as ph]
             [clojure.java.jdbc :as jdbc]
             [honeysql.core :as sql]
-            [nnts2.middleware :refer [snake->kebab kebab->snake]]
-            [nnts2.config :as config]))
+            [nnts2.db-middleware :as middleware]
+            [nnts2.config :as config]
+            [nnts2.utils :as utils]))
 
 ;; just change keywords from kebab to snake
 
-(defn clojure-data->sql-data
-  "this seems like its already being done by honeysql"
-  [sub-form]
-  (into {} (for [[k v] sub-form]
-             [(kebab->snake k) v])))
 
 (defn create
   ([note-data] (create note-data config/db-spec))
   ([note-data db-spec]
-   (-> (jdbc/query (db-spec) (-> (h/insert-into :notes)
-                                 (h/values [note-data])
-                                 (ph/returning :*)
-                                 sql/format)
-                   {:identifiers snake->kebab})
-       first)))
+   (let [sql-data (middleware/clojure-data->sql-data note-data)]
+     (-> (jdbc/query (db-spec) (-> (h/insert-into :notes)
+                                   (h/values [sql-data])
+                                   (ph/returning :*)
+                                   sql/format)
+                     {:identifiers utils/snake->kebab})
+         first))))
 
 
 (defn get-honeysql-filter-params
@@ -41,4 +38,4 @@
                                (#(apply h/where % filter-params))
                                (h/order-by [:created-at :desc])
                                (sql/format))
-                 {:identifiers snake->kebab}))))
+                 {:identifiers utils/snake->kebab}))))

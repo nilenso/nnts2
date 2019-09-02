@@ -6,3 +6,10 @@
  ::notes
  (fn [db _]
    (:notes db)))
+
+
+(re-frame/reg-sub
+ ::note-form
+ (fn [db _]
+   (:note-form db))
+ )
