@@ -32,7 +32,6 @@
 (re-frame/reg-event-db
  :organization-created
  (fn [db [_ org-details]]
-   (prn org-details)
    (assoc db :organization-list org-details)))
 
 (re-frame/reg-event-db

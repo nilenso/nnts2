@@ -7,7 +7,6 @@
 
 (defn create-map
   [details]
-  (prn "ORG DETAILS " details)
   {:method :post
    :response-format (ajax/json-response-format {:keywords? true})
    :format (ajax/json-request-format)

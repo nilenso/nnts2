@@ -3,12 +3,12 @@
             [honeysql.core :as sql]
             [honeysql-postgres.format :refer :all]
             [honeysql-postgres.helpers :as ph]
-            [nnts2.config :refer [db-spec]]
+            [nnts2.config :as config]
             [nnts2.middleware :refer [snake->kebab]]
             [clojure.java.jdbc :as jdbc]))
 
 (defn insert
-  ([details] (insert details db-spec))
+  ([details] (insert details config/db-spec))
   ([details db-spec]
    (-> (jdbc/query (db-spec) (-> (h/insert-into :organizations)
                                  (h/values [details])

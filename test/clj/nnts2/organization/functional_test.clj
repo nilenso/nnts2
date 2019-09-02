@@ -31,9 +31,15 @@
           response (handler/create body)]
       (is (= (:status response) 400))))
 
-  (testing  "creating organization with an valid details should return a success"
+  (testing  "creating organization with valid details should return a success"
     (let [body {:body organization}
           response (handler/create body)]
       (is (= (get-in response [:body :name]) (:name organization)))
       (is (= (get-in response [:body :slug]) (:slug organization)))
-      (is (= (:status response) 200)))))
+      (is (= (:status response) 200))))
+
+  (testing  "creating organization with a slug that already exists should return a 409"
+    (let [body {:body organization}
+          response (handler/create body)
+          response-2 (handler/create body)]
+      (is (= (:status response-2) 409)))))
