@@ -1,7 +1,7 @@
-(ns nnts2.organization.handler
-  (:require [nnts2.organization.db :as db]
+(ns nnts2.handler.organization
+  (:require [nnts2.db.organization :as db]
             [nnts2.spec-helpers :as spec-helper]
-            [nnts2.organization.spec :as spec]
+            [nnts2.model.organization-spec :as spec]
             [ring.util.response :as res]))
 
 (defn create [{:keys [body] :as request}]

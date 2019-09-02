@@ -1,5 +1,5 @@
-(ns nnts2.organization.routes
-  (:require [nnts2.organization.handler :as handler]
+(ns nnts2.routes.organization
+  (:require [nnts2.handler.organization :as handler]
             [compojure.core :refer [defroutes POST]]))
 
 (defroutes routes

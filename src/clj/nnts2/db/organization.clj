@@ -1,10 +1,10 @@
-(ns nnts2.organization.db
+(ns nnts2.db.organization
   (:require [honeysql.helpers :as h]
             [honeysql.core :as sql]
             [honeysql-postgres.format :refer :all]
             [honeysql-postgres.helpers :as ph]
             [nnts2.config :as config]
-            [nnts2.middleware :refer [snake->kebab]]
+            [nnts2.utils :as utils]
             [clojure.java.jdbc :as jdbc]))
 
 (defn insert
@@ -16,5 +16,5 @@
                                  (ph/do-nothing)
                                  (ph/returning :*)
                                  sql/format)
-                   {:identifiers snake->kebab})
+                   {:identifiers utils/snake->kebab})
        first)))

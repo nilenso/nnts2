@@ -3,8 +3,12 @@
     [re-frame.core :as re-frame]
     [nnts2.subs :as subs]
     [re-frame.core :as re-frame]
+    [nnts2.note.components :as note]
     [nnts2.organization.create :as create-org]))
 
+(enable-console-print!)
+
+;; home
 
 (defn home-panel []
   (let [name (re-frame/subscribe [::subs/user-id])]
@@ -12,8 +16,8 @@
      [:h1 (str "Hello " @name ". This is the Home Page.")]
      [(create-org/form)]
      [:div
-      [:a {:href "#/about"}
-       "go to About Page"]]]))
+      [:a {:href "/note"}
+       "Create Note"]]]))
 
 
 ;; about
@@ -32,6 +36,7 @@
   (case panel-name
     :home-panel [home-panel]
     :about-panel [about-panel]
+    :note-panel [note/note-panel]
     [:div]))
 
 (defn show-panel [panel-name]

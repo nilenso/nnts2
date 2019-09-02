@@ -3,8 +3,12 @@
    [re-frame.core :as re-frame]
    [day8.re-frame.http-fx]
    [nnts2.db :as db]
+   [nnts2.note.events :as note-events]
    [nnts2.organization.api :as org-api]
    [nnts2.user.api :as user-api]))
+
+
+(enable-console-print!)
 
 (re-frame/reg-event-db
  ::initialize-db

@@ -1,15 +1,14 @@
 (ns nnts2.server
   (:require [ring.adapter.jetty :refer [run-jetty]]
-            [nnts2.config :refer [server-spec]]
-            [compojure.core :refer [GET defroutes ANY]]
+            [compojure.core :refer [GET defroutes ANY context]]
             [compojure.route :refer [resources]]
-            [ring.util.response :refer [resource-response redirect]]
+            [compojure.response :refer [render]]
+            [clojure.java.io :as io]
+            [ring.util.response :refer [resource-response redirect file-response status content-type]]
             [ring.middleware.reload :refer [wrap-reload]]
             [ring.middleware.keyword-params :refer [keyword-params-request]]
             [ring.middleware.oauth2 :refer [wrap-oauth2]]
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
-            [nnts2.middleware :refer [wrap-kebab-case not-found wrap-exception-handling
-                                      wrap-log-request-response wrap-validate-access-token]]
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.multipart-params :refer [wrap-multipart-params]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
@@ -18,23 +17,24 @@
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
             [ring.middleware.resource :as resource]
             [ring.middleware.session.memory :as mem]
-            [nnts2.user.routes :as user]
-            [nnts2.organization.routes :as organization]
-            [ring.middleware.cookies :as cookies]
-            [compojure.response :refer [render]]
-            [clojure.java.io :as io]
-            [ring.util.response :refer [file-response resource-response
-                                        status content-type]]))
+            [nnts2.http-middleware :refer [wrap-kebab-case not-found wrap-exception-handling wrap-log-request-response
+                                           wrap-validate-access-token wrap-nnts-user-id]]
+            [nnts2.config :refer [server-spec oauth2-spec]]
+            [nnts2.routes.organization :as organization]
+            [nnts2.routes.user :as user]
+            [nnts2.routes.note :as note]))
 
 (defonce ^:private all-sessions (mem/memory-store))
 (defonce server (atom nil))
 
 (def auth-routes (compojure.core/routes
                    user/routes
-                   organization/routes))
+                   organization/routes
+                   (context "/note" [] note/routes)))
 
 (defroutes app-routes
            (ANY "*" [] (-> auth-routes
+                           wrap-nnts-user-id
                            wrap-validate-access-token
                            (wrap-oauth2 (oauth2-spec))))
            (ANY "*" [] (not-found (io/resource "public/index.html"))))

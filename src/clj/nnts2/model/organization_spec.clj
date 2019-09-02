@@ -1,4 +1,4 @@
-(ns nnts2.organization.spec
+(ns nnts2.model.organization-spec
   (:require [clojure.spec.alpha :as s]
             [clojure.string :as str]))
 

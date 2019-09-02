@@ -1,7 +1,7 @@
 (ns nnts2.organization.functional-test
   (:require [clojure.test :refer :all]
             [nnts2.fixtures :refer [clear setup]]
-            [nnts2.organization.handler :as handler]))
+            [nnts2.handler.organization :as handler]))
 
 (use-fixtures :each clear)
 (use-fixtures :once setup)

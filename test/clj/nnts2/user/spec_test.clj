@@ -1,6 +1,6 @@
 (ns nnts2.user.spec-test
   (:require [clojure.test :refer :all]
-            [nnts2.user.spec :as spec]))
+            [nnts2.model.user :as spec]))
 
 (def user {:given-name  "Dirk"
            :family-name "Gently"
@@ -35,5 +35,3 @@
   (testing "Invalid picture URL"
     (let [user (assoc user :picture "1245")]
       (is (not (spec/valid? user))))))
-
-

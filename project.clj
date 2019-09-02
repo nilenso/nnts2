@@ -6,6 +6,7 @@
                  [thheller/shadow-cljs "2.8.45"]
                  [ragtime "0.8.0"]
                  [cljs-ajax "0.8.0"]
+                 [clj-time "0.15.2"]
                  [org.clojure/test.check "0.10.0"]
                  [reagent "0.8.1"]
                  [http-kit "2.3.0"]
