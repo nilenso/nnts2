@@ -16,7 +16,7 @@
     (re-frame/dispatch [::events/set-active-panel :home-panel])
     (re-frame/dispatch [::events/get-user-info])))
 
-(defroute "/note" []
+(defroute "/notes" []
   (do
     (re-frame/dispatch [::events/set-active-panel :note-panel])
     (re-frame/dispatch [:note-get-list])))

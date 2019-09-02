@@ -5,20 +5,24 @@
 
 (enable-console-print!)
 
+
 (re-frame/reg-event-fx
  :note-submit
  (fn [_ event]
-   (api/create-note (rest event))))
+   {:http-xhrio (api/create-note-req-map (first (rest event)))}))
 
-(re-frame/reg-event-db
+
+(re-frame/reg-event-fx
  :note-submit-success
- (fn [db event]
-   (assoc db :note-form {:title "" :content ""})))
+ (fn [cofx event]
+   {:db  (assoc (:db cofx) :note-form {:title "" :content ""})
+    :dispatch [:note-get-list]}))
+
 
 (re-frame/reg-event-fx
  :note-get-list
- (fn [_ event]
-   (api/get-notes)))
+ (fn [db event]
+   {:http-xhrio (api/get-notes-req-map)}))
 
 (re-frame/reg-event-db
  :note-received-list

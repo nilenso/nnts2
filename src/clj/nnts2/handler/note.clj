@@ -14,6 +14,6 @@
       (spec-helper/invalid (spec/explain-str note-data)))))
 
 
-(defn getnotes [{:keys [nnts-user]}]
+(defn get-notes [{:keys [nnts-user]}]
   (let [params {:created-by-id nnts-user}]
     (res/response (db/get params))))

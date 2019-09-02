@@ -44,7 +44,7 @@
     (let [request {:nnts-user 1 :body {:title "note-title" :content "note-content"}}
           resp (handler/create request)
           get-request (dissoc request :body)
-          {:keys [body status]} (handler/getnotes request)
+          {:keys [body status]} (handler/get-notes request)
           note-body-request (into (:body request) {:created-by-id 1})]
       (is (= status 200))
       (is (= (count body) 1))
@@ -52,13 +52,13 @@
 
   (testing "getting note for a different user should generate empty result"
     (let [request {:nnts-user 2}
-          {:keys [body status]} (handler/getnotes request)]
+          {:keys [body status]} (handler/get-notes request)]
       (is (= status 200))
       (is (= (count body) 0))))
 
   (testing "getting 2 notes if 2 notes hv been created"
     (let [request {:nnts-user 1 :body {:title "new-note-title" :content "new-note-content"}}
           response (handler/create request)
-          {:keys [body status]} (handler/getnotes request)]
+          {:keys [body status]} (handler/get-notes request)]
       (is (= status 200))
       (is (= (count body) 2)))))

@@ -15,7 +15,7 @@
      [:h1 (str "Hello " @name ". This is the Home Page.")]
      [(create-org/form)]
      [:div
-      [:a {:href "/note"}
+      [:a {:href "/notes"}
        "Create Note"]]]))
 
 

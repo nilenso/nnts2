@@ -9,8 +9,8 @@
 (defn write-note []
   [:div "empty"]
   (let [note-form (re-frame/subscribe [::subs/note-form])
-        title-text (r/atom (:title @note-form))
-        content-text (r/atom (:content @note-form))]
+        title-text (r/atom "")
+        content-text (r/atom "")]
     (fn []
       [:div
        [:div
