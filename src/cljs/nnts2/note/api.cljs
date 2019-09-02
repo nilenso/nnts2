@@ -10,5 +10,6 @@
          :keywords? true
          :params (first data)
          :format :json
-         :handler #(prn "api successs")
+         :handler #(do (re-frame/dispatch [:note-submit-success])
+                       (js/alert "note created successfully"))
 }))

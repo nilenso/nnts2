@@ -12,6 +12,11 @@
    (api/create-note (rest event))))
 
 (re-frame/reg-event-db
+ :note-submit-success
+ (fn [db event]
+   (assoc db :note-form {:title "" :content ""})))
+
+(re-frame/reg-event-db
  :note-get-list
  (fn [db event]
    db))

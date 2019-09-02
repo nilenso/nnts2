@@ -1,14 +1,14 @@
 (ns nnts2.note.components
   (:require [re-frame.core :as re-frame]
-            [reagent.core :as r]))
+            [reagent.core :as r]
+            [nnts2.note.subs :as subs]))
 
 (enable-console-print!)
 
-(def full (r/atom ""))
-
 (defn write-notes []
-  (let [content-text (r/atom "")
-        title-text (r/atom "")]
+  (let [note-form (re-frame/subscribe [::subs/note-form])
+        title-text (r/atom (:title @note-form))
+        content-text (r/atom (:content @note-form))]
     (fn []
       [:div
        [:div
@@ -43,5 +43,4 @@
 (defn note-panel []
   [:div
    ;[:div [list-notes]]
-   [:div [write-notes]]
-   [:div @full]])
+   [:div [write-notes]]])
