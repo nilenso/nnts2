@@ -13,11 +13,9 @@
 
 (defn home-panel []
   (fn []
-    [:div.main
-     [(org-views/create-form)]
-     [:div
-      [:a {:href "/note"}
-       "Create Note"]]]))
+    [:div
+     [note/note-panel]
+      ]))
 
 (defn side-panel []
   (fn []
