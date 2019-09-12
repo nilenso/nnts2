@@ -16,7 +16,9 @@
  (fn [db [_ org-details]]
    (-> db
        (update-in [:organization :event :create :state] :created)
-       (update-in [:organization :data :all] (fnil conj []) org-details))))
+       (update-in [:organization :data :all] (fnil conj []) org-details)
+       (assoc-in [:organization :show-create-org-form] false)
+       )))
 
 (re-frame/reg-event-fx
  :get-all-organizations
@@ -30,3 +32,9 @@
    (-> db
        (update-in [:organization :event :get :state] :retrieved)
        (assoc-in [:organization :data :all] org-details))))
+
+
+(re-frame/reg-event-db
+ :show-create-org-form
+ (fn [db [_ show-form]]
+   (assoc-in db [:organization :show-create-org-form] (not (get-in db [:organization :show-create-org-form])))))

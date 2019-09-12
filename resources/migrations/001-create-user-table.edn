@@ -5,4 +5,4 @@
                            last_name text not null,
                            image_url text);"]
 :down ["DROP TABLE users;
-        drop extension \"uuid-ossp\";"]}
+        drop extension if exists \"uuid-ossp\";"]}
