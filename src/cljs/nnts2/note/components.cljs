@@ -10,30 +10,26 @@
         title-text (r/atom (:title @note-form))
         content-text (r/atom (:content @note-form))]
     (fn []
-      [:div
-       [:div
-        {:class "Row"}
+      [:form
+       [:fieldset
+        [:label {:for "title-field"} "Title"]
         [:textarea
-         {:rows 1 :cols 100
-          :value @title-text
-          :placeholder "Note Title"
-          :on-change #(reset! title-text (-> % .-target .-value))}]]
-       [:div
-        {:class "Row"}
+         {:value @title-text
+          :placeholder "What are you thinking of"
+          :on-change #(reset! title-text (-> % .-target .-value))}]
+        [:label {:for "content-field"} "Content"]
         [:textarea
-         {:align "left"
-          :rows 20 :cols 100
+         {:id "content-field"
+          :placeholder "Just start typing"
           :value @content-text
           :on-change #(reset! content-text (-> % .-target .-value))
-          }]]
-       [:button
-        {:type "submit"
-         :align "left"
-         :on-click (fn [e]
-                     (.preventDefault e)
-                     (re-frame/dispatch [:note-submit {:title @title-text :content @content-text}]))}
-        "Create Note"]
-       ])))
+          }]
+        [:button {:type "submit"
+                 :value "Save"
+                 :on-click (fn [e]
+                      (.preventDefault e)
+                             (re-frame/dispatch [:note-submit {:title @title-text :content @content-text}]))}
+         "Save"]]])))
 
 
 (defn list-notes []
