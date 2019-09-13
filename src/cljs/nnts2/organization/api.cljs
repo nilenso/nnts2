@@ -18,5 +18,5 @@
   {:method :get
    :response-format (ajax/json-response-format {:keywords? true})
    :format (ajax/json-request-format)
-   :uri "/orgs"
+   :uri "/org"
    :on-success [:organizations-retrieved]})

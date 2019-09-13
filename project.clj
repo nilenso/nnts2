@@ -27,8 +27,10 @@
                  [cheshire "5.9.0"]
                  [kibu/pushy "0.3.8"]
                  [org.postgresql/postgresql "42.2.6"]]
-  :plugins []
+  :plugins [[lein-ring "0.12.5"]]
   :main nnts2.core
+  :ring {:handler nnts2.server/ring-dev-handler
+         :init nnts2.config/read}
   :min-lein-version "2.5.3"
   :source-paths ["src/clj" "src/cljs"]
   :test-paths ["test/clj" "test/cljs"]

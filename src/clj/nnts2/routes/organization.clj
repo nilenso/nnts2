@@ -1,7 +1,8 @@
 (ns nnts2.routes.organization
   (:require [nnts2.handler.organization :as handler]
-            [compojure.core :refer [defroutes GET POST]]))
+            [compojure.core :refer [defroutes GET POST context]]
+            [nnts2.routes.directory :as directory]))
 
 (defroutes routes
-           (POST "/org" [] handler/create)
-           (GET "/orgs" [] handler/get-orgs))
+  (POST "/" [] handler/create)
+  (GET "/" [] handler/get-orgs))
