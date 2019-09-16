@@ -5,5 +5,5 @@
   "check if organization exists and if user is member"
   (prn "checking if org exists")
   (> (count (db/get
-             {:org-id (java.util.UUID/fromString org-id)
+             {:org-id org-id
               :nnts-user nnts-user})) 0))

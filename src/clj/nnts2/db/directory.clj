@@ -7,3 +7,8 @@
 (defn get
   ([params] (get params config/db-spec))
   ([params db-spec] "soemthing"))
+
+
+(defn create
+  ([params] (create params config/db-spec))
+  ([params db-spec] "create"))

@@ -45,7 +45,7 @@
                {:identifiers utils/snake->kebab})))
 
 (defn get
-  ;todo -- use the middleware created for note
+  ;todo -- use the middleware created for note where params
   ([params] (get params config/db-spec))
   ([params db-spec]
    (jdbc/query (db-spec)

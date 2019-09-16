@@ -1,5 +1,5 @@
 (ns nnts2.routes.directory
-  (:require [compojure.core :refer [defroutes GET]]
+  (:require [compojure.core :refer [defroutes GET POST]]
             [nnts2.handler.directory :as directory]))
 
 
@@ -7,4 +7,5 @@
 
 (defroutes routes
   (GET "/" [] directory/get)
-  (GET "/:dir-id" [dir-id] directory/get))
+  (GET "/:dir-id" [dir-id] directory/get)
+  (POST "/" [] directory/create))
