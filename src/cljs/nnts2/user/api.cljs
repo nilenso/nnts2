@@ -9,4 +9,4 @@
   {:method          :get
    :uri             "/user-info"
    :response-format (ajax/json-response-format {:keywords? true})
-   :on-success      [:user-info-retrieved]})
+   :on-success      [:nnts2.user.events/user-info-retrieved]})

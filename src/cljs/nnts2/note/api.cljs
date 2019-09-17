@@ -11,5 +11,4 @@
          :params (first data)
          :format :json
          :handler #(do (re-frame/dispatch [:note-submit-success])
-                       (js/alert "note created successfully"))
-}))
+                       (js/alert "note created successfully"))}))

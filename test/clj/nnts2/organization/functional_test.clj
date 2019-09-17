@@ -10,38 +10,38 @@
 (use-fixtures :each clear)
 (use-fixtures :once setup)
 
-(def organization {:name "Foo"
-                   :slug "foo-bar"})
+(defn organization-factory []  {:name "Foo"
+                                :slug "foo-bar"})
 
-(def user {:email       "dirk@gmail.com"
-           :given-name  "Dirk"
-           :family-name "Gently"
-           :picture     "www.some-url.com"})
+(defn user-factory []  {:email       "dirk@gmail.com"
+                        :given-name  "Dirk"
+                        :family-name "Gently"
+                        :picture     "www.some-url.com"})
 
 (deftest create-org-test
-
   (testing "creating organization with an invalid name should return a spec error"
-    (let [body {:body (assoc organization :name 12345)}
+    (let [body {:body (assoc (organization-factory) :name 12345)}
           response (handler/create body)]
       (is (= (:status response) 400))))
 
   (testing "creating organization with an invalid slug should return a spec error"
-    (let [body {:body (assoc organization :slug 12345)}
+    (let [body {:body (assoc (organization-factory) :slug 12345)}
           response (handler/create body)]
       (is (= (:status response) 400))))
 
   (testing "creating organization with an missing name should return a spec error"
-    (let [body {:body (dissoc organization :name)}
+    (let [body {:body (dissoc (organization-factory) :name)}
           response (handler/create body)]
       (is (= (:status response) 400))))
 
   (testing "creating organization with a missing slug should return a spec error"
-    (let [body {:body (dissoc organization :slug)}
+    (let [body {:body (dissoc (organization-factory) :slug)}
           response (handler/create body)]
       (is (= (:status response) 400))))
 
   (testing "creating organization with valid details should return a success"
-    (let [user (user-db/create user)
+    (let [user (user-db/create (user-factory))
+          organization (organization-factory)
           body {:body      organization
                 :nnts-user (:id user)}
           response (handler/create body)]
@@ -50,8 +50,8 @@
       (is (= (:status response) 200))))
 
   (testing "creating organization with a slug that already exists should return a 409"
-    (let [user (user-db/create user)
-          body {:body      organization
+    (let [user (user-db/create (user-factory))
+          body {:body      (organization-factory)
                 :nnts-user (:id user)}
           response (handler/create body)
           response-2 (handler/create body)]
@@ -61,7 +61,7 @@
   (testing "adding a member twice should result in a conflict and return with status 409"
     (let [org (db/create {:name "test1"
                           :slug "test-1"})
-          user (user-db/create user)
+          user (user-db/create (user-factory))
           params {:params {:user-id (str (:id user))
                            :org-id  (str (:id org))
                            :role    "admin"}}
@@ -72,7 +72,7 @@
   (testing "adding a member without a role should result in an error in spec evaluation"
     (let [org (db/create {:name "test2"
                           :slug "test-2"})
-          user (user-db/create user)
+          user (user-db/create (user-factory))
           params {:params {:user-id (str (:id user))
                            :org-id  (str (:id org))}}
           response (handler/add-user params)]
@@ -81,7 +81,7 @@
   (testing "adding a member with the correct information should return the record with a 200"
     (let [org (db/create {:name "test3"
                           :slug "test-3"})
-          user (user-db/create user)
+          user (user-db/create (user-factory))
           params {:params {:user-id (str (:id user))
                            :org-id  (str (:id org))
                            :role    "admin"}}
@@ -91,7 +91,7 @@
   (testing "adding a member with an invalid role should return in spec error with 400"
     (let [org (db/create {:name "test4"
                           :slug "test-4"})
-          user (user-db/create user)
+          user (user-db/create (user-factory))
           params {:params {:user-id (str (:id user))
                            :org-id  (str (:id org))
                            :role    "owner"}}

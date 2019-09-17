@@ -10,7 +10,7 @@
 (deftest add-member-to-members-table
   (testing "adding a member twice should result in a conflict and return nothing"
     (let [org (db/create {:name "test11"
-                              :slug "test-111"})
+                          :slug "test-111"})
           user (user-db/create {:email       "dirk@gmail.com"
                                 :given-name  "Dirk"
                                 :family-name "Gently"
@@ -24,7 +24,7 @@
 
   (testing "adding a member with the correct information should return an inserted record"
     (let [org (db/create {:name "test1423"
-                              :slug "test-1423"})
+                          :slug "test-1423"})
           user (user-db/create {:email       "dirk@gmail.com"
                                 :given-name  "Dirk"
                                 :family-name "Gently"
@@ -37,7 +37,7 @@
 
   (testing "adding a member without a role should result in an exception"
     (let [org (db/create {:name "test12"
-                              :slug "test-12"})
+                          :slug "test-12"})
           user (user-db/create {:email       "dirk@gmail.com"
                                 :given-name  "Dirk"
                                 :family-name "Gently"

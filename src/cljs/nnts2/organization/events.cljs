@@ -6,13 +6,13 @@
    [nnts2.organization.api :as org-api]))
 
 (re-frame/reg-event-fx
- :create-organization
+ ::create-organization
  (fn [{db :db}  [_ org-details]]
    {:http-xhrio (org-api/create-map org-details)
     :db (assoc-in db [:organization :event :create :state] :loading)}))
 
 (re-frame/reg-event-db
- :organization-created
+ ::organization-created
  (fn [db [_ org-details]]
    (-> db
        (update-in [:organization :event :create :state] :created)
@@ -21,13 +21,13 @@
        )))
 
 (re-frame/reg-event-fx
- :get-all-organizations
+ ::get-all-organizations
  (fn [{db :db} _]
    {:http-xhrio org-api/get-all-map
     :db (assoc-in db [:organization :event :get :state] :loading)}))
 
 (re-frame/reg-event-db
- :organizations-retrieved
+ ::organizations-retrieved
  (fn [db [_ org-details]]
    (-> db
        (update-in [:organization :event :get :state] :retrieved)
@@ -35,6 +35,6 @@
 
 
 (re-frame/reg-event-db
- :show-create-org-form
+ ::show-create-org-form
  (fn [db [_ show-form]]
    (assoc-in db [:organization :show-create-org-form] (not (get-in db [:organization :show-create-org-form])))))

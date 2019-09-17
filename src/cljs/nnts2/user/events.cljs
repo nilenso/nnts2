@@ -5,15 +5,15 @@
    [nnts2.user.api :as user-api]))
 
 (re-frame/reg-event-fx
- :get-user-info
+ ::get-user-info
  (fn [{db :db} event]
    {:http-xhrio user-api/user-info-map
     :db (assoc-in db [:user :event :get :state] :loading)}))
 
 (re-frame/reg-event-db
- :user-info-retrieved
+ ::user-info-retrieved
  (fn [db [_ user-info]]
-   (re-frame/dispatch [:get-all-organizations])
+   (re-frame/dispatch [:nnts2.organization.events/get-all-organizations])
    (-> db
        (update-in [:user :event :get :state] :retrieved)
        (assoc-in [:user :data] user-info))))

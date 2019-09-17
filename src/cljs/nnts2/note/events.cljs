@@ -6,8 +6,8 @@
 
 (re-frame/reg-event-fx
  :note-submit
- (fn [_ event]
-   (api/create-note (rest event))))
+ (fn [_ [_ note]]
+   (api/create-note note)))
 
 (re-frame/reg-event-db
  :note-submit-success
