@@ -9,10 +9,14 @@
 ; should have org-id and dir-id (nullable) in params, org-id in route params and dir-id in params
   (let [org-id (java.util.UUID/fromString
                 (get-in request [:params :org-id]))
-        dir-details (conj (:body request) {:org-id org-id})]
-    (if (spec/valid? dir-details)
-      (directory/create dir-details)
-      (spec/explain-str? dir-details))))
+        nnts-user (:nnts-user request)
+        dir-details (conj (:body request)
+                          {:org-id org-id :created-by-id nnts-user})]
+    (if (org/org-exists org-id (:nnts-user request))
+      (if (spec/valid? dir-details)
+        (directory/create dir-details)
+        (spec/explain-str? dir-details))
+      (str "org doesnt exist"))))
 
 
 

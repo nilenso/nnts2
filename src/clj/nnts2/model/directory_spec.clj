@@ -17,13 +17,14 @@
 (s/def ::name ::alphanumeric)
 ;(s/def ::path #(s/valid? ::alphanumeric (str/replace % "." "")))
 (s/def ::org-id ::is-uuid)
-(s/def ::dir-id (s/or :nil nil? :uuid ::is-uuid))
+(s/def ::parent-id (s/or :nil nil? :uuid ::is-uuid))
 
 
 (s/def ::directory (s/keys :req-un [::name ::org-id]
-                           :opt-un [::dir-id]))
+                           :opt-un [::parent-id]))
 
 (defn valid? [dir-details]
+  (prn "validating directory details" dir-details)
   (s/valid? ::directory dir-details))
 
 (defn explain-str? [dir-details]
