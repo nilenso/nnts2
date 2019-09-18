@@ -4,8 +4,7 @@
 
 
 ;;so the org, directory and note routes are really interlinked. how to separate them.
-
 (defroutes routes
   (GET "/" [] directory/get)
-  (GET "/:dir-id" [dir-id] directory/get)
+  (GET "/:id" [id] directory/get)
   (POST "/" [] directory/create))
