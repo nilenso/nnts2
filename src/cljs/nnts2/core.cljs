@@ -5,8 +5,7 @@
    [nnts2.events :as events]
    [nnts2.routes :as routes]
    [nnts2.views :as views]
-   [nnts2.config :as config]
-   ))
+   [nnts2.config :as config]))
 
 
 (defn dev-setup []
@@ -16,6 +15,8 @@
 
 (defn mount-root []
   (re-frame/clear-subscription-cache!)
+  (reagent/render [views/side-panel]
+                  (.getElementById js/document "sidenav"))
   (reagent/render [views/main-panel]
                   (.getElementById js/document "app")))
 

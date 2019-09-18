@@ -1,6 +1,8 @@
-{:up ["CREATE TABLE users (id serial primary key,
-                           email  text not null UNIQUE,
-                           first_name text,
-                           last_name text,
+{:up ["create extension if not exists \"uuid-ossp\";
+       create table users (id UUID default uuid_generate_v4() primary key,
+                           email text not null UNIQUE,
+                           first_name text not null,
+                           last_name text not null,
                            image_url text);"]
-:down ["DROP TABLE users"]}
+:down ["DROP TABLE users;
+        drop extension if exists \"uuid-ossp\";"]}

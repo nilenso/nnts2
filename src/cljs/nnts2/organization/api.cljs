@@ -12,4 +12,11 @@
    :format (ajax/json-request-format)
    :params details
    :uri "/org"
-   :on-success [:organization-created]})
+   :on-success [:nnts2.organization.events/organization-created]})
+
+(def get-all-map
+  {:method :get
+   :response-format (ajax/json-response-format {:keywords? true})
+   :format (ajax/json-request-format)
+   :uri "/orgs"
+   :on-success [:nnts2.organization.events/organizations-retrieved]})

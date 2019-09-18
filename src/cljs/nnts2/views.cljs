@@ -3,27 +3,30 @@
     [re-frame.core :as re-frame]
     [nnts2.subs :as subs]
     [re-frame.core :as re-frame]
+    [nnts2.user.views :as user-views]
     [nnts2.note.components :as note]
-    [nnts2.organization.create :as create-org]))
+    [nnts2.organization.views :as org-views]))
 
 (enable-console-print!)
 
 ;; home
 
 (defn home-panel []
-  (let [name (re-frame/subscribe [::subs/user-id])]
+  (fn []
     [:div
-     [:h1 (str "Hello " @name ". This is the Home Page.")]
-     [(create-org/form)]
-     [:div
-      [:a {:href "/note"}
-       "Create Note"]]]))
+     [note/note-panel]
+      ]))
 
+(defn side-panel []
+  (fn []
+    [:div.sidenav
+     [(user-views/greeting)]
+     [(org-views/sidenav)]]))
 
 ;; about
 
 (defn about-panel []
-  [:div
+  [:div.main
    [:h1 "This is the About Page."]
 
    [:div
@@ -43,6 +46,5 @@
   [panels panel-name])
 
 (defn main-panel []
-  (let [active-panel (re-frame/subscribe [::subs/active-panel])
-        user-id (re-frame/subscribe [::subs/user-id])]
+  (let [active-panel (re-frame/subscribe [::subs/active-panel])]
     [show-panel @active-panel]))

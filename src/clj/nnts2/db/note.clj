@@ -7,9 +7,6 @@
             [nnts2.config :as config]
             [nnts2.utils :as utils]))
 
-;; just change keywords from kebab to snake
-
-
 (defn add
   ([note-data] (add note-data config/db-spec))
   ([note-data db-spec]
