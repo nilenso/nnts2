@@ -8,7 +8,7 @@
   (POST "/note/create"
         {:response-format :json
          :keywords? true
-         :params (first data)
+         :params  data
          :format :json
          :handler #(do (re-frame/dispatch [:note-submit-success])
                        (js/alert "note created successfully"))}))
