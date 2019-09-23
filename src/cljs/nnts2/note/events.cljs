@@ -8,8 +8,8 @@
 
 (re-frame/reg-event-fx
  :note-submit
- (fn [_ event]
-   {:http-xhrio (api/create-note-req-map (first (rest event)))}))
+ (fn [_ [_ note]]
+   {:http-xhrio (api/create-note-req-map note)}))
 
 
 (re-frame/reg-event-fx

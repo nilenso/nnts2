@@ -4,8 +4,8 @@
 
 (s/def ::title string?)
 (s/def ::content string?)
-
-(s/def ::note (s/keys :req-un [::title ::content]))
+(s/def ::created-by-id uuid?)
+(s/def ::note (s/keys :req-un [::title ::content ::created-by-id]))
 
 
 (defn valid? [note-data]

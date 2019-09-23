@@ -68,8 +68,8 @@
                                     :as               :json})]
         (if (< (:status response) 400)
           (handler (assoc-in request [:google-user] (-> response
-                                                               (:body)
-                                                               (utils/hyphenize-collection))))
+                                                        (:body)
+                                                        (utils/hyphenize-collection))))
           (-> (res/response "Not authorized")
               (res/status 401)))))))
 

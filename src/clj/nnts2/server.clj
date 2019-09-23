@@ -1,5 +1,6 @@
 (ns nnts2.server
   (:require [ring.adapter.jetty :refer [run-jetty]]
+            [nnts2.config :refer [server-spec oauth2-spec]]
             [compojure.core :refer [GET defroutes ANY context]]
             [compojure.route :refer [resources]]
             [compojure.response :refer [render]]
@@ -16,6 +17,10 @@
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
             [ring.middleware.resource :as resource]
             [ring.middleware.session.memory :as mem]
+            [compojure.response :refer [render]]
+            [clojure.java.io :as io]
+            [ring.util.response :refer [file-response resource-response
+                                        status content-type]]
             [nnts2.http-middleware :refer [wrap-kebab-case not-found wrap-exception-handling wrap-log-request-response
                                            wrap-validate-access-token wrap-nnts-user-id]]
             [nnts2.config :refer [server-spec oauth2-spec]]

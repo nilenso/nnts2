@@ -14,6 +14,6 @@
     (:active-panel db)))
 
 (re-frame/reg-sub
-  ::user-id
-  (fn [db _]
-    (:user-id db)))
+ :user
+ (fn [db _]
+   (get-in db [:user :data])))

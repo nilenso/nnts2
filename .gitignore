@@ -19,3 +19,4 @@ test/clj/nnts2/token
 *#
 *~
 .eastwood
+*.#*

@@ -1,5 +1,4 @@
-{:up ["create extension if not exists \"uuid-ossp\";
-      create table organizations (id UUID default uuid_generate_v4() primary key,
+{:up ["create table organizations (id UUID default uuid_generate_v4() primary key,
                                   name text not null,
                                   slug text not null UNIQUE,
                                   created_at timestamp not null default now(),
@@ -18,5 +17,4 @@
       for each row
       execute procedure trigger_set_timestamp();"]
  :down ["drop table organizations;
-        drop function trigger_set_timestamp();
-        drop extension \"uuid-ossp\";"]}
+        drop function trigger_set_timestamp();"]}
