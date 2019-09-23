@@ -12,14 +12,7 @@
 (enable-console-print!)
 
 (defroute "/home" []
-  (do
-    (re-frame/dispatch [::events/set-active-panel :home-panel])
-    (re-frame/dispatch [:nnts2.user.events/get-user-info])))
-
-(defroute "/notes" []
-  (do
-    (re-frame/dispatch [::events/set-active-panel :note-panel])
-    (re-frame/dispatch [:note-get-list])))
+  (re-frame/dispatch [::events/set-active-panel :home-panel]))
 
 
 (defroute "/about" []

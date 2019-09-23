@@ -3,12 +3,12 @@
    [re-frame.core :as re-frame]
    [day8.re-frame.http-fx]
    [nnts2.user.events]
-   [nnts2.organization.api :as org-api]))
+   [nnts2.organization.api-data :as api-data]))
 
 (re-frame/reg-event-fx
  ::create-organization
  (fn [{db :db}  [_ org-details]]
-   {:http-xhrio (org-api/create-map org-details)
+   {:http-xhrio (api-data/create-org org-details)
     :db (assoc-in db [:organization :event :create :state] :loading)}))
 
 (re-frame/reg-event-db
@@ -23,7 +23,7 @@
 (re-frame/reg-event-fx
  ::get-all-organizations
  (fn [{db :db} _]
-   {:http-xhrio org-api/get-all-map
+   {:http-xhrio api-data/get-org
     :db (assoc-in db [:organization :event :get :state] :loading)}))
 
 (re-frame/reg-event-db

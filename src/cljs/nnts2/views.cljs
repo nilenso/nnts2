@@ -8,19 +8,17 @@
 
 (enable-console-print!)
 
-;; home
-
 (defn home-panel []
   (fn []
     [:div [note/note-panel]]))
 
 (defn side-panel []
+  (re-frame/dispatch [:nnts2.user.events/get-user-info])
   (fn []
     [:div.sidenav
      [(user-views/greeting)]
      [(org-views/sidenav)]]))
 
-;; about
 
 (defn about-panel []
   [:div.main
@@ -30,7 +28,6 @@
     [:a {:href "#/"}
      "go to Home Page"]]])
 
-;; main
 
 (defn- panels [panel-name]
   (case panel-name

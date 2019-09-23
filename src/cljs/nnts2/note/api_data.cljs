@@ -1,19 +1,19 @@
-(ns nnts2.note.api
+(ns nnts2.note.api-data
   (:require [ajax.core :as ajax]
             [re-frame.core :as re-frame]))
 
 (enable-console-print!)
 
-(defn create-note-req-map [data]
+(defn create-note [data]
   {:method :post
    :uri "/note"
    :response-format (ajax/json-response-format {:keywords? true})
    :params data
    :format (ajax/json-request-format)
-   :on-success [:note-submit-success]})
+   :on-success [:nnts2.note.events/note-submit-success]})
 
-(defn get-notes-req-map []
+(defn get-notes []
   {:method :get
    :uri "/note"
    :response-format (ajax/json-response-format {:keywords? true})
-   :on-success [:note-received-list]})
+   :on-success [:nnts2.note.events/note-received-list]})

@@ -33,13 +33,9 @@
 (defonce server (atom nil))
 
 (def auth-routes (compojure.core/routes
-                   user/routes
-                   organization/routes
-                   (context "/note" [] note/routes)))
-
-(def auth-routes (compojure.core/routes
-                   user/routes
-                   (context "/note" [] note/routes)))
+                  user/routes
+                  organization/routes
+                  (context "/note" [] note/routes)))
 
 (defroutes app-routes
   (ANY "*" [] (-> auth-routes

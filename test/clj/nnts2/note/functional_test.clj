@@ -59,18 +59,18 @@
 
 (deftest get-notes
   (testing "creation of one note should give one note on get"
-    (let [request {:nnts-user user-id
-                   :body {:title "note-title" :content "note-content"}}
-          resp (handler/create request)
-          get-request (dissoc request :body)
-          {:keys [body status]} (handler/get-notes request)
-          note-body-request (into (:body request) {:created-by-id 1})]
+    (let [fake-note {:nnts-user user-id
+                     :body {:title "note-title" :content "note-content"}}
+          resp (handler/create fake-note)
+          get-request-data {:nnts-user user-id}
+          {:keys [body status]} (handler/get-notes get-request-data)
+          note-body-request (into (:body fake-note) {:created-by-id user-id})]
       (is (= status 200))
       (is (= (count body) 1))
       (is (= note-body-request (select-keys (first body) [:title :content :created-by-id])))))
 
   (testing "getting note for a different user should generate empty result"
-    (let [request {:nnts-user user-id}
+    (let [request {:nnts-user (UUID/randomUUID)}
           {:keys [body status]} (handler/get-notes request)]
       (is (= status 200))
       (is (= (count body) 0))))

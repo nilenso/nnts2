@@ -3,5 +3,5 @@
             [compojure.core :refer [defroutes GET POST]]))
 
 (defroutes routes
-           (POST "/org" [] handler/create)
-           (GET "/orgs" [] handler/get-orgs))
+  (POST "/org" [] handler/create)
+  (GET "/org" [] handler/get-orgs))

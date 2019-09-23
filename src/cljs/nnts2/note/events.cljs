@@ -1,30 +1,38 @@
 (ns nnts2.note.events
   (:require [re-frame.core :as re-frame]
-            [nnts2.note.api :as api]))
+            [nnts2.note.api-data :as api-data]))
 
 
 (enable-console-print!)
 
+(re-frame/reg-event-fx
+ ::note-panel-loaded
+ (fn [cofx event]
+   {:db  (:db cofx)
+    :dispatch [::note-get-list]}))
+
+
 
 (re-frame/reg-event-fx
- :note-submit
- (fn [_ [_ note]]
-   {:http-xhrio (api/create-note-req-map note)}))
+ ::note-submit
+ (fn [cofx [_ note]]
+   {:db (assoc (:db cofx) :note-form note)
+    :http-xhrio (api-data/create-note note)}))
 
 
 (re-frame/reg-event-fx
- :note-submit-success
+ ::note-submit-success
  (fn [cofx event]
    {:db  (assoc (:db cofx) :note-form {:title "" :content ""})
-    :dispatch [:note-get-list]}))
+    :dispatch [::note-get-list]}))
 
 
 (re-frame/reg-event-fx
- :note-get-list
+ ::note-get-list
  (fn [db event]
-   {:http-xhrio (api/get-notes-req-map)}))
+   {:http-xhrio (api-data/get-notes)}))
 
 (re-frame/reg-event-db
- :note-received-list
- (fn [db event]
-   (assoc db :notes (first (rest event)))))
+ ::note-received-list
+ (fn [db [_ notes]]
+   (assoc db :notes notes)))

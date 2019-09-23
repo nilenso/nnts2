@@ -1,11 +1,11 @@
-(ns nnts2.user.api
+(ns nnts2.user.api-data
   (:require [ajax.core :as ajax]
             [re-frame.core :as re-frame]))
 
 (enable-console-print!)
 
-; TODO: handle on-failure.
-(def user-info-map
+                                        ; TODO: handle on-failure.
+(def user-info
   {:method          :get
    :uri             "/user-info"
    :response-format (ajax/json-response-format {:keywords? true})

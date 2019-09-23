@@ -7,45 +7,36 @@
 
 
 (defn write-note []
-  [:div "empty"]
   (let [note-form (re-frame/subscribe [::subs/note-form])
-        title-text (r/atom "")
-        content-text (r/atom "")]
+        form (r/atom @note-form)]
     (fn []
       [:form
        [:fieldset
         [:label {:for "title-field"} "Title"]
         [:textarea
-         {:value @title-text
+         {:value (:title @form)
           :id "title-field"
           :placeholder "What are you thinking of"
-          :on-change #(reset! title-text (-> % .-target .-value))}]
+          :on-change #(swap! form assoc :title (-> % .-target .-value))}]
         [:label {:for "content-field"} "Content"]
         [:textarea
          {:id "content-field"
           :placeholder "Just start typing"
-          :value @content-text
-          :on-change #(reset! content-text (-> % .-target .-value))}]
+          :value (:content @form)
+          :on-change #(swap! form assoc :content (-> % .-target .-value))}]
         [:button {:type "submit"
                   :value "Save"
                   :on-click (fn [e]
                               (.preventDefault e)
-                              (re-frame/dispatch [:note-submit {:title @title-text :content @content-text}]))}
+                              (re-frame/dispatch [:nnts2.note.events/note-submit @form]))}
          "Save"]]])))
 
 
 
 (defn note [note-data]
-  [:div {:id (:id note-data)
-         :style {:margin-top ".5em"}}
-   [:div {:style {:background-color (str "rgb(100,100,100)")
-                  :padding ".5em"}
-          } (:title note-data)]
-   [:div {:style {:color "white"
-                  :padding ".5em"
-                  :background-color (str "rgb(40,44,52)")}}
-    (:content note-data)]])
-
+  [:pre [:code
+         [:label {:for (str (:id note-data) "content")} (:title note-data)]
+         [:div {:key (str (:id note-data) "content")} (:content note-data)]]])
 
 
 (defn list-notes [notes]
@@ -57,6 +48,7 @@
 
 
 (defn note-panel []
+  (re-frame/dispatch [:nnts2.note.events/note-panel-loaded])
   (let [notes (re-frame/subscribe [::subs/notes])]
     [:div
      [write-note]
