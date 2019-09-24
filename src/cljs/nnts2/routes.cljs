@@ -12,11 +12,8 @@
 (enable-console-print!)
 
 (defroute "/home" []
-  (re-frame/dispatch [::events/set-active-panel :home-panel]))
+  (re-frame/dispatch [::events/navigated-to-home]))
 
-
-(defroute "/about" []
-  (re-frame/dispatch [::events/set-active-panel :about-panel]))
 
 (def history (pushy/pushy secretary/dispatch!
                           (fn [route]

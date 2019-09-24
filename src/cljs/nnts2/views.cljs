@@ -13,7 +13,6 @@
     [:div [note/note-panel]]))
 
 (defn side-panel []
-  (re-frame/dispatch [:nnts2.user.events/get-user-info])
   (fn []
     [:div.sidenav
      [(user-views/greeting)]

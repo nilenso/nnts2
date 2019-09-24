@@ -7,28 +7,29 @@
 
 
 (defn write-note []
-  (let [note-form (re-frame/subscribe [::subs/note-form])
-        form (r/atom @note-form)]
+  (let [note-form (re-frame/subscribe [::subs/note-form])]
     (fn []
       [:form
        [:fieldset
         [:label {:for "title-field"} "Title"]
         [:textarea
-         {:value (:title @form)
+         {:value (:title @note-form)
           :id "title-field"
           :placeholder "What are you thinking of"
-          :on-change #(swap! form assoc :title (-> % .-target .-value))}]
+          :on-change  #(re-frame/dispatch
+                        [:nnts2.note.events/note-form-changed :title (-> % .-target .-value)])}]
         [:label {:for "content-field"} "Content"]
         [:textarea
          {:id "content-field"
           :placeholder "Just start typing"
-          :value (:content @form)
-          :on-change #(swap! form assoc :content (-> % .-target .-value))}]
+          :value (:content @note-form)
+          :on-change #(re-frame/dispatch
+                       [:nnts2.note.events/note-form-changed :content (-> % .-target .-value)])}]
         [:button {:type "submit"
                   :value "Save"
                   :on-click (fn [e]
                               (.preventDefault e)
-                              (re-frame/dispatch [:nnts2.note.events/note-submit @form]))}
+                              (re-frame/dispatch [:nnts2.note.events/note-submit @note-form]))}
          "Save"]]])))
 
 
@@ -48,7 +49,6 @@
 
 
 (defn note-panel []
-  (re-frame/dispatch [:nnts2.note.events/note-panel-loaded])
   (let [notes (re-frame/subscribe [::subs/notes])]
     [:div
      [write-note]

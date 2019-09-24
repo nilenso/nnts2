@@ -14,7 +14,7 @@
    :uri "/org"
    :on-success [:nnts2.organization.events/organization-created]})
 
-(def get-org
+(defn get-org []
   {:method :get
    :response-format (ajax/json-response-format {:keywords? true})
    :format (ajax/json-request-format)
