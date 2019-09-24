@@ -4,5 +4,4 @@
 (re-frame/reg-sub
  ::note-form
  (fn [db _]
-   (:note-form db))
- )
+   (:note-form db)))

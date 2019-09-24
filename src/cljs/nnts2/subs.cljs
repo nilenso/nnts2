@@ -16,8 +16,3 @@
  :user
  (fn [db _]
    (get-in db [:user :data])))
-
-(re-frame/reg-sub
- :organization
- (fn [db _]
-   (get-in db [:organization :data :all])))

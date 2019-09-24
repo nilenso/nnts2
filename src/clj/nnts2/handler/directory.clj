@@ -13,6 +13,7 @@
         nnts-user (:nnts-user request)
         dir-details (conj (:body request)
                           {:org-id org-id :created-by-id nnts-user})]
+    (prn dir-details)
     (if (org/org-exists org-id (:nnts-user request))
       (if (spec/valid? dir-details)
         (directory/create dir-details)
@@ -21,7 +22,7 @@
 
 
 
-(defn get [request]
+(defn get-list [request]
   "get directories based on org param"
                                         ;first check if org exists -- we will worry about permissions later
                                         ;second - pass org id
@@ -30,5 +31,7 @@
         org-id (java.util.UUID/fromString (:org-id params))]
     (prn params)
     (if (org/org-exists org-id nnts-user)
-      (res/response (directory/get params))
+      (res/response (directory/get-list params))
       (str "org doest exiost"))))
+
+(defn get-one [request] (str request))

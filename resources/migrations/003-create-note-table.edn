@@ -1,4 +1,4 @@
-{:up ["CREATE TABLE notes (id serial primary key,
+{:up ["CREATE TABLE notes (id UUID default uuid_generate_v4() primary key,
                            title text,
                            content text,
                            created_by_id UUID references users(id) not null,

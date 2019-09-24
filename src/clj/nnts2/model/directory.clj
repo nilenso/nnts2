@@ -34,7 +34,7 @@
        (assoc
         acc
         (:id v)
-        (flat-rows-to-nested-map (dissoc v :id :parent-id) (:id v) next-iter-rows)))
+        (directory-rows->nested-directories (dissoc v :id :parent-id) (:id v) next-iter-rows)))
      tree
      to-insert)))
 
@@ -61,6 +61,6 @@
 
 
 (defn create [params]
-  (let [req-params (select-keys params [:org-id :created-by-id :parent-id])
+  (let [req-params (select-keys params [:org-id :created-by-id :parent-id :name])
         in-params (keyset-to-uuid req-params [:org-id :parent-id])]
     (res/response (db/create in-params))))

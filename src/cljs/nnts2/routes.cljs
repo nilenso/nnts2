@@ -14,7 +14,7 @@
 (defroute "/home" []
   (do
     (re-frame/dispatch [::events/set-active-panel :home-panel])
-    (re-frame/dispatch [:get-user-info])))
+    (re-frame/dispatch [:nnts2.user.events/get-user-info])))
 
 (defroute "/note" []
   (do

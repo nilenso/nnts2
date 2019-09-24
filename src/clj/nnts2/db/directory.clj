@@ -20,13 +20,15 @@
                                  sql/format)
                    {:identifiers utils/snake->kebab}))))
 
-
+(defn debug [x] (prn x) x)
 (defn create
   ([params] (create params config/db-spec))
   ([params db-spec]
+   (prn params)
    (-> (jdbc/query (db-spec) (-> (h/insert-into :directories)
                                  (h/values [params])
                                  (ph/returning :*)
-                                 sql/format)
+                                 sql/format
+                                 debug)
                    {:identifiers utils/snake->kebab})
        first)))
