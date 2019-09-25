@@ -11,7 +11,6 @@
   (:import (java.io InputStream StringReader)))
 
 
-
 (defn wrap-kebab-case
   [handler]
   (fn [request]
@@ -53,6 +52,7 @@
          (cond-> (= (:request-method request) :head) (assoc :body nil))))
     ([request respond raise]
      (respond (handler request)))))
+
 
 
 (defn wrap-validate-access-token [handler]

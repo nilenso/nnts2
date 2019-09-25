@@ -1,11 +1,11 @@
-(ns nnts2.organization.api
+(ns nnts2.organization.api-data
   (:require [ajax.core :as ajax]
             [re-frame.core :as re-frame]
             [nnts2.db :as db]))
 
 (enable-console-print!)
 
-(defn create-map
+(defn create-org
   [details]
   {:method :post
    :response-format (ajax/json-response-format {:keywords? true})
@@ -14,7 +14,7 @@
    :uri "/org"
    :on-success [:nnts2.organization.events/organization-created]})
 
-(def get-all-map
+(defn get-org []
   {:method :get
    :response-format (ajax/json-response-format {:keywords? true})
    :format (ajax/json-request-format)

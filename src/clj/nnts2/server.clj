@@ -26,16 +26,18 @@
             [nnts2.config :refer [server-spec oauth2-spec]]
             [nnts2.routes :as routes]))
 
+
 (defonce ^:private all-sessions (mem/memory-store))
 (defonce server (atom nil))
 
 
 (defroutes app-routes
-           (ANY "*" [] (-> routes/auth-routes
-                           wrap-nnts-user-id
-                           wrap-validate-access-token
-                           (wrap-oauth2 (oauth2-spec))))
-           (ANY "*" [] (not-found (io/resource "public/index.html"))))
+  (ANY "*" [] (-> routes/auth-routes
+                  wrap-nnts-user-id
+                  wrap-validate-access-token
+                  (wrap-oauth2 (oauth2-spec))))
+  (ANY "*" [] (not-found (io/resource "public/index.html"))))
+
 
 (defn handler []
   (-> app-routes
