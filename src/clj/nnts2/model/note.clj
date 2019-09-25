@@ -2,8 +2,10 @@
   (:require [clojure.spec.alpha :as s]))
 
 
-(s/def ::title string?)
-(s/def ::content string?)
+(s/def ::non-empty-string (s/and string? #(not (empty? %))))
+
+(s/def ::title ::non-empty-string)
+(s/def ::content ::non-empty-string)
 (s/def ::created-by-id uuid?)
 (s/def ::note (s/keys :req-un [::title ::content ::created-by-id]))
 

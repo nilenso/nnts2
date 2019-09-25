@@ -18,4 +18,5 @@ package-lock.json
 test/clj/nnts2/token
 *#
 *~
+.eastwood
 *.#*

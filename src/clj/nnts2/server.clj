@@ -28,20 +28,22 @@
             [nnts2.routes.user :as user]
             [nnts2.routes.note :as note]))
 
+
 (defonce ^:private all-sessions (mem/memory-store))
 (defonce server (atom nil))
 
 (def auth-routes (compojure.core/routes
-                   user/routes
-                   organization/routes
-                   (context "/note" [] note/routes)))
+                  user/routes
+                  organization/routes
+                  (context "/note" [] note/routes)))
 
 (defroutes app-routes
-           (ANY "*" [] (-> auth-routes
-                           wrap-nnts-user-id
-                           wrap-validate-access-token
-                           (wrap-oauth2 (oauth2-spec))))
-           (ANY "*" [] (not-found (io/resource "public/index.html"))))
+  (ANY "*" [] (-> auth-routes
+                  wrap-nnts-user-id
+                  wrap-validate-access-token
+                  (wrap-oauth2 (oauth2-spec))))
+  (ANY "*" [] (not-found (io/resource "public/index.html"))))
+
 
 (defn handler []
   (-> app-routes

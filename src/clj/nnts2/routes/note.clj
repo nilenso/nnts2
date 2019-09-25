@@ -3,5 +3,5 @@
             [nnts2.handler.note :as handler]))
 
 (defroutes routes
-    (POST "/create" []
-       handler/create))
+  (GET "/" [] handler/get-notes)
+  (POST "/" [] handler/create))

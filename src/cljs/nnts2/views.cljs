@@ -1,21 +1,16 @@
 (ns nnts2.views
   (:require
-    [re-frame.core :as re-frame]
-    [nnts2.subs :as subs]
-    [re-frame.core :as re-frame]
-    [nnts2.user.views :as user-views]
-    [nnts2.note.components :as note]
-    [nnts2.organization.views :as org-views]))
+   [re-frame.core :as re-frame]
+   [nnts2.subs :as subs]
+   [nnts2.user.views :as user-views]
+   [nnts2.note.components :as note]
+   [nnts2.organization.views :as org-views]))
 
 (enable-console-print!)
 
-;; home
-
 (defn home-panel []
   (fn []
-    [:div
-     [note/note-panel]
-      ]))
+    [:div [note/note-panel]]))
 
 (defn side-panel []
   (fn []
@@ -23,7 +18,6 @@
      [(user-views/greeting)]
      [(org-views/sidenav)]]))
 
-;; about
 
 (defn about-panel []
   [:div.main
@@ -33,7 +27,6 @@
     [:a {:href "#/"}
      "go to Home Page"]]])
 
-;; main
 
 (defn- panels [panel-name]
   (case panel-name

@@ -5,38 +5,51 @@
 
 (enable-console-print!)
 
-(defn write-notes []
-  (let [note-form (re-frame/subscribe [::subs/note-form])
-        title-text (r/atom (:title @note-form))
-        content-text (r/atom (:content @note-form))]
+
+(defn write-note []
+  (let [note-form (re-frame/subscribe [::subs/note-form])]
     (fn []
       [:form
        [:fieldset
         [:label {:for "title-field"} "Title"]
         [:textarea
-         {:value @title-text
+         {:value (:title @note-form)
           :id "title-field"
           :placeholder "What are you thinking of"
-          :on-change #(reset! title-text (-> % .-target .-value))}]
+          :on-change  #(re-frame/dispatch
+                        [:nnts2.note.events/note-form-changed :title (-> % .-target .-value)])}]
         [:label {:for "content-field"} "Content"]
         [:textarea
          {:id "content-field"
           :placeholder "Just start typing"
-          :value @content-text
-          :on-change #(reset! content-text (-> % .-target .-value))}]
+          :value (:content @note-form)
+          :on-change #(re-frame/dispatch
+                       [:nnts2.note.events/note-form-changed :content (-> % .-target .-value)])}]
         [:button {:type "submit"
                   :value "Save"
                   :on-click (fn [e]
                               (.preventDefault e)
-                              (re-frame/dispatch [:note-submit {:title @title-text :content @content-text}]))}
+                              (re-frame/dispatch [:nnts2.note.events/note-submit @note-form]))}
          "Save"]]])))
 
 
-(defn list-notes []
-  [:div [:h1 "I will list notes here"]])
+
+(defn note [note-data]
+  [:pre [:code
+         [:label {:for (str (:id note-data) "content")} (:title note-data)]
+         [:div {:key (str (:id note-data) "content")} (:content note-data)]]])
+
+
+(defn list-notes [notes]
+  [:div {:style {:overflow-y "auto"
+                 :height "300px"
+                 :margin-bottom "1em"}}
+   (for [k notes] ^{:key (:id k)}[note k])])
+
 
 
 (defn note-panel []
-  [:div
-                                        ;[:div [list-notes]]
-   [:div [write-notes]]])
+  (let [notes (re-frame/subscribe [::subs/notes])]
+    [:div
+     [write-note]
+     [list-notes @notes]]))
