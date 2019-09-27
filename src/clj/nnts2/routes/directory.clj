@@ -1,10 +1,29 @@
 (ns nnts2.routes.directory
-  (:require [compojure.core :refer [defroutes GET POST]]
-            [nnts2.handler.directory :as directory]))
+  (:require [compojure.api.sweet :refer [context POST GET resource defroutes]]
+            [nnts2.handler.directory :as directory]
+            [clojure.spec.alpha :as s]))
 
 
-;;so the org, directory and note routes are really interlinked. how to separate them.
-(defroutes routes
-  (GET "/" [] directory/get-list)
-  (GET "/:id" [id] directory/get-one)
-  (POST "/" [] directory/create))
+(s/def ::uuid uuid?)
+(s/def ::parent-id ::uuid)
+(s/def ::org-id ::uuid)
+(s/def ::recursive boolean?)
+
+(s/def ::directory (s/keys :opt-un [::parent-id]
+                           :req-un [::name]))
+
+
+(defroutes dir-routes
+  (context "/org/:org-id/dir" []
+    :coercion :spec
+    :path-params [org-id :- ::org-id]
+    (GET "/" []
+      :query-params [{parent-id :- ::parent-id nil}
+                     {recursive :- ::recursive false}]
+      #(directory/list % org-id parent-id recursive))
+    (GET "/:id" []
+      :path-params [id :- ::uuid]
+      #(directory/find % org-id id))
+    (POST "/" []
+      :body [body ::directory]
+      #(directory/create % org-id body))))

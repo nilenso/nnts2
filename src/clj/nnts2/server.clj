@@ -17,6 +17,7 @@
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
             [ring.middleware.resource :as resource]
             [ring.middleware.session.memory :as mem]
+            [muuntaja.middleware :as muuntaja]
             [compojure.response :refer [render]]
             [clojure.java.io :as io]
             [ring.util.response :refer [file-response resource-response
@@ -48,6 +49,7 @@
       wrap-params
       (wrap-json-body {:keywords? true})
       (resource/wrap-resource "public")
+      muuntaja/wrap-format
       (wrap-session {:store all-sessions})))
 
 (def ring-dev-handler (handler))

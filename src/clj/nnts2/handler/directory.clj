@@ -5,16 +5,14 @@
             [ring.util.response :as res]))
 
 
-(defn create [request]
+(defn create [request org-id body]
   "create a directory for an org, with/without a parent directory"
                                         ; should have org-id and dir-id (nullable) in params, org-id in route params and dir-id in params
-  (let [org-id (java.util.UUID/fromString
-                (get-in request [:params :org-id]))
-        nnts-user (:nnts-user request)
-        dir-details (conj (:body request)
-                          {:org-id org-id :created-by-id nnts-user})]
-    (prn dir-details)
-    (if (org/org-exists org-id (:nnts-user request))
+  (let [nnts-user (:nnts-user request)
+        dir-details (-> body
+                        (assoc :org-id org-id)
+                        (assoc :created-by-id nnts-user))]
+    (if (org/org-exists org-id nnts-user)
       (if (spec/valid? dir-details)
         (directory/create dir-details)
         (spec/explain-str? dir-details))
@@ -22,16 +20,14 @@
 
 
 
-(defn get-list [request]
+(defn list [request org-id parent-id recursive]
   "get directories based on org param"
-                                        ;first check if org exists -- we will worry about permissions later
-                                        ;second - pass org id
-  (let [params (dissoc (:params request) :*)
-        nnts-user (:nnts-user request)
-        org-id (java.util.UUID/fromString (:org-id params))]
-    (prn params)
+  (let [params  {:org-id org-id :parent-id parent-id :recursive recursive}
+        nnts-user (:nnts-user request)]
     (if (org/org-exists org-id nnts-user)
-      (res/response (directory/get-list params))
-      (str "org doest exiost"))))
+      (res/response (directory/list params))
+      (str "org doest exist"))))
 
-(defn get-one [request] (str request))
+(defn find [request org-id id]
+  (let [params {:org-id org-id :id id}]
+    (res/response (directory/get-one-item params))))
