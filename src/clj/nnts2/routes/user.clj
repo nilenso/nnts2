@@ -1,10 +1,13 @@
 (ns nnts2.routes.user
-  (:require [compojure.core :refer [defroutes GET]]
+  (:require [compojure.api.sweet :refer [context POST GET resource defroutes]]
+            [nnts2.handler.user :as handler]
             [ring.util.response :as res]
-            [nnts2.handler.user :as handler]))
+            [clojure.spec.alpha :as s]
+            [spec-tools.spec :as spec]))
+
 
 (defroutes routes
-           (GET "/user" [] handler/create)
-
-           (GET "/user-info" []
-              #(res/response (get % :google-user))))
+  (GET "/user" []
+    handler/create)
+  (GET "/user-info" []
+    #(res/response (get % :google-user))))

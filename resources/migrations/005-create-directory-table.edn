@@ -8,28 +8,3 @@
                                  unique(org_id, parent_id, name));"]
 
  :down ["drop table directories;"]}
-
-
-
-
-;; create or replace function update_child_in_parent_directory();
-;; returns triggerr as $$
-;; begin
-;; update directories set child_id=NEW.id where id = NEW.parent_id;
-;; update directories set
-;; end; $$
-
-;; create trigger update_child_directory
-;; after insert or update of parent_id on directories
-;; for each row execute procedure update_child_in_parent_directory();
-;;       create or replace function check_for_cycle_in_directories()
-;;       returns trigger as $$
-;;       begin
-;;       end; $$
-;;       language plpgsql;
-
-;;       create trigger check_for_cycle
-;;              before insert or update on directories
-;;              for each row execute procedure check_for_cycle_in_directories();
-
-;; create trigger for child id update on insert/update on parent id
