@@ -1,5 +1,6 @@
 (ns nnts2.model.directory
   (:require [nnts2.db.directory :as db]
+            [nnts2.model.organization :as org]
             [compojure.coercions :refer [as-uuid]]
             [ring.util.response :as res]))
 
@@ -40,4 +41,11 @@
 
 
 (defn create [params]
-  (res/response (db/create params)))
+  " create directory if org exists and orgs match if there is a parent directory mentioned"
+  (if (org/org-exists (:org-id params) (:created-by-id params))
+    (if (nil? (:parent-id params))
+      (db/create params)
+      (if (= (:org-id params) (:org-id (get-one-item {:id (:parent-id params)})))
+        (db/create params)
+        "organizations dont match"))
+    "org doesn't exist"))

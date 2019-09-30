@@ -1,8 +1,8 @@
 (ns nnts2.handler.directory
-  (:require [nnts2.model.organization :as org]
-            [nnts2.model.directory :as directory]
-            [nnts2.model.directory-spec :as spec]
-            [ring.util.response :as res]))
+  (:require
+   [nnts2.model.directory :as directory]
+   [nnts2.model.directory-spec :as spec]
+   [ring.util.response :as res]))
 
 
 (defn create [request org-id body]
@@ -12,11 +12,9 @@
         dir-details (-> body
                         (assoc :org-id org-id)
                         (assoc :created-by-id nnts-user))]
-    (if (org/org-exists org-id nnts-user)
-      (if (spec/valid? dir-details)
-        (directory/create dir-details)
-        (spec/explain-str? dir-details))
-      (str "org doesnt exist"))))
+    (res/response (if (spec/valid? dir-details)
+                    (directory/create dir-details)
+                    (spec/explain-str? dir-details)))))
 
 
 
@@ -24,9 +22,7 @@
   "get directories based on org param"
   (let [params  {:org-id org-id :parent-id parent-id :recursive recursive}
         nnts-user (:nnts-user request)]
-    (if (org/org-exists org-id nnts-user)
-      (res/response (directory/list params))
-      (str "org doest exist"))))
+    (res/response (directory/list params))))
 
 (defn find [request org-id id]
   (let [params {:org-id org-id :id id}]

@@ -12,4 +12,5 @@
   (for [[k v] params] [:= k v]))
 
 (defn multi-param-where [input-honey-sql-map where-params]
-  (apply honeysql.helpers/where input-honey-sql-map where-params))
+  (apply honeysql.helpers/where input-honey-sql-map
+         (get-honeysql-filter-params where-params)))

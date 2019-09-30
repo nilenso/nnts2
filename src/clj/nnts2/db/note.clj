@@ -23,12 +23,11 @@
 
 (defn get
   "list api for notes"
-  ([params] (get params config/db-spec))
-  ([params db-spec]
-   (let [where-params (du/get-honeysql-filter-params params)]
-     (jdbc/query (db-spec) (-> (h/select :*)
-                               (h/from :notes)
-                               (du/multi-param-where where-params)
-                               (h/order-by [:created-at :desc])
-                               (sql/format))
-                 {:identifiers utils/snake->kebab}))))
+  ([where-params] (get where-params config/db-spec))
+  ([where-params db-spec]
+   (jdbc/query (db-spec) (-> (h/select :*)
+                             (h/from :notes)
+                             (du/multi-param-where where-params)
+                             (h/order-by [:created-at :desc])
+                             (sql/format))
+               {:identifiers utils/snake->kebab})))

@@ -3,7 +3,6 @@
 
 (defn org-exists [org-id nnts-user]
   "check if organization exists and if user is member"
-  (prn "checking if org exists")
   (> (count (db/get
              {:org-id org-id
               :nnts-user nnts-user})) 0))

@@ -1,5 +1,5 @@
 {:up ["create table directories (id UUID default uuid_generate_v4() primary key,
-                                 name text not null check (name ~* '^[a-zA-Z0-9]+$'),
+                                 name text not null check (name ~* '^[a-zA-Z0-9-]+$'),
                                  parent_id UUID references directories(id),
                                  org_id UUID references organizations(id) not null,
                                  created_at timestamp not null default now(),
