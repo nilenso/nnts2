@@ -16,7 +16,7 @@
   (fn []
     [:div.sidenav
      [(user-views/greeting)]
-     [(org-views/sidenav)]]))
+     [(org-views/organization-list)]]))
 
 
 (defn about-panel []

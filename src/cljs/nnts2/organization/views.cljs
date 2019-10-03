@@ -2,11 +2,20 @@
   (:require [reagent.core :as reagent]
             [re-frame.core :as re-frame]
             [nnts2.organization.subs :as subs]
-            [nnts2.organization.events :as events]))
+            [nnts2.organization.events :as events]
+            [nnts2.directory.components :as directories]))
 
-(defn sidenav-item [{:keys [name]}]
-  ^{:key name}
-  [:a {:href "#"} name])
+#_(defn organization [{:keys [name]}]
+    ^{:key name}
+    [:a {:href "#"} name])
+(def ddd {:class "dd"
+          :margin-left "10px"})
+
+(defn organization [{:keys [id name directories]}]
+  ^{:key id}
+  [:ul name
+   [directories/directory-list]]
+  )
 
 (defn create-form []
   (let [org-details (reagent/atom {:name ""
@@ -35,7 +44,7 @@
 
 
 
-(defn sidenav []
+(defn organization-list []
   (let [orgs-subscription (re-frame/subscribe [::subs/organization])
         show-create-org-form (re-frame/subscribe [::subs/show-create-org-form])]
     (fn []
@@ -50,4 +59,4 @@
          (if @show-create-org-form
            [create-form]
            [:div])
-         (map sidenav-item orgs)]))))
+         (map organization orgs)]))))

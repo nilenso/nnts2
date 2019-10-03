@@ -17,13 +17,14 @@
         next-iter-rows (clojure.set/difference (set remaining-rows) (set to-insert))]
     (reduce
      (fn [acc v]
-       (assoc
+       (conj
         acc
-        (:id v)
-        (directory-rows->nested-directories (dissoc v :id :parent-id) (:id v) next-iter-rows)))
+        {:id (:id v)
+         :name (:name v)
+         :org-id (:org-id v)
+         :directories (directory-rows->nested-directories [] (:id v) next-iter-rows)}))
      tree
      to-insert)))
-
 
 (defn list [params]
   "if recursive is true in params, then full directory sub tree will be returned,
@@ -32,7 +33,7 @@
         parent-id (:parent-id params)
         filter-by (if recursive (dissoc params :parent-id :recursive) (dissoc params :recursive))
         directory-rows (db/get filter-by)]
-    (directory-rows->nested-directories {} parent-id directory-rows)))
+    (directory-rows->nested-directories [] parent-id directory-rows)))
 
 
 (defn get-one-item [params]

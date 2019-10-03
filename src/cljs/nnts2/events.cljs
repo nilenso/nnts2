@@ -6,6 +6,7 @@
    [nnts2.note.events :as note-events]
    [nnts2.organization.events :as org-events]
    [nnts2.user.events :as user-events]
+   [nnts2.directory.events :as dir-events]
    [nnts2.user.api-data :as user-api-data]
    [nnts2.note.api-data :as note-api-data]
    [nnts2.organization.api-data :as org-api-data]))
