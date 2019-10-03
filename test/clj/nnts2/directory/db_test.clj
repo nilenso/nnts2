@@ -32,7 +32,7 @@
           fake-dir (directory-db/create fake-dir-data)
           get-dir (directory-db/get)
           get-dir-for-org (directory-db/get {:org-id (:org-id fake-dir)})
-          get-dir-for-other-org (directory-db/get {:org-id (factory/create-org)})]
+          get-dir-for-other-org (directory-db/get {:org-id (factory/create-org "org" "slug")})]
       (is (= 1 (count get-dir)))
       (is (= 1 (count get-dir-for-org)))
       (is (empty? get-dir-for-other-org)))))

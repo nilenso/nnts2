@@ -5,7 +5,7 @@
 
 
 (s/def ::uuid uuid?)
-(s/def ::parent-id ::uuid)
+(s/def ::parent-id (s/or :uuid ::uuid :nil nil?))
 (s/def ::org-id ::uuid)
 (s/def ::recursive boolean?)
 

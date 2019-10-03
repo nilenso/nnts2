@@ -10,4 +10,4 @@
 (re-frame/reg-sub
  ::organization
  (fn [db _]
-   (get-in db [:organization :data :all])))
+   (get db :organization)))

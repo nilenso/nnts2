@@ -12,8 +12,8 @@
    :on-success [:nnts2.directory.events/create-directory-success]})
 
 
-(defn get-directories [data]
+(defn get-directories [org-id]
   {:method :get
-   :uri (goog.string/format "/org/%s/dir/?recursive=true" data)
+   :uri (goog.string/format "/org/%s/dir/?recursive=true" org-id)
    :response-format (ajax/json-response-format {:keywords? true})
    :on-success [:nnts2.directory.events/received-directory-list]})

@@ -5,17 +5,13 @@
             [nnts2.organization.events :as events]
             [nnts2.directory.components :as directories]))
 
-#_(defn organization [{:keys [name]}]
-    ^{:key name}
-    [:a {:href "#"} name])
-(def ddd {:class "dd"
-          :margin-left "10px"})
 
-(defn organization [{:keys [id name directories]}]
+(defn organization-view [id {:keys [name directories]}]
   ^{:key id}
-  [:ul name
-   [directories/directory-list]]
-  )
+  [:ul  [:b [directories/directory {:name name
+                                    :org-id id
+                                    :id nil}]]
+   [directories/directory-list id]])
 
 (defn create-form []
   (let [org-details (reagent/atom {:name ""
@@ -47,6 +43,7 @@
 (defn organization-list []
   (let [orgs-subscription (re-frame/subscribe [::subs/organization])
         show-create-org-form (re-frame/subscribe [::subs/show-create-org-form])]
+
     (fn []
       (let [orgs @orgs-subscription]
         [:div
@@ -59,4 +56,5 @@
          (if @show-create-org-form
            [create-form]
            [:div])
-         (map organization orgs)]))))
+         (for [[k v] orgs]
+           (if k [organization-view k v]))]))))

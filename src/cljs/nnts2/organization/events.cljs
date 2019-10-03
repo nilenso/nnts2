@@ -3,6 +3,7 @@
    [re-frame.core :as re-frame]
    [day8.re-frame.http-fx]
    [nnts2.user.events]
+   [nnts2.directory.api-data :as dir-api]
    [nnts2.organization.api-data :as api-data]))
 
 (re-frame/reg-event-fx
@@ -14,14 +15,18 @@
  ::organization-created
  (fn [db [_ org-details]]
    (-> db
-       (update-in [:organization :data :all] (fnil conj []) org-details)
+       (assoc-in [:organization (:id org-details)] (dissoc org-details :id))
        (assoc-in [:organization :show-create-org-form] false))))
 
-(re-frame/reg-event-db
+(re-frame/reg-event-fx
  ::organizations-retrieved
- (fn [db [_ org-details]]
-   (-> db
-       (assoc-in [:organization :data :all] org-details))))
+ (fn [cofx [_ org-details]]
+   {:http-xhrio (map #(dir-api/get-directories (:id %)) org-details)
+    :db (assoc (:db cofx) :organization
+               (reduce
+                (fn [acc v] (assoc acc (:id v) (dissoc v :id)))
+                (get-in cofx [:db :organization])
+                org-details))}))
 
 
 (re-frame/reg-event-db
