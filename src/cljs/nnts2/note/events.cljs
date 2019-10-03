@@ -12,16 +12,15 @@
 
 (re-frame/reg-event-fx
  ::note-submit
- (fn [cofx [_ note]]
+ (fn [cofx [_ note dir]]
    {:db (:db cofx)
-    :http-xhrio (api-data/create-note note)}))
+    :http-xhrio (api-data/create-note note dir)}))
 
 (re-frame/reg-event-fx
  ::note-submit-success
- (fn [cofx event]
+ (fn [cofx [_ note]]
    {:db  (assoc (:db cofx) :note-form {:title "" :content ""})
-    :http-xhrio (api-data/get-notes)
-    }))
+    :http-xhrio (api-data/get-notes (:directory-id note))}))
 
 (re-frame/reg-event-db
  ::note-received-list

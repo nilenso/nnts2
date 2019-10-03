@@ -3,7 +3,13 @@
             [nnts2.handler.note :as handler]
             [clojure.spec.alpha :as s]))
 
+(s/def ::uuid uuid?)
+
 (defroutes routes
-  (context "/note" []
-           (GET "/" [] handler/get-notes)
-           (POST "/" [] handler/create)))
+  (context "/dir/:dir-id/note" []
+    :coercion :spec
+    :path-params [dir-id :- ::uuid]
+    (GET "/" []
+      #(handler/get-notes % dir-id))
+    (POST "/" []
+      #(handler/create % dir-id))))

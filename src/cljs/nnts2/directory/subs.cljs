@@ -8,7 +8,5 @@
 
 (re-frame/reg-sub
  ::selected-directory
- (fn [db [_ dir-id]]
-   (if dir-id
-     (if (= dir-id (:selected-dir db)) true false)
-     false)))
+ (fn [db _]
+   (:selected-dir db)))

@@ -7,7 +7,8 @@
 (s/def ::title ::non-empty-string)
 (s/def ::content ::non-empty-string)
 (s/def ::created-by-id uuid?)
-(s/def ::note (s/keys :req-un [::title ::content ::created-by-id]))
+(s/def ::directory-id uuid?)
+(s/def ::note (s/keys :req-un [::title ::content ::created-by-id ::directory-id]))
 
 
 (defn valid? [note-data]

@@ -23,19 +23,17 @@
                 :padding-right "5px"
                 :margin-bottom 0}
         :on-click #(re-frame/dispatch [:nnts2.directory.events/create-directory-submit @dir-details])}
-       "→"]]
-     ])
-  )
+       "→"]]]))
 
 (defn directory [dir]
-  (let [selected (re-frame/subscribe [::subs/selected-directory (:id dir)])
+  (let [selected-dir (re-frame/subscribe [::subs/selected-directory])
         add-new (r/atom false)]
     (fn []
       [:text
        {:id (:id dir)
         :onDoubleClick (fn [e] (swap! add-new not))
         :on-click #(re-frame/dispatch [:nnts2.directory.events/directory-selected (:id dir)])
-        :style (if @selected {:color "orange"} {})}
+        :style (if (:id dir) (if (= (:id dir) @selected-dir) {:color "orange"} {}) {})}
        (:name dir)
        [:dl  [:dt (if (not@add-new) {:style  {:display "none"}}) [add-child-directory dir]]]])))
 
