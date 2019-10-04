@@ -5,7 +5,6 @@
 (enable-console-print!)
 
 (defn create-note [data note-directory]
-  (prn data note-directory)
   {:method :post
    :uri (goog.string/format "/dirs/%s/notes" note-directory)
    :response-format (ajax/json-response-format {:keywords? true})

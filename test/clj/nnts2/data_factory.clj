@@ -2,6 +2,7 @@
   (:require  [clojure.test :as t]
              [nnts2.db.user :as user-db]
              [nnts2.db.organization :as org-db]
+             [nnts2.db.directory :as dir-db]
              [nnts2.model.organization :as org])
   (:import (java.util UUID)))
 
@@ -61,5 +62,19 @@
         rows
         (recur (+ level 1) level (conj rows (assoc (directory "dir" org-id parent-id) :id level)))))))
 
+
+(defn create-dir
+  "creates org, membership entry table, and a root directory in the org"
+  ([name] (dir-db/create (directory name)))
+  ([name org-id  parent-id]
+   (dir-db/create (directory name org-id parent-id))))
+
+
 (defn note
-  ([dir-id title content user-id] {}))
+  ([dir-id] (note dir-id "fake-title" "fake-content"))
+  ([dir-id title content] (note dir-id title content user-id))
+  ([dir-id title content userid]
+   {:title title
+    :content content
+    :directory-id dir-id
+    :created-by-id userid}))
