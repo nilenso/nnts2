@@ -17,9 +17,9 @@
 
 (deftest create-nested-dir-test
   (testing "should create sub directory in directory when given name, existing directory,userwith correct org"
-    (let [fake-dir-data (factory/directory "fake-dir")
+    (let [fake-dir-data (factory/directory "fakedir")
           fake-dir (directory-db/create fake-dir-data)
-          fake-sub-dir-data (factory/directory "fake-sub-dir" (:org-id fake-dir) (:id fake-dir))
+          fake-sub-dir-data (factory/directory "fakesubdir" (:org-id fake-dir) (:id fake-dir))
           fake-sub-dir (directory-db/create fake-sub-dir-data)]
       (is (not (empty? fake-sub-dir)))
       (is (= (:parent-id fake-sub-dir) (:id fake-dir)))
@@ -28,7 +28,7 @@
 
 (deftest get-dir-test
   (testing "should give one root dir when only one root dir has been created"
-    (let [fake-dir-data (factory/directory "fake-dir")
+    (let [fake-dir-data (factory/directory "fakedir")
           fake-dir (directory-db/create fake-dir-data)
           get-dir (directory-db/get)
           get-dir-for-org (directory-db/get {:org-id (:org-id fake-dir)})
@@ -40,9 +40,9 @@
 
 (deftest get-subdir-test
   (testing "should give correct nested dir rows when parent dir is given"
-    (let [fake-dir-data (factory/directory "fake-dir")
+    (let [fake-dir-data (factory/directory "fakedir")
           fake-dir (directory-db/create fake-dir-data)
-          sub-dir-data (factory/directory "sub-dir" (:org-id fake-dir) (:id fake-dir))
+          sub-dir-data (factory/directory "subdir" (:org-id fake-dir) (:id fake-dir))
           sub-dir (directory-db/create sub-dir-data)
           sub-dir2-data (factory/directory "sub2" (:org-id sub-dir) (:id sub-dir))
           sub-dir2 (directory-db/create sub-dir2-data)
@@ -55,5 +55,4 @@
 
 
 (deftest create-dir-test-failure
-  (testing "should give error when org doesnt exist")
-  (testing "should give error when name is duplicate"))
+  (testing "should give error when name is duplicate in the same parent directory"))

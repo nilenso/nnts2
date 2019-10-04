@@ -11,12 +11,12 @@
    :response-format (ajax/json-response-format {:keywords? true})
    :format (ajax/json-request-format)
    :params details
-   :uri "/org"
+   :uri "/orgs"
    :on-success [:nnts2.organization.events/organization-created]})
 
 (defn get-org []
   {:method :get
    :response-format (ajax/json-response-format {:keywords? true})
    :format (ajax/json-request-format)
-   :uri "/org"
+   :uri "/orgs"
    :on-success [:nnts2.organization.events/organizations-retrieved]})

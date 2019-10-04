@@ -38,3 +38,9 @@
           child-diff-org-data (factory/directory "child-dir-diff-org" new-org (:id parent-dir))
           child-dir-diff-org (directory-model/create child-diff-org-data)]
       (is (string? child-dir-diff-org)))))
+
+
+
+(deftest create-dir-test-failure
+  (testing "should give error when org doesnt exist") ;;should go in model
+  )

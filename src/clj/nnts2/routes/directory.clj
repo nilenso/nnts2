@@ -4,7 +4,10 @@
             [clojure.spec.alpha :as s]))
 
 
+(def alnum-regex #"[a-zA-Z0-9]+")
+
 (s/def ::uuid uuid?)
+(s/def ::name (s/and string? #(re-matches alnum-regex %)))
 (s/def ::parent-id (s/or :uuid ::uuid :nil nil?))
 (s/def ::org-id ::uuid)
 (s/def ::show-tree boolean?)
@@ -14,7 +17,7 @@
 
 
 (defroutes dir-routes
-  (context "/org/:org-id/dir" []
+  (context "/orgs/:org-id/dirs" []
     :coercion :spec
     :path-params [org-id :- ::org-id]
     (GET "/" []

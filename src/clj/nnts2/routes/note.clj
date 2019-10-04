@@ -4,6 +4,6 @@
             [clojure.spec.alpha :as s]))
 
 (defroutes routes
-  (context "/note" []
-           (GET "/" [] handler/get-notes)
-           (POST "/" [] handler/create)))
+  (context "/notes" []
+    (GET "/" [] handler/get-notes)
+    (POST "/" [] handler/create)))
