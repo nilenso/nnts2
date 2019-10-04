@@ -48,3 +48,7 @@
     :parent-id parent-id
     :org-id org-id
     :created-by-id user-id}))
+
+
+(defn note
+  ([dir-id title content user-id] {}))

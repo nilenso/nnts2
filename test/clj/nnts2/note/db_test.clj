@@ -1,6 +1,7 @@
 (ns nnts2.note.db-test
   (:require [clojure.test :refer :all]
             [nnts2.fixtures :as fixtures]
+            [nnts2.data-factory :as factory]
             [nnts2.db.note :as note-db])
   (:import (java.util UUID)))
 
