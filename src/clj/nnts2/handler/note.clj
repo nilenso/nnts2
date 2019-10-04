@@ -5,8 +5,9 @@
             [nnts2.spec-helpers :as spec-helper]))
 
 
-(defn create [{:keys [body nnts-user]}]
-  (let [note-data (assoc body :created-by-id nnts-user)]
+(defn create [{:keys [body-params nnts-user]}]
+  (prn "!!!!!!!!!!!! " body-params)
+  (let [note-data (assoc body-params :created-by-id nnts-user)]
     (if (spec/valid? note-data)
       (res/response (db/create note-data))
       (spec-helper/invalid (spec/explain-str note-data)))))
