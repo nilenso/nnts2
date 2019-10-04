@@ -6,7 +6,6 @@
 
 
 (defn create [{:keys [body-params nnts-user]}]
-  (prn "!!!!!!!!!!!! " body-params)
   (let [note-data (assoc body-params :created-by-id nnts-user)]
     (if (spec/valid? note-data)
       (res/response (db/create note-data))

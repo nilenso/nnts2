@@ -13,29 +13,29 @@
   (with-redefs [nnts2.db.note/create (fn [data] data)]
     (testing "Should restructure request into params acceptable for db layer"
       (let [fake-request {:nnts-user user-id
-                          :body      {:title "note-title" :content "note-content"}}
-            {:keys [status headers body]} (handler/create fake-request)]
+                          :body-params      {:title "note-title" :content "note-content"}}
+            {:keys [status body]} (handler/create fake-request)]
         (is (map? body))
         (is (= status 200))
-        (is (= (assoc (:body fake-request) :created-by-id user-id) body))))
+        (is (= (assoc (:body-params fake-request) :created-by-id user-id) body))))
 
     (testing "should give 400 when given invalid note data"
       (let [fake-request {:nnts-user user-id
-                          :body {:title 1234 :content "title is integer"}}
-            {:keys [status headers body]} (handler/create fake-request)]
+                          :body-params {:title 1234 :content "title is integer"}}
+            {:keys [status body]} (handler/create fake-request)]
         (is (= status 400))
         (is (string? body))))
 
     (testing "should give 400 when given empty note data"
       (let [fake-request {:nnts-user user-id
-                          :body {:title "" :content ""}}
-            {:keys [status headers body]} (handler/create fake-request)]
+                          :body-params {:title "" :content ""}}
+            {:keys [status body]} (handler/create fake-request)]
         (is (= status 400))
         (is (string? body))))
 
     (testing "should give 400 when given no user"
-      (let [fake-request {:body {:title "no user test" :content "no user test"}}
-            {:keys [status headers body]} (handler/create fake-request)]
+      (let [fake-request {:body-params {:title "no user test" :content "no user test"}}
+            {:keys [status body]} (handler/create fake-request)]
         (is (= status 400))
         (is (string? body))))))
 
