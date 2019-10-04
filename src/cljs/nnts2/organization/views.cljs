@@ -14,6 +14,7 @@
     (fn []
       (let [{:keys [name slug]} @org-details]
         [:div
+
          [:div.row
           [:input {:type        :text
                    :id          "org-name"
