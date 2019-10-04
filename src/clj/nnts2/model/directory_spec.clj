@@ -2,7 +2,7 @@
   (:require [clojure.spec.alpha :as s]
             [clojure.string :as str]))
 
-(def alnum-regex #"[a-zA-Z0-9]+")
+(def alnum-regex #"[a-zA-Z0-9-]+")
 (def uuid-regex #"^[0-9a-f]{8}-?[0-9a-f]{4}-?[1-5][0-9a-f]{3}-?[89ab][0-9a-f]{3}-?[0-9a-f]{12}$")
 
 (s/def ::alphanumeric (s/and string?
@@ -15,7 +15,6 @@
 
 
 (s/def ::name ::alphanumeric)
-;(s/def ::path #(s/valid? ::alphanumeric (str/replace % "." "")))
 (s/def ::org-id ::is-uuid)
 (s/def ::parent-id (s/or :nil nil? :uuid ::is-uuid))
 
@@ -24,7 +23,6 @@
                            :opt-un [::parent-id]))
 
 (defn valid? [dir-details]
-  (prn "validating directory details" dir-details)
   (s/valid? ::directory dir-details))
 
 (defn explain-str? [dir-details]

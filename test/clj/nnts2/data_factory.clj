@@ -7,6 +7,8 @@
 
 (def user-id (UUID/fromString "820bb852-445f-4101-b257-f84f66aa74ff"))
 
+(defn get-uuid [] (UUID/randomUUID))
+
 (defn user
   ([] (user "Dirk" "Gently" "dirk@gmail.com" "www.url.com"))
   ([given-name family-name email picture-url]
@@ -48,3 +50,13 @@
     :parent-id parent-id
     :org-id org-id
     :created-by-id user-id}))
+
+
+(defn nested-directory-rows [nest-level]
+  (let [org-id "fake-org"]
+    (loop [level 1
+           parent-id nil
+           rows []]
+      (if (> level nest-level)
+        rows
+        (recur (+ level 1) level (conj rows (assoc (directory "dir" org-id parent-id) :id level)))))))

@@ -4,7 +4,7 @@
             [clojure.spec.alpha :as s]))
 
 
-(def alnum-regex #"[a-zA-Z0-9]+")
+(def alnum-regex #"[a-zA-Z0-9-]+")
 
 (s/def ::uuid uuid?)
 (s/def ::name (s/and string? #(re-matches alnum-regex %)))

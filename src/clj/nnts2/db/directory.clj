@@ -18,7 +18,7 @@
                                  sql/format)
                    {:identifiers utils/snake->kebab}))))
 
-(defn debug [x] (prn x) x)
+
 
 (defn create
   ([params] (create params config/db-spec))

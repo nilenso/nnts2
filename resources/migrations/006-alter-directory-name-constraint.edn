@@ -1,0 +1,4 @@
+{:up ["ALTER TABLE directories DROP CONSTRAINT directories_name_check;
+       ALTER TABLE directories ADD CONSTRAINT directories_name_check check (name ~* '^[a-zA-Z0-9-]+$');"]
+ :down ["ALTER TABLE directories DROP CONSTRAINT directories_name_check;
+       ALTER TABLE directories ADD CONSTRAINT directories_name_check check (name ~* '^[a-zA-Z0-9]+$');"]}
