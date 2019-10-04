@@ -26,12 +26,11 @@
      tree
      to-insert)))
 
-(defn list [params]
-  "if recursive is true in params, then full directory sub tree will be returned,
-   if false, then only immediate children are returned"
-  (let [recursive (:recursive params)
-        parent-id (:parent-id params)
-        filter-by (if recursive (dissoc params :parent-id :recursive) (dissoc params :recursive))
+
+(defn list [{:keys [show-tree parent-id] :as params}]
+  "if show-tree is true in params, then full directory sub tree will be returned
+   if false then only immediate children are returned"
+  (let [filter-by (if show-tree (dissoc params :parent-id :show-tree) (dissoc params :show-tree))
         directory-rows (db/get filter-by)]
     (directory-rows->nested-directories [] parent-id directory-rows)))
 

@@ -7,7 +7,7 @@
 (defn create-note [data note-directory]
   (prn data note-directory)
   {:method :post
-   :uri (goog.string/format "/dir/%s/note" note-directory)
+   :uri (goog.string/format "/dirs/%s/notes" note-directory)
    :response-format (ajax/json-response-format {:keywords? true})
    :params data
    :format (ajax/json-request-format)
@@ -15,6 +15,6 @@
 
 (defn get-notes [note-directory]
   {:method :get
-   :uri (goog.string/format "/dir/%s/note" note-directory)
+   :uri (goog.string/format "/dirs/%s/notes" note-directory)
    :response-format (ajax/json-response-format {:keywords? true})
    :on-success [:nnts2.note.events/note-received-list]})

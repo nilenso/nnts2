@@ -10,7 +10,7 @@
 
 
 (defroutes routes
-  (context "/org" []
+  (context "/orgs" []
     :coercion :spec
     (GET "/" [] handler/get-orgs)
     (POST "/" []

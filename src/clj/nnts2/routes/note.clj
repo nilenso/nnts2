@@ -9,7 +9,7 @@
 (s/def ::note (s/keys :req-un [::title ::content]))
 
 (defroutes routes
-  (context "/dir/:dir-id/note" []
+  (context "/dirs/:dir-id/notes" []
     :coercion :spec
     :path-params [dir-id :- ::uuid]
     (GET "/" []
