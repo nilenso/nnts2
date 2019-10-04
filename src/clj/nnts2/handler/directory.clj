@@ -18,9 +18,9 @@
 
 
 
-(defn list [request org-id parent-id recursive]
+(defn list [request org-id parent-id show-tree]
   "get directories based on org param"
-  (let [params  {:org-id org-id :parent-id parent-id :recursive recursive}
+  (let [params  {:org-id org-id :parent-id parent-id :show-tree show-tree}
         nnts-user (:nnts-user request)]
     (res/response (directory/list params))))
 

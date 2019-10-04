@@ -7,7 +7,7 @@
 (s/def ::uuid uuid?)
 (s/def ::parent-id (s/or :uuid ::uuid :nil nil?))
 (s/def ::org-id ::uuid)
-(s/def ::recursive boolean?)
+(s/def ::show-tree boolean?)
 
 (s/def ::directory (s/keys :opt-un [::parent-id]
                            :req-un [::name]))
@@ -19,8 +19,8 @@
     :path-params [org-id :- ::org-id]
     (GET "/" []
       :query-params [{parent-id :- ::parent-id nil}
-                     {recursive :- ::recursive false}]
-      #(directory/list % org-id parent-id recursive))
+                     {show-tree :- ::show-tree false}]
+      #(directory/list % org-id parent-id show-tree))
     (GET "/:id" []
       :path-params [id :- ::uuid]
       #(directory/find % org-id id))
