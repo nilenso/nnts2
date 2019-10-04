@@ -4,6 +4,7 @@
                   :exclusions [com.google.javascript/closure-compiler-unshaded
                                org.clojure/google-closure-library]]
                  [thheller/shadow-cljs "2.8.45"]
+                 [metosin/compojure-api "2.0.0-alpha30"]
                  [ragtime "0.8.0"]
                  [cljs-ajax "0.8.0"]
                  [clj-time "0.15.2"]
@@ -27,8 +28,10 @@
                  [cheshire "5.9.0"]
                  [kibu/pushy "0.3.8"]
                  [org.postgresql/postgresql "42.2.6"]]
-  :plugins []
+  :plugins [[lein-ring "0.12.5"]]
   :main nnts2.core
+  :ring {:handler nnts2.server/ring-dev-handler
+         :init nnts2.config/read}
   :min-lein-version "2.5.3"
   :source-paths ["src/clj" "src/cljs"]
   :test-paths ["test/clj" "test/cljs"]

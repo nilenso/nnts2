@@ -1,7 +1,7 @@
 (ns nnts2.server
   (:require [ring.adapter.jetty :refer [run-jetty]]
             [nnts2.config :refer [server-spec oauth2-spec]]
-            [compojure.core :refer [GET defroutes ANY context]]
+            [compojure.core :refer [GET defroutes ANY]]
             [compojure.route :refer [resources]]
             [compojure.response :refer [render]]
             [clojure.java.io :as io]
@@ -17,6 +17,7 @@
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
             [ring.middleware.resource :as resource]
             [ring.middleware.session.memory :as mem]
+            [muuntaja.middleware :as muuntaja]
             [compojure.response :refer [render]]
             [clojure.java.io :as io]
             [ring.util.response :refer [file-response resource-response
@@ -24,21 +25,15 @@
             [nnts2.http-middleware :refer [wrap-kebab-case not-found wrap-exception-handling wrap-log-request-response
                                            wrap-validate-access-token wrap-nnts-user-id]]
             [nnts2.config :refer [server-spec oauth2-spec]]
-            [nnts2.routes.organization :as organization]
-            [nnts2.routes.user :as user]
-            [nnts2.routes.note :as note]))
+            [nnts2.routes :as routes]))
 
 
 (defonce ^:private all-sessions (mem/memory-store))
 (defonce server (atom nil))
 
-(def auth-routes (compojure.core/routes
-                  user/routes
-                  organization/routes
-                  (context "/note" [] note/routes)))
 
 (defroutes app-routes
-  (ANY "*" [] (-> auth-routes
+  (ANY "*" [] (-> routes/auth-routes
                   wrap-nnts-user-id
                   wrap-validate-access-token
                   (wrap-oauth2 (oauth2-spec))))
@@ -54,7 +49,10 @@
       wrap-params
       (wrap-json-body {:keywords? true})
       (resource/wrap-resource "public")
+      muuntaja/wrap-format
       (wrap-session {:store all-sessions})))
+
+(def ring-dev-handler (handler))
 
 (defn stop []
   (.stop @server)

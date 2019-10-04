@@ -44,3 +44,13 @@
                    sql/format)
                {:identifiers utils/snake->kebab})))
 
+(defn get
+  ;todo -- use the middleware created for note where params
+  ([params] (get params config/db-spec))
+  ([params db-spec]
+   (jdbc/query (db-spec)
+               (-> (h/select :*)
+                   (h/from [:members :m])
+                   (h/where [:= :m.user-id (:nnts-user params)] [:= :m.org-id (:org-id params)])
+                   sql/format)
+               {:identifiers utils/snake->kebab})))
