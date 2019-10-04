@@ -14,6 +14,7 @@
 
 (defn read
   "Use the provided environment to get it's profile"
+  ([] (read :dev))
   ([env] (read env specs))
   ([env specs-atom]
    (let [config (aero/read-config (clojure.java.io/resource "config/config.edn") {:profile env})]

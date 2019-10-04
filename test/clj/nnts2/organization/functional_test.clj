@@ -20,41 +20,39 @@
 
 (deftest create-org-test
   (testing "creating organization with an invalid name should return a spec error"
-    (let [body {:body (assoc (organization-factory) :name 12345)}
-          response (handler/create body)]
+    (let [body (assoc (organization-factory) :name 12345)
+          response (handler/create {} body)]
       (is (= (:status response) 400))))
 
   (testing "creating organization with an invalid slug should return a spec error"
-    (let [body {:body (assoc (organization-factory) :slug 12345)}
-          response (handler/create body)]
+    (let [body (assoc (organization-factory) :slug 12345)
+          response (handler/create {} body)]
       (is (= (:status response) 400))))
 
   (testing "creating organization with an missing name should return a spec error"
-    (let [body {:body (dissoc (organization-factory) :name)}
-          response (handler/create body)]
+    (let [body (dissoc (organization-factory) :name)
+          response (handler/create {} body)]
       (is (= (:status response) 400))))
 
   (testing "creating organization with a missing slug should return a spec error"
-    (let [body {:body (dissoc (organization-factory) :slug)}
-          response (handler/create body)]
+    (let [body (dissoc (organization-factory) :slug)
+          response (handler/create {} body)]
       (is (= (:status response) 400))))
 
   (testing "creating organization with valid details should return a success"
     (let [user (user-db/create (user-factory))
-          organization (organization-factory)
-          body {:body      organization
-                :nnts-user (:id user)}
-          response (handler/create body)]
-      (is (= (get-in response [:body :name]) (:name organization)))
-      (is (= (get-in response [:body :slug]) (:slug organization)))
+          body (organization-factory)
+          response (handler/create {:nnts-user (:id user)} body)]
+      (is (= (get-in response [:body :name]) (:name body)))
+      (is (= (get-in response [:body :slug]) (:slug body)))
       (is (= (:status response) 200))))
 
   (testing "creating organization with a slug that already exists should return a 409"
     (let [user (user-db/create (user-factory))
-          body {:body      (organization-factory)
-                :nnts-user (:id user)}
-          response (handler/create body)
-          response-2 (handler/create body)]
+          req {:nnts-user (:id user)}
+          body (organization-factory)
+          response (handler/create req body)
+          response-2 (handler/create req body)]
       (is (= (:status response-2) 409)))))
 
 (deftest add-member-handler-test
