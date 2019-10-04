@@ -27,7 +27,7 @@
      to-insert)))
 
 
-(defn list [{:keys [show-tree parent-id]} params]
+(defn list [{:keys [show-tree parent-id] :as params}]
   "if show-tree is true in params, then full directory sub tree will be returned
    if false then only immediate children are returned"
   (let [filter-by (if show-tree (dissoc params :parent-id :show-tree) (dissoc params :show-tree))
