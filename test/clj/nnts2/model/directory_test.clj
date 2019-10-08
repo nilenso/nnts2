@@ -1,4 +1,4 @@
-(ns nnts2.directory.model-test
+(ns nnts2.model.directory-test
   (:require [clojure.test :refer :all]
             [nnts2.model.directory :as directory-model]
             [nnts2.fixtures :as fixtures]
@@ -13,7 +13,7 @@
   (with-redefs [nnts2.db.directory/create (fn [data] data)]
     (testing "should fail if org doesnt exist"
       (let [dir-data (factory/build-directory "dir-with-fake-org" (UUID/randomUUID))
-            dir (directory-model/create dir-data)]
+            dir      (directory-model/create dir-data)]
         (is (string? dir))
         (is (= dir "org doesn't exist"))))))
 

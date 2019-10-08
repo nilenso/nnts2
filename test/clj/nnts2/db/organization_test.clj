@@ -1,4 +1,4 @@
-(ns nnts2.organization.db-test
+(ns nnts2.db.organization-test
   (:require [nnts2.db.organization :as db]
             [nnts2.db.user :as user-db]
             [nnts2.fixtures :refer [clear setup]]
