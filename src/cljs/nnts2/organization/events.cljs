@@ -20,14 +20,13 @@
 
 (re-frame/reg-event-fx
  ::organizations-retrieved
- (fn [cofx [_ org-details]]
+ (fn [{db :db} [_ org-details]]
    {:http-xhrio (map #(dir-api/get-directories (:id %)) org-details)
-    :db (assoc (:db cofx) :organization
+    :db (assoc db :organization
                (reduce
-                (fn [acc v] (assoc acc (:id v) (dissoc v :id)))
-                (get-in cofx [:db :organization])
+                (fn [acc {:keys [id] :as org}] (assoc acc id org))
+                (:organization db)
                 org-details))}))
-
 
 (re-frame/reg-event-db
  ::show-create-org-form

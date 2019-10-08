@@ -11,7 +11,6 @@
    [nnts2.note.api-data :as note-api-data]
    [nnts2.organization.api-data :as org-api-data]))
 
-
 (enable-console-print!)
 
 (re-frame/reg-event-db
@@ -23,7 +22,6 @@
  ::set-active-panel
  (fn [db [_ active-panel]]
    (assoc db :active-panel active-panel)))
-
 
 (re-frame/reg-event-fx
  ::navigated-to-home

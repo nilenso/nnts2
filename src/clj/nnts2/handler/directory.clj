@@ -4,7 +4,6 @@
    [nnts2.model.directory-spec :as spec]
    [ring.util.response :as res]))
 
-
 (defn create [request org-id body]
   "create a directory for an org, with/without a parent directory"
                                         ; should have org-id and dir-id (nullable) in params, org-id in route params and dir-id in params
@@ -15,8 +14,6 @@
     (res/response (if (spec/valid? dir-details)
                     (directory/create dir-details)
                     (spec/explain-str? dir-details)))))
-
-
 
 (defn list [request org-id parent-id show-tree]
   "get directories based on org param"

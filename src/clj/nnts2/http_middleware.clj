@@ -10,7 +10,6 @@
             [nnts2.utils :as utils])
   (:import (java.io InputStream StringReader)))
 
-
 (defn wrap-kebab-case
   [handler]
   (fn [request]
@@ -53,8 +52,6 @@
     ([request respond raise]
      (respond (handler request)))))
 
-
-
 (defn wrap-validate-access-token [handler]
   (fn [request]
     (let [access-token (or (get-in request [:session :ring.middleware.oauth2/access-tokens :google :token])
@@ -72,8 +69,6 @@
                                                         (utils/hyphenize-collection))))
           (-> (res/response "Not authorized")
               (res/status 401)))))))
-
-
 
 (defn wrap-nnts-user-id [handler]
   (fn [request]

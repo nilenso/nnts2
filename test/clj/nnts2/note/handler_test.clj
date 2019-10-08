@@ -12,43 +12,42 @@
 (deftest create-note
   (with-redefs [nnts2.db.note/create (fn [data] data)]
     (testing "Should restructure request into params acceptable for db layer"
-      (let [fake-request {:nnts-user user-id
-                          :body-params      {:title "note-title" :content "note-content"}}
-            {:keys [status body]} (handler/create fake-request)]
+      (let [request {:nnts-user user-id
+                     :body-params      {:title "note-title" :content "note-content"}}
+            {:keys [status body]} (handler/create request)]
         (is (map? body))
         (is (= status 200))
-        (is (= (assoc (:body-params fake-request) :created-by-id user-id) body))))
+        (is (= (assoc (:body-params request) :created-by-id user-id) body))))
 
     (testing "should give 400 when given invalid note data"
-      (let [fake-request {:nnts-user user-id
-                          :body-params {:title 1234 :content "title is integer"}}
-            {:keys [status body]} (handler/create fake-request)]
+      (let [request {:nnts-user user-id
+                     :body-params {:title 1234 :content "title is integer"}}
+            {:keys [status body]} (handler/create request)]
         (is (= status 400))
         (is (string? body))))
 
     (testing "should give 400 when given empty note data"
-      (let [fake-request {:nnts-user user-id
-                          :body-params {:title "" :content ""}}
-            {:keys [status body]} (handler/create fake-request)]
+      (let [request {:nnts-user user-id
+                     :body-params {:title "" :content ""}}
+            {:keys [status body]} (handler/create request)]
         (is (= status 400))
         (is (string? body))))
 
     (testing "should give 400 when given no user"
-      (let [fake-request {:body-params {:title "no user test" :content "no user test"}}
-            {:keys [status body]} (handler/create fake-request)]
+      (let [request {:body-params {:title "no user test" :content "no user test"}}
+            {:keys [status body]} (handler/create request)]
         (is (= status 400))
         (is (string? body))))))
-
 
 (deftest get-note
   (with-redefs [nnts2.db.note/get (fn [data] data)]
     (testing "should restructure params correctly for db layer"
-      (let [fake-req-data {:nnts-user user-id
-                           :params {:id (UUID/randomUUID)
-                                    :title "title"
-                                    :content "conetnt"
-                                    :random-param "random-value"}}
-            {:keys [status body headers]} (handler/get-notes fake-req-data)]
+      (let [req-data {:nnts-user user-id
+                      :params {:id (UUID/randomUUID)
+                               :title "title"
+                               :content "conetnt"
+                               :random-param "random-value"}}
+            {:keys [status body headers]} (handler/get-notes req-data)]
         (is (= status 200))
         (is (= (body :created-by-id) user-id))
         (is (map? body))

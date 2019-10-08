@@ -18,7 +18,6 @@
      [(user-views/greeting)]
      [(org-views/organization-list)]]))
 
-
 (defn about-panel []
   [:div.main
    [:h1 "This is the About Page."]
@@ -26,7 +25,6 @@
    [:div
     [:a {:href "#/"}
      "go to Home Page"]]])
-
 
 (defn- panels [panel-name]
   (case panel-name

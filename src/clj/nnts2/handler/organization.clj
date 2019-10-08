@@ -6,7 +6,6 @@
             [ring.util.response :as res])
   (:import (java.util UUID)))
 
-
 (defn create
   "Create an organization and make the creator an admin"
   [{:keys [nnts-user] :as request} body]

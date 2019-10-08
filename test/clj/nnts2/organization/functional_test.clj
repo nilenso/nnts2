@@ -6,7 +6,6 @@
             [nnts2.db.organization :as db])
   (:import (java.util UUID)))
 
-
 (use-fixtures :each clear)
 (use-fixtures :once setup)
 

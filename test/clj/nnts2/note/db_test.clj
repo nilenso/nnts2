@@ -11,34 +11,33 @@
 
 (deftest create-note-test
   (testing "should return note map when given correct params"
-    (let [fake-note {:title "note-title"
-                     :content "note-content"
-                     :created-by-id user-id}
-          output (note-db/create fake-note)]
+    (let [note {:title "note-title"
+                :content "note-content"
+                :created-by-id user-id}
+          output (note-db/create note)]
       (is (map? output))
-      (is (= fake-note (select-keys output [:title :content :created-by-id])))
+      (is (= note (select-keys output [:title :content :created-by-id])))
       (is (contains? output :id))
       (is (contains? output :created-at))
       (is (contains? output :note-time))
       (is (contains? output :updated-at)))))
 
-
 (deftest get-note-test
   (testing "should return one note if one note has been created"
-    (let [fake-note {:title "note-title"
-                     :content "note-content"
-                     :created-by-id user-id}
-          created-note (note-db/create fake-note)
+    (let [note {:title "note-title"
+                :content "note-content"
+                :created-by-id user-id}
+          created-note (note-db/create note)
           get-req-body {:created-by-id user-id}
           get-req-output (note-db/get get-req-body)]
       (is (= (count get-req-output) 1))
       (is (first get-req-output) created-note)))
 
   (testing "should return two notes if two have been created"
-    (let [fake-note2 {:title "note-title2"
-                      :content "note-content2"
-                      :created-by-id user-id}
-          created-note2 (note-db/create fake-note2)
+    (let [note2 {:title "note-title2"
+                 :content "note-content2"
+                 :created-by-id user-id}
+          created-note2 (note-db/create note2)
           get-req-body {:created-by-id user-id}
           get-req-output (note-db/get get-req-body)]
       (is (= (count get-req-output) 2))
@@ -50,14 +49,13 @@
                           :created-by-id (UUID/randomUUID)}}]
       (is (thrown? org.postgresql.util.PSQLException (note-db/create request))))))
 
-
 (deftest get-note-with-params-test
   (testing "should get note with id if it belongs to an existing note"
-    (let [fake-note {:title "note-title"
-                     :content "note-content"
-                     :created-by-id user-id}
-          create-output (note-db/create fake-note)
-          create-output2 (note-db/create fake-note)
+    (let [note {:title "note-title"
+                :content "note-content"
+                :created-by-id user-id}
+          create-output (note-db/create note)
+          create-output2 (note-db/create note)
           get-req-body {:created-by-id user-id
                         :id (:id create-output)}
           get-req-output (note-db/get get-req-body)]

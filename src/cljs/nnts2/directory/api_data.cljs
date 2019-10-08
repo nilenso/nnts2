@@ -2,7 +2,6 @@
   (:require [ajax.core :as ajax]
             [re-frame.core :as re-frame]))
 
-
 (defn create-directory [data]
   {:method :post
    :uri (goog.string/format "/orgs/%s/dirs" (:org-id data))
@@ -10,7 +9,6 @@
    :params (dissoc data :org-id)
    :format (ajax/json-request-format)
    :on-success [:nnts2.directory.events/create-directory-success]})
-
 
 (defn get-directories [org-id]
   {:method :get

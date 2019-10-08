@@ -9,8 +9,8 @@
 
 (defn get-uuid [] (UUID/randomUUID))
 
-(defn user
-  ([] (user "Dirk" "Gently" "dirk@gmail.com" "www.url.com"))
+(defn build-user
+  ([] (build-user "Dirk" "Gently" "dirk@gmail.com" "www.url.com"))
   ([given-name family-name email picture-url]
    {:id user-id
     :given-name given-name
@@ -18,15 +18,14 @@
     :email email
     :picture-url picture-url}))
 
-
-(defn organization
-  ([] (organization "org" "slug"))
-  ([name] (organization name  name))
+(defn build-organization
+  ([] (build-organization "org" "slug"))
+  ([name] (build-organization name  name))
   ([name slug] {:name name :slug slug}))
 
-(defn membership
-  ([org-id] (membership org-id "member" user-id))
-  ([org-id role] (membership org-id role user-id))
+(defn build-membership
+  ([org-id] (build-membership org-id "member" user-id))
+  ([org-id role] (build-membership org-id role user-id))
   ([org-id role new-user-id]
    {:org-id org-id
     :role role
@@ -35,28 +34,26 @@
 (defn create-org
   "creates org and a membership entry also"
   ([] (create-org "default-org" "default-slug"))
-  ([name slug](let [org-id (:id (org-db/create (organization name slug)))
-                    member-data (membership org-id)
-                    member (org-db/add-user member-data)]
-                org-id)))
+  ([name slug] (let [org-id (:id (org-db/create (build-organization name slug)))
+                     member-data (build-membership org-id)
+                     member (org-db/add-user member-data)]
+                 org-id)))
 
-(defn directory
+(defn build-directory
   ([name]
-   (directory name (create-org)))
+   (build-directory name (create-org)))
   ([name org-id]
-   (directory name org-id nil))
+   (build-directory name org-id nil))
   ([name org-id parent-id]
    {:name name
     :parent-id parent-id
     :org-id org-id
     :created-by-id user-id}))
 
-
-(defn nested-directory-rows [nest-level]
-  (let [org-id "fake-org"]
-    (loop [level 1
-           parent-id nil
-           rows []]
-      (if (> level nest-level)
-        rows
-        (recur (+ level 1) level (conj rows (assoc (directory "dir" org-id parent-id) :id level)))))))
+(defn build-nested-directory-rows [nest-level]
+  (let [org-id "orgid"]
+    (map
+     (fn [level] (assoc
+                  (build-directory "dir" org-id (when (> level 0) level))
+                  :id (inc level)))
+     (range 0 nest-level))))

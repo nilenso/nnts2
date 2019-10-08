@@ -7,7 +7,6 @@
 (re-frame/reg-event-fx
  ::create-directory-submit
  (fn [cofx [_ dir-data]]
-   (prn dir-data)
    {:db (:db cofx)
     :http-xhrio (api-data/create-directory dir-data)}))
 
@@ -17,17 +16,15 @@
    {:db (:db cofx)
     :http-xhrio (api-data/get-directories (:org-id dir-data))}))
 
-
 (re-frame/reg-event-db
  ::received-directory-list
  (fn [db [_ directories]]
-   (assoc-in db [:organization (:org-id (first directories)) :directories] directories )))
+   (assoc-in db [:organization (:org-id (first directories)) :directories] directories)))
 
 (re-frame/reg-event-fx
  ::get-directories
  (fn [cofx [_ org-id]]
    {:http-xhrio (api-data/get-directories org-id)}))
-
 
 (re-frame/reg-event-db
  ::directory-selected

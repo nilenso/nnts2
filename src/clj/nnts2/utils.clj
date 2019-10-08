@@ -1,6 +1,6 @@
 (ns nnts2.utils
   (:require [clojure.string :as str]
-           [clojure.walk :as walk]))
+            [clojure.walk :as walk]))
 
 (defn snake->kebab
   [word]
