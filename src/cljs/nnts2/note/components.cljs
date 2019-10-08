@@ -5,7 +5,6 @@
 
 (enable-console-print!)
 
-
 (defn write-note []
   (let [note-form (re-frame/subscribe [::subs/note-form])]
     (fn []
@@ -32,21 +31,16 @@
                               (re-frame/dispatch [:nnts2.note.events/note-submit @note-form]))}
          "Save"]]])))
 
-
-
 (defn note [note-data]
   [:pre [:code
          [:label {:for (str (:id note-data) "content")} (:title note-data)]
          [:div {:key (str (:id note-data) "content")} (:content note-data)]]])
 
-
 (defn list-notes [notes]
   [:div {:style {:overflow-y "auto"
                  :height "300px"
                  :margin-bottom "1em"}}
-   (for [k notes] ^{:key (:id k)}[note k])])
-
-
+   (for [k notes] ^{:key (:id k)} [note k])])
 
 (defn note-panel []
   (let [notes (re-frame/subscribe [::subs/notes])]

@@ -34,7 +34,6 @@
                   :role    "member"}]
       (is (contains? (db/add-user params) :role))))
 
-
   (testing "adding a member without a role should result in an exception"
     (let [org (db/create {:name "test12"
                           :slug "test-12"})

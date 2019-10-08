@@ -2,11 +2,16 @@
   (:require [reagent.core :as reagent]
             [re-frame.core :as re-frame]
             [nnts2.organization.subs :as subs]
-            [nnts2.organization.events :as events]))
+            [nnts2.organization.events :as events]
+            [nnts2.directory.components :as directories]))
 
-(defn sidenav-item [{:keys [name]}]
-  ^{:key name}
-  [:a {:href "#"} name])
+(defn organization-view [id {:keys [name]}]
+  "showing organization using directory view but with nil id, also initializing org-directories component"
+  ^{:key id}
+  [:ul  [:b [directories/directory {:name name
+                                    :org-id id
+                                    :id nil}]]
+   [directories/directory-list id]])
 
 (defn create-form []
   (let [org-details (reagent/atom {:name ""
@@ -33,11 +38,10 @@
           {:on-click (fn [_event]
                        (re-frame/dispatch [::events/create-organization @org-details]))} "Create"]]))))
 
-
-
-(defn sidenav []
+(defn organization-list []
   (let [orgs-subscription (re-frame/subscribe [::subs/organization])
         show-create-org-form (re-frame/subscribe [::subs/show-create-org-form])]
+
     (fn []
       (let [orgs @orgs-subscription]
         [:div
@@ -50,4 +54,5 @@
          (if @show-create-org-form
            [create-form]
            [:div])
-         (map sidenav-item orgs)]))))
+         (for [[k v] orgs]
+           (if k [organization-view k v]))]))))

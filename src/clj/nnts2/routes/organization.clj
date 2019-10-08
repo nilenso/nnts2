@@ -3,14 +3,12 @@
             [nnts2.handler.organization :as handler]
             [clojure.spec.alpha :as s]))
 
-
 (s/def ::name string?)
 (s/def ::slug string?)
 (s/def ::organization (s/keys :req-un [::name ::slug]))
 
-
 (defroutes routes
-  (context "/org" []
+  (context "/orgs" []
     :coercion :spec
     (GET "/" [] handler/get-orgs)
     (POST "/" []

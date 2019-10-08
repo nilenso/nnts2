@@ -5,7 +5,6 @@
             [nnts2.routes.directory :as directory]
             [compojure.api.sweet :refer [api]]))
 
-
 (def auth-routes
   (api
    user/routes

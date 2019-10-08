@@ -1,7 +1,6 @@
 (ns nnts2.user.components
   (:require [nnts2.user.api :as api]))
 
-
 (enable-console-print!)
 
 (defn login-panel [user-info]

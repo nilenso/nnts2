@@ -16,8 +16,7 @@
   (fn []
     [:div.sidenav
      [(user-views/greeting)]
-     [(org-views/sidenav)]]))
-
+     [(org-views/organization-list)]]))
 
 (defn about-panel []
   [:div.main
@@ -26,7 +25,6 @@
    [:div
     [:a {:href "#/"}
      "go to Home Page"]]])
-
 
 (defn- panels [panel-name]
   (case panel-name

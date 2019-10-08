@@ -3,18 +3,19 @@
             [nnts2.handler.directory :as directory]
             [clojure.spec.alpha :as s]))
 
+(def alnum-regex #"[a-zA-Z0-9-]+")
 
 (s/def ::uuid uuid?)
-(s/def ::parent-id ::uuid)
+(s/def ::name (s/and string? #(re-matches alnum-regex %)))
+(s/def ::parent-id (s/or :uuid ::uuid :nil nil?))
 (s/def ::org-id ::uuid)
 (s/def ::show-tree boolean?)
 
 (s/def ::directory (s/keys :opt-un [::parent-id]
                            :req-un [::name]))
 
-
 (defroutes dir-routes
-  (context "/org/:org-id/dir" []
+  (context "/orgs/:org-id/dirs" []
     :coercion :spec
     :path-params [org-id :- ::org-id]
     (GET "/" []

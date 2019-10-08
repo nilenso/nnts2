@@ -6,10 +6,10 @@
    [nnts2.note.events :as note-events]
    [nnts2.organization.events :as org-events]
    [nnts2.user.events :as user-events]
+   [nnts2.directory.events :as dir-events]
    [nnts2.user.api-data :as user-api-data]
    [nnts2.note.api-data :as note-api-data]
    [nnts2.organization.api-data :as org-api-data]))
-
 
 (enable-console-print!)
 
@@ -22,7 +22,6 @@
  ::set-active-panel
  (fn [db [_ active-panel]]
    (assoc db :active-panel active-panel)))
-
 
 (re-frame/reg-event-fx
  ::navigated-to-home

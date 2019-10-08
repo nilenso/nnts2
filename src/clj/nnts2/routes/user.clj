@@ -5,7 +5,6 @@
             [clojure.spec.alpha :as s]
             [spec-tools.spec :as spec]))
 
-
 (defroutes routes
   (GET "/user" []
     handler/create)

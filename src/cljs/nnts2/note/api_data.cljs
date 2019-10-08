@@ -6,7 +6,7 @@
 
 (defn create-note [data]
   {:method :post
-   :uri "/note"
+   :uri "/notes"
    :response-format (ajax/json-response-format {:keywords? true})
    :params data
    :format (ajax/json-request-format)
@@ -14,6 +14,6 @@
 
 (defn get-notes []
   {:method :get
-   :uri "/note"
+   :uri "/notes"
    :response-format (ajax/json-response-format {:keywords? true})
    :on-success [:nnts2.note.events/note-received-list]})
