@@ -1,7 +1,6 @@
 (ns nnts2.handler.directory
   (:require
    [nnts2.model.directory :as directory]
-   [nnts2.model.directory-spec :as spec]
    [ring.util.response :as res]))
 
 (defn create [request org-id body]
@@ -11,9 +10,7 @@
         dir-details (-> body
                         (assoc :org-id org-id)
                         (assoc :created-by-id nnts-user))]
-    (res/response (if (spec/valid? dir-details)
-                    (directory/create dir-details)
-                    (spec/explain-str? dir-details)))))
+    (res/response (directory/create dir-details))))
 
 (defn list [request org-id parent-id show-tree]
   "get directories based on org param"

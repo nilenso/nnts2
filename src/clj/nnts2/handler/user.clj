@@ -2,7 +2,7 @@
   (:require [ring.util.response :as res]
             [clj-http.client :refer [get]]
             [nnts2.db.user :as user-db]
-            [nnts2.model.user :as user-spec]
+            [nnts2.spec.user :as user-spec]
             [nnts2.spec-helpers :as spec-helper]))
 
 (defn create [{:keys [google-user]}]
