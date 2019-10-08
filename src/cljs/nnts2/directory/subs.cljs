@@ -10,3 +10,8 @@
  ::selected-directory
  (fn [db [_ dir-id]]
    (and dir-id (= dir-id (:selected-dir db)))))
+
+(re-frame/reg-sub
+ ::add-sub-directory
+ (fn [db [_ dir-id]]
+   (and dir-id (= dir-id (:add-subdir-in-directory db)))))

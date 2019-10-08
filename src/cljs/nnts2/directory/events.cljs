@@ -6,14 +6,14 @@
 
 (re-frame/reg-event-fx
  ::create-directory-submit
- (fn [cofx [_ dir-data]]
-   {:db (:db cofx)
+ (fn [{db :db} [_ dir-data]]
+   {:db db
     :http-xhrio (api-data/create-directory dir-data)}))
 
 (re-frame/reg-event-fx
  ::create-directory-success
- (fn [cofx [_ dir-data]]
-   {:db (:db cofx)
+ (fn [{db :db} [_ dir-data]]
+   {:db (assoc db :add-subdir-in-directory nil)
     :http-xhrio (api-data/get-directories (:org-id dir-data))}))
 
 (re-frame/reg-event-db
@@ -32,3 +32,8 @@
    (if dir-id
      (assoc db :selected-dir dir-id)
      db)))
+
+(re-frame/reg-event-db
+ ::directory-add-new-subdir
+ (fn [db [_ dir-id]]
+   (assoc db :add-subdir-in-directory dir-id)))

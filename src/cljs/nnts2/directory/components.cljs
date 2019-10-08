@@ -24,13 +24,13 @@
         :on-click #(re-frame/dispatch [:nnts2.directory.events/create-directory-submit @dir-details])}
        "→"]]]))
 
-(defn directory [{:keys [id name] :as dir}]
+(defn directory [{:keys [id name org-id] :as dir}]
   (let [selected (re-frame/subscribe [::subs/selected-directory id])
-        add-new (r/atom false)]
+        add-new (re-frame/subscribe [::subs/add-sub-directory  (or id org-id)])]
     (fn []
       [:text
        {:id id
-        :onDoubleClick (fn [e] (swap! add-new not))
+        :onDoubleClick #(re-frame/dispatch [:nnts2.directory.events/directory-add-new-subdir (or id org-id)])
         :on-click #(re-frame/dispatch [:nnts2.directory.events/directory-selected id])
         :style (if @selected {:color "orange"} {})}
        name
