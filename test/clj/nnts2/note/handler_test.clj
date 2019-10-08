@@ -42,7 +42,6 @@
           (is (= status 400))
           (is (string? body)))))))
 
-
 (deftest get-note
   (with-redefs [nnts2.db.note/get (fn [data] data)]
     (testing "should restructure params correctly for db layer"
