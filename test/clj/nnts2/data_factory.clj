@@ -12,10 +12,10 @@
 (defn build-user
   ([] (build-user "Dirk" "Gently" "dirk@gmail.com" "www.url.com"))
   ([given-name family-name email picture-url]
-   {:id user-id
-    :given-name given-name
+   {:id          user-id
+    :given-name  given-name
     :family-name family-name
-    :email email
+    :email       email
     :picture-url picture-url}))
 
 (defn build-organization
@@ -27,16 +27,16 @@
   ([org-id] (build-membership org-id "member" user-id))
   ([org-id role] (build-membership org-id role user-id))
   ([org-id role new-user-id]
-   {:org-id org-id
-    :role role
+   {:org-id  org-id
+    :role    role
     :user-id new-user-id}))
 
 (defn create-org
   "creates org and a membership entry also"
   ([] (create-org "default-org" "default-slug"))
-  ([name slug] (let [org-id (:id (org-db/create (build-organization name slug)))
+  ([name slug] (let [org-id      (:id (org-db/create (build-organization name slug)))
                      member-data (build-membership org-id)
-                     member (org-db/add-user member-data)]
+                     member      (org-db/add-user member-data)]
                  org-id)))
 
 (defn build-directory
@@ -45,9 +45,9 @@
   ([name org-id]
    (build-directory name org-id nil))
   ([name org-id parent-id]
-   {:name name
-    :parent-id parent-id
-    :org-id org-id
+   {:name          name
+    :parent-id     parent-id
+    :org-id        org-id
     :created-by-id user-id}))
 
 (defn build-nested-directory-rows [nest-level]

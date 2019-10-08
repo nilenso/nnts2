@@ -26,7 +26,7 @@
 (re-frame/reg-event-fx
  ::navigated-to-home
  (fn [cofx _]
-   {:db (assoc (:db cofx) :active-panel :home-panel)
+   {:db         (assoc (:db cofx) :active-panel :home-panel)
     :http-xhrio [(user-api-data/user-info)
                  (note-api-data/get-notes)
                  (org-api-data/get-org)]}))

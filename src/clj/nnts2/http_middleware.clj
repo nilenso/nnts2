@@ -73,5 +73,5 @@
 (defn wrap-nnts-user-id [handler]
   (fn [request]
     (let [email (get-in request [:google-user :email])
-          user (user-db/get-by-email email)]
+          user  (user-db/get-by-email email)]
       (handler (assoc-in request [:nnts-user] (:id user))))))
