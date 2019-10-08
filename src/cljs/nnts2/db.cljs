@@ -4,4 +4,4 @@
   {:name "re-frame" :note-form {:title "" :content ""}})
 
 #_(def user-info
-  {:user-info ""})
+    {:user-info ""})

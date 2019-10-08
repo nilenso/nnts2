@@ -4,7 +4,6 @@
    [day8.re-frame.http-fx]
    [nnts2.user.api-data :as api-data]))
 
-
 (re-frame/reg-event-db
  ::user-info-retrieved
  (fn [db [_ user-info]]

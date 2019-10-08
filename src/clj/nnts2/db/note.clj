@@ -7,7 +7,6 @@
             [nnts2.config :as config]
             [nnts2.utils :as utils]))
 
-
 (defn create
   ([note-data] (create note-data config/db-spec))
   ([note-data db-spec]
@@ -18,8 +17,6 @@
                                    sql/format)
                      {:identifiers utils/snake->kebab})
          first))))
-
-
 
 (defn get
   "list api for notes"

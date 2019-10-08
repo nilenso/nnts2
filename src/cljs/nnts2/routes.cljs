@@ -14,7 +14,6 @@
 (defroute "/home" []
   (re-frame/dispatch [::events/navigated-to-home]))
 
-
 (def history (pushy/pushy secretary/dispatch!
                           (fn [route]
                             (secretary/locate-route route) route)))

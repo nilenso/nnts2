@@ -7,7 +7,6 @@
             [nnts2.utils :as utils]
             [nnts2.db-utils :as db-utils]))
 
-
 (defn get
   ([] (get {}))
   ([where-param-map] (get where-param-map config/db-spec))
@@ -17,8 +16,6 @@
                                  (db-utils/multi-param-where where-param-map)
                                  sql/format)
                    {:identifiers utils/snake->kebab}))))
-
-
 
 (defn create
   ([params] (create params config/db-spec))

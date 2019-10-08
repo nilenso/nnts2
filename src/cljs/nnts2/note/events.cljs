@@ -2,7 +2,6 @@
   (:require [re-frame.core :as re-frame]
             [nnts2.note.api-data :as api-data]))
 
-
 (enable-console-print!)
 
 (re-frame/reg-event-db
@@ -12,15 +11,16 @@
 
 (re-frame/reg-event-fx
  ::note-submit
- (fn [cofx [_ note dir]]
-   {:db (:db cofx)
+ (fn [{db :db} [_ note dir]]
+   {:db         db
     :http-xhrio (api-data/create-note note dir)}))
 
 (re-frame/reg-event-fx
  ::note-submit-success
- (fn [cofx [_ note]]
-   {:db  (assoc (:db cofx) :note-form {:title "" :content ""})
+ (fn [{db :db} [_ note]]
+   {:db         (assoc db :note-form {:title "" :content ""})
     :http-xhrio (api-data/get-notes (:directory-id note))}))
+
 
 (re-frame/reg-event-db
  ::note-received-list

@@ -18,4 +18,4 @@
   ([env] (read env specs))
   ([env specs-atom]
    (let [config (aero/read-config (clojure.java.io/resource "config/config.edn") {:profile env})]
-     (reset! specs-atom config)) ))
+     (reset! specs-atom config))))
