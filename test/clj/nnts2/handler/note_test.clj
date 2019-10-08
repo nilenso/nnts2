@@ -1,15 +1,16 @@
-(ns nnts2.note.handler-test
+(ns nnts2.handler.note-test
   (:require [clojure.test :refer :all]
             [nnts2.fixtures :as fixtures]
             [nnts2.handler.note :as handler]
             [nnts2.data-factory :as factory]))
+
 
 (use-fixtures :each fixtures/clear)
 (use-fixtures :once fixtures/setup fixtures/adduser)
 
 
 (deftest create-note
-  (with-redefs [nnts2.db.note/create (fn [data] data)]
+  (with-redefs [nnts2.db.handler/create (fn [data] data)]
     (let [directory (factory/create-dir "root")]
       (testing "Should restructure request into params acceptable for db layer"
         (let [request               {:nnts-user   factory/user-id
@@ -44,7 +45,7 @@
 
 
 (deftest get-note
-  (with-redefs [nnts2.db.note/get (fn [data] data)]
+  (with-redefs [nnts2.db.handler/get (fn [data] data)]
     (testing "should restructure params correctly for db layer"
       (let [directory                     (factory/create-dir "root")
             req-data                      {:nnts-user factory/user-id}

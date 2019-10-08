@@ -17,7 +17,7 @@
     :given-name  given-name
     :family-name family-name
     :email       email
-    :picture-url picture-url}))
+    :picture     picture-url}))
 
 (defn build-organization
   ([] (build-organization "org" "slug"))

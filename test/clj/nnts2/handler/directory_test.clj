@@ -1,4 +1,4 @@
-(ns nnts2.directory.handler-test
+(ns nnts2.handler.directory-test
   (:require [clojure.test :refer :all]
             [nnts2.handler.directory :as handler]
             [nnts2.fixtures :as fixtures]
@@ -8,11 +8,11 @@
 (use-fixtures :once fixtures/setup fixtures/adduser)
 
 (deftest create-dir
-  (with-redefs [nnts2.model.directory/create (fn [data] data)]
+  (with-redefs [nnts2.model.handler/create (fn [data] data)]
     (testing "should restructure request by adding org-id and created-by-id from request"
-      (let [org-id (factory/get-uuid)
-            request {:nnts-user factory/user-id}
-            body {:name "directory" :parent-id nil}
+      (let [org-id                (factory/get-uuid)
+            request               {:nnts-user factory/user-id}
+            body                  {:name "directory" :parent-id nil}
             {:keys [body status]} (handler/create request org-id body)]
         (is (= status 200))
         (is (map? body))
