@@ -9,8 +9,8 @@
 
 (deftest spec-requirements
   (testing "Missing email"
-    (let [user (dissoc user :email)
-          is-valid (spec/valid? user)
+    (let [user        (dissoc user :email)
+          is-valid    (spec/valid? user)
           explain-str (spec/explain-str user)]
       (is (not is-valid))
       (is (contains? explain-str :clojure.spec.alpha/problems)))))

@@ -7,16 +7,16 @@
 
 (defn create-org
   [details]
-  {:method :post
+  {:method          :post
    :response-format (ajax/json-response-format {:keywords? true})
-   :format (ajax/json-request-format)
-   :params details
-   :uri "/orgs"
-   :on-success [:nnts2.organization.events/organization-created]})
+   :format          (ajax/json-request-format)
+   :params          details
+   :uri             "/orgs"
+   :on-success      [:nnts2.organization.events/organization-created]})
 
 (defn get-org []
-  {:method :get
+  {:method          :get
    :response-format (ajax/json-response-format {:keywords? true})
-   :format (ajax/json-request-format)
-   :uri "/orgs"
-   :on-success [:nnts2.organization.events/organizations-retrieved]})
+   :format          (ajax/json-request-format)
+   :uri             "/orgs"
+   :on-success      [:nnts2.organization.events/organizations-retrieved]})

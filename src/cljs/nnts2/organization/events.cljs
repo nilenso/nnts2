@@ -22,11 +22,11 @@
  ::organizations-retrieved
  (fn [{db :db} [_ org-details]]
    {:http-xhrio (map #(dir-api/get-directories (:id %)) org-details)
-    :db (assoc db :organization
-               (reduce
-                (fn [acc {:keys [id] :as org}] (assoc acc id org))
-                (:organization db)
-                org-details))}))
+    :db         (assoc db :organization
+                       (reduce
+                        (fn [acc {:keys [id] :as org}] (assoc acc id org))
+                        (:organization db)
+                        org-details))}))
 
 (re-frame/reg-event-db
  ::show-create-org-form

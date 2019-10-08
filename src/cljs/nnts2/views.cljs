@@ -28,9 +28,9 @@
 
 (defn- panels [panel-name]
   (case panel-name
-    :home-panel [home-panel]
+    :home-panel  [home-panel]
     :about-panel [about-panel]
-    :note-panel [note/note-panel]
+    :note-panel  [note/note-panel]
     [:div]))
 
 (defn show-panel [panel-name]

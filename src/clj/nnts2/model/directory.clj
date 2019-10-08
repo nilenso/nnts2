@@ -12,15 +12,15 @@
   [tree
    parent-id
    remaining-rows]
-  (let [to-insert (filter #(= parent-id (:parent-id %)) remaining-rows)
+  (let [to-insert      (filter #(= parent-id (:parent-id %)) remaining-rows)
         next-iter-rows (clojure.set/difference (set remaining-rows) (set to-insert))]
     (reduce
      (fn [acc {:keys [id name org-id]}]
        (conj
         acc
-        {:id id
-         :name name
-         :org-id org-id
+        {:id          id
+         :name        name
+         :org-id      org-id
          :directories (directory-rows->nested-directories [] id next-iter-rows)}))
      tree
      to-insert)))
@@ -28,7 +28,7 @@
 (defn list [{:keys [show-tree parent-id] :as params}]
   "if show-tree is true in params, then full directory sub tree will be returned
    if false then only immediate children are returned"
-  (let [filter-by (if show-tree (dissoc params :parent-id :show-tree) (dissoc params :show-tree))
+  (let [filter-by      (if show-tree (dissoc params :parent-id :show-tree) (dissoc params :show-tree))
         directory-rows (db/get filter-by)]
     (directory-rows->nested-directories [] parent-id directory-rows)))
 

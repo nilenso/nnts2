@@ -12,5 +12,5 @@
 
 (defn get-notes [{:keys [nnts-user params]}]
   (let [get-params (select-keys params [:id :title :content :created-at])
-        params (assoc get-params :created-by-id nnts-user)]
+        params     (assoc get-params :created-by-id nnts-user)]
     (res/response (db/get params))))

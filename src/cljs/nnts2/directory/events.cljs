@@ -7,13 +7,13 @@
 (re-frame/reg-event-fx
  ::create-directory-submit
  (fn [{db :db} [_ dir-data]]
-   {:db db
+   {:db         db
     :http-xhrio (api-data/create-directory dir-data)}))
 
 (re-frame/reg-event-fx
  ::create-directory-success
  (fn [{db :db} [_ dir-data]]
-   {:db (assoc db :add-subdir-in-directory nil)
+   {:db         (assoc db :add-subdir-in-directory nil)
     :http-xhrio (api-data/get-directories (:org-id dir-data))}))
 
 (re-frame/reg-event-db
