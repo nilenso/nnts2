@@ -7,7 +7,6 @@
    [nnts2.views :as views]
    [nnts2.config :as config]))
 
-
 (defn dev-setup []
   (when config/debug?
     (enable-console-print!)

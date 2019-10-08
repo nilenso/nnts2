@@ -6,12 +6,11 @@
             [ring.util.response :as res])
   (:import (java.util UUID)))
 
-
 (defn create
   "Create an organization and make the creator an admin"
   [{:keys [nnts-user] :as request} body]
   (if (spec/valid? body)
-    (let [org (db/create body)
+    (let [org    (db/create body)
           member {:user-id nnts-user
                   :org-id  (:id org)
                   :role    "admin"}]

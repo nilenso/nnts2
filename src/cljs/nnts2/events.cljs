@@ -11,7 +11,6 @@
    [nnts2.note.api-data :as note-api-data]
    [nnts2.organization.api-data :as org-api-data]))
 
-
 (enable-console-print!)
 
 (re-frame/reg-event-db
@@ -24,10 +23,9 @@
  (fn [db [_ active-panel]]
    (assoc db :active-panel active-panel)))
 
-
 (re-frame/reg-event-fx
  ::navigated-to-home
  (fn [cofx _]
-   {:db (assoc (:db cofx) :active-panel :home-panel)
+   {:db         (assoc (:db cofx) :active-panel :home-panel)
     :http-xhrio [(user-api-data/user-info)
                  (org-api-data/get-org)]}))
