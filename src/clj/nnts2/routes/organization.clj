@@ -3,7 +3,6 @@
             [nnts2.handler.organization :as handler]
             [nnts2.spec.organization :as spec]))
 
-
 (defroutes routes
   (context "/orgs" []
     :coercion :spec

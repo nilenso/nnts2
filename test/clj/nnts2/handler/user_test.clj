@@ -10,7 +10,6 @@
 (deftest create-user
   (with-redefs []))
 
-
 (deftest user-info-test
   (testing "get correct user given id"))
 

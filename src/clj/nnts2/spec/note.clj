@@ -9,3 +9,6 @@
 (s/def ::directory-id ::uuid)
 
 (s/def ::note (s/keys :req-un [::title ::content]))
+
+(defn valid? [data] (s/valid? ::note data))
+(defn explain [data] (s/explain-data ::note data))

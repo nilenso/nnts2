@@ -1,7 +1,6 @@
 (ns nnts2.spec.directory
   (:require [clojure.spec.alpha :as s]))
 
-
 (def alnum-regex #"[a-zA-Z0-9-]+")
 
 (s/def ::uuid uuid?)

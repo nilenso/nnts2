@@ -21,7 +21,6 @@
    {:db         (assoc db :note-form {:title "" :content ""})
     :http-xhrio (api-data/get-notes (:directory-id note))}))
 
-
 (re-frame/reg-event-db
  ::note-received-list
  (fn [db [_ notes]]

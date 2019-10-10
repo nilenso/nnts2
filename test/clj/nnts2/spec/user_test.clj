@@ -3,7 +3,6 @@
             [clojure.test :refer :all]
             [nnts2.data-factory :as factory]))
 
-
 (def user (factory/build-user))
 
 (deftest spec-requirements

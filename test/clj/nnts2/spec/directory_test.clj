@@ -7,7 +7,6 @@
 (use-fixtures :each fixtures/clear)
 (use-fixtures :once fixtures/setup)
 
-
 (deftest directory-spec-test
   (testing "should succeed if name is string (only alphanumeric and -), parent id is uuid"
     (let [data  {:name "name" :parent-id (factory/get-uuid)}
@@ -25,7 +24,7 @@
           data   nil
           valid2 (spec/org-valid? data)]
       (is (false? valid))
-      (is (false? valid2) )))
+      (is (false? valid2))))
 
   (testing "should return false if dir name is not a string"
     (let [data  {:name 1234 :parent-id (factory/get-uuid)}
