@@ -2,57 +2,70 @@
   (:require [clojure.test :refer :all]
             [nnts2.fixtures :refer [clear setup]]
             [nnts2.data-factory :as factory]
-            [nnts2.db.user :as user-db]
-            [nnts2.handler.organization :as handler]
-            [nnts2.db.organization :as db]
-            [nnts2.data-factory :as factory])
-  (:import (java.util UUID)))
+            [nnts2.spec.organization :as spec]))
 
 (use-fixtures :each clear)
 (use-fixtures :once setup)
 
+(deftest org-spec-test
+  (testing "should succeed if name and slug are strings"
+    (let [data  {:name "name" :slug "slug"}
+          valid (spec/valid? data)]
+      (is valid)))
+  (testing "should fail if name is not string"
+    (let [data  {:name 1234 :slug "slug"}
+          valid (spec/valid? data)]
+      (is (false? valid))))
+  (testing "should fail if slug is not string"
+    (let [data  {:name "name" :slug 65363}
+          valid (spec/valid? data)]
+      (is (false? valid))))
+  (testing "should fail if name is not present"
+    (let [data  {:slug "slug"}
+          valid (spec/valid? data)]
+      (is (false? valid))))
+  (testing "should fail if slug is not present"
+    (let [data  {:name "name"}
+          valid (spec/valid? data)]
+      (is (false? valid)))))
 
-(defn user-factory []  {:email       "dirk@gmail.com"
-                        :given-name  "Dirk"
-                        :family-name "Gently"
-                        :picture     "www.some-url.com"})
 
-(deftest create-org-test
-  (testing "creating organization with an invalid name should return a spec error"
-    (let [body     (assoc (factory/build-organization) :name 12345)
-          response (handler/create {} body)]
-      (is (= (:status response) 400))))
+#_(deftest create-org-test
+    (testing "creating organization with an invalid name should return a spec error"
+      (let [body     (assoc (factory/build-organization) :name 12345)
+            response (handler/create {} body)]
+        (is (= (:status response) 400))))
 
-  (testing "creating organization with an invalid slug should return a spec error"
-    (let [body     (assoc (factory/build-organization) :slug 12345)
-          response (handler/create {} body)]
-      (is (= (:status response) 400))))
+    (testing "creating organization with an invalid slug should return a spec error"
+      (let [body     (assoc (factory/build-organization) :slug 12345)
+            response (handler/create {} body)]
+        (is (= (:status response) 400))))
 
-  (testing "creating organization with an missing name should return a spec error"
-    (let [body     (dissoc (factory/build-organization) :name)
-          response (handler/create {} body)]
-      (is (= (:status response) 400))))
+    (testing "creating organization with an missing name should return a spec error"
+      (let [body     (dissoc (factory/build-organization) :name)
+            response (handler/create {} body)]
+        (is (= (:status response) 400))))
 
-  (testing "creating organization with a missing slug should return a spec error"
-    (let [body     (dissoc (factory/build-organization) :slug)
-          response (handler/create {} body)]
-      (is (= (:status response) 400))))
+    (testing "creating organization with a missing slug should return a spec error"
+      (let [body     (dissoc (factory/build-organization) :slug)
+            response (handler/create {} body)]
+        (is (= (:status response) 400))))
 
-  (testing "creating organization with valid details should return a success"
-    (let [user     (user-db/create (user-factory))
-          body     (factory/build-organization)
-          response (handler/create {:nnts-user (:id user)} body)]
-      (is (= (get-in response [:body :name]) (:name body)))
-      (is (= (get-in response [:body :slug]) (:slug body)))
-      (is (= (:status response) 200))))
+    (testing "creating organization with valid details should return a success"
+      (let [user     (user-db/create (user-factory))
+            body     (factory/build-organization)
+            response (handler/create {:nnts-user (:id user)} body)]
+        (is (= (get-in response [:body :name]) (:name body)))
+        (is (= (get-in response [:body :slug]) (:slug body)))
+        (is (= (:status response) 200))))
 
-  (testing "creating organization with a slug that already exists should return a 409"
-    (let [user       (user-db/create (user-factory))
-          req        {:nnts-user (:id user)}
-          body       (factory/build-organization)
-          response   (handler/create req body)
-          response-2 (handler/create req body)]
-      (is (= (:status response-2) 409)))))
+    (testing "creating organization with a slug that already exists should return a 409"
+      (let [user       (user-db/create (user-factory))
+            req        {:nnts-user (:id user)}
+            body       (factory/build-organization)
+            response   (handler/create req body)
+            response-2 (handler/create req body)]
+        (is (= (:status response-2) 409)))))
 
 (deftest add-member-handler-test
   (testing "adding a member twice should result in a conflict and return with status 409"

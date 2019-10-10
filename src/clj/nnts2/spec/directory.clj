@@ -12,3 +12,7 @@
 
 (s/def ::directory (s/keys :opt-un [::parent-id]
                            :req-un [::name]))
+
+(defn valid? [data] (s/valid? ::directory data))
+(defn org-valid? [data] (s/valid? ::org-id data))
+(defn explain [data] (s/explain-data ::directory data))

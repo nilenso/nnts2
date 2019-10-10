@@ -8,7 +8,7 @@
 (use-fixtures :once fixtures/setup fixtures/adduser)
 
 (deftest create-dir
-  (with-redefs [nnts2.model.handler/create (fn [data] data)]
+  (with-redefs [nnts2.model.directory/create (fn [data] data)]
     (testing "should restructure request by adding org-id and created-by-id from request"
       (let [org-id                (factory/get-uuid)
             request               {:nnts-user factory/user-id}
