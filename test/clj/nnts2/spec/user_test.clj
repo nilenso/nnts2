@@ -15,7 +15,6 @@
       (is (contains? explain-str :clojure.spec.alpha/problems)))))
 
 (deftest user-info-validity
-
   (testing "Valid user info"
     (is (user-spec/valid? user)))
 
