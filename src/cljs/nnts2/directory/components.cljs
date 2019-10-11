@@ -25,7 +25,7 @@
        "→"]]]))
 
 (defn directory [{:keys [id name org-id] :as dir}]
-  (let [selected (re-frame/subscribe [::subs/selected-directory id])
+  (let [selected (re-frame/subscribe [::subs/is-selected-directory id])
         add-new  (re-frame/subscribe [::subs/add-sub-directory  (or id org-id)])]
     (fn []
       [:text
