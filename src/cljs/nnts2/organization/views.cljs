@@ -55,4 +55,4 @@
            [create-form]
            [:div])
          (for [[k v] orgs]
-           [organization-view k v])]))))
+           (if k [organization-view k v]))]))))
