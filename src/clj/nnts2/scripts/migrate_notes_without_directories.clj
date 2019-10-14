@@ -35,12 +35,8 @@
    users))
 
 
-(defn -main
-  [& args]
-  (cond
-    (= (first args) "dev")  (do (prn "dev dev") (config/read :dev))
-    (= (first args) "test") (config/read :test)
-    :else                   (config/read :prod))
+(defn run
+  [args]
   (let [notes                 (get-notes-wo-directories)
         unique-users-of-notes (set (map :created-by-id notes))
         users-with-dirs       (create-orgs-dirs-for-users unique-users-of-notes)]
