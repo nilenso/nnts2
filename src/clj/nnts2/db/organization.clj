@@ -1,10 +1,10 @@
 (ns nnts2.db.organization
   (:require [honeysql.helpers :as h]
             [honeysql.core :as sql]
-            [honeysql-postgres.format :refer :all]
             [honeysql-postgres.helpers :as ph]
             [nnts2.config :as config]
             [nnts2.utils :as utils]
+            [nnts2.db-utils :as db-utils]
             [clojure.java.jdbc :as jdbc]))
 
 (defn create
@@ -33,6 +33,17 @@
                      {:identifiers utils/snake->kebab})
          first))))
 
+(defn get
+  ([where-param-map] (get where-param-map config/db-spec))
+  ([where-param-map db-spec]
+   (jdbc/query (db-spec)
+               (-> (h/select :*)
+                   (h/from :organizations)
+                   (db-utils/multi-param-where where-param-map)
+                   sql/format)
+               {:identifiers utils/snake->kebab})))
+
+
 (defn get-by-user-id
   ([user-id] (get-by-user-id user-id config/db-spec))
   ([user-id db-spec]
@@ -44,13 +55,13 @@
                    sql/format)
                {:identifiers utils/snake->kebab})))
 
-(defn get
-                                        ;todo -- use the middleware created for note where params
-  ([params] (get params config/db-spec))
-  ([params db-spec]
+(defn get-membership
+  ([where-param-map] (get-membership where-param-map config/db-spec))
+  ([where-param-map db-spec]
    (jdbc/query (db-spec)
                (-> (h/select :*)
-                   (h/from [:members :m])
-                   (h/where [:= :m.user-id (:nnts-user params)] [:= :m.org-id (:org-id params)])
+                   (h/from :members)
+                   (h/join [:organizations :org] [:= :org.id :org-id])
+                   (db-utils/multi-param-where where-param-map)
                    sql/format)
                {:identifiers utils/snake->kebab})))
