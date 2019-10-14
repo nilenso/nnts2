@@ -35,7 +35,7 @@
    users))
 
 
-(defn -main
+(defn run
   [& args]
   (cond
     (= (first args) "dev")  (do (prn "dev dev") (config/read :dev))
