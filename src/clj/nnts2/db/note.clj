@@ -8,6 +8,7 @@
             [nnts2.utils :as utils]))
 
 (defn create
+  "create a new note"
   ([note-data] (create note-data config/db-spec))
   ([note-data db-spec]
    (let [sql-data (du/clojure-data->sql-data note-data)]
@@ -17,6 +18,18 @@
                                    sql/format)
                      {:identifiers utils/snake->kebab})
          first))))
+
+
+(defn update
+  "update notes with update-data for rows which satisfy where-params"
+  ([update-data where-params] (update update-data where-params config/db-spec))
+  ([update-data where-params db-spec]
+   (let [sql-data (du/clojure-data->sql-data update-data)]
+     (-> (jdbc/query (db-spec) (-> (h/update :notes)
+                                   (h/sset sql-data)
+                                   (du/multi-param-where where-params)
+                                   (ph/returning :*)
+                                   sql/format))))))
 
 (defn get
   "list api for notes"

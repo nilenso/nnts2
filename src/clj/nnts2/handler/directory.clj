@@ -5,7 +5,6 @@
 
 (defn create [request org-id body]
   "create a directory for an org, with/without a parent directory"
-                                        ; should have org-id and dir-id (nullable) in params, org-id in route params and dir-id in params
   (let [nnts-user   (:nnts-user request)
         dir-details (-> body
                         (assoc :org-id org-id)
