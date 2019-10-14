@@ -2,7 +2,7 @@
   (:require [nnts2.config :as config]
             [nnts2.server :as server]
             [nnts2.db :as db]
-            [nnts2.scripts.setup :as script-setup ])
+            [nnts2.scripts.setup :as script-setup])
   (:gen-class))
 
 (defn stop! []

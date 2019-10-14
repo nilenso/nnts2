@@ -44,7 +44,6 @@
                    sql/format)
                {:identifiers utils/snake->kebab})))
 
-
 (defn get-by-user-id
   ([user-id] (get-by-user-id user-id config/db-spec))
   ([user-id db-spec]

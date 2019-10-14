@@ -19,10 +19,9 @@
                      {:identifiers utils/snake->kebab})
          first))))
 
-
-(defn update
+(defn update-note
   "update notes with update-data for rows which satisfy where-params"
-  ([update-data where-params] (update update-data where-params config/db-spec))
+  ([update-data where-params] (update-note update-data where-params config/db-spec))
   ([update-data where-params db-spec]
    (let [sql-data (du/clojure-data->sql-data update-data)]
      (-> (jdbc/query (db-spec) (-> (h/update :notes)

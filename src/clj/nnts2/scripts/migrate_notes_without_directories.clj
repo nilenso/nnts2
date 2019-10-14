@@ -2,7 +2,6 @@
   (:require [nnts2.config :as config]
             [nnts2.model.organization :as org-model]
             [nnts2.model.directory :as dir-model]
-            [nnts2.model.note :as note-model]
             [nnts2.db.note :as note-db]))
 
                                         ;All users will have a "Home" org. with a general channel.
@@ -10,7 +9,6 @@
 
 (defn get-notes-wo-directories []
   (note-db/get {:directory-id nil}))
-
 
 (defn create-general-directory-under-private-org-for-user [user-id]
   (let [{org-id :id}         (org-model/create-org-add-membership
@@ -23,7 +21,6 @@
                           existing-general-dir
                           (dir-model/create dir-data)))}))
 
-
 (defn create-orgs-dirs-for-users [users]
   (reduce
    (fn [acc user-id]
@@ -34,13 +31,11 @@
    {}
    users))
 
-
 (defn run
   [args]
   (let [notes                 (get-notes-wo-directories)
         unique-users-of-notes (set (map :created-by-id notes))
         users-with-dirs       (create-orgs-dirs-for-users unique-users-of-notes)]
-
     (prn "updating " (count notes) " notes")
     (for [item notes]
-      (note-db/update (users-with-dirs (:created-by-id item)) {:id (:id item)}))))
+      (note-db/update-note (users-with-dirs (:created-by-id item)) {:id (:id item)}))))

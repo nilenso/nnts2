@@ -3,5 +3,8 @@
 
 (defn call-script [script-name & args]
   (cond
-    (= script-name "migrate-notes-without-directories") (do (migrate-note/run args) (prn "directories added to note"))
-    :else                                               (prn "Not a valid script name")))
+    (= script-name "migrate-notes-without-directories")
+    (do
+      (prn (migrate-note/run args))
+      (prn "directories added to note"))
+    :else "Not a valid script name"))
