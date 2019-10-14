@@ -6,7 +6,8 @@
 (enable-console-print!)
 
 (defn write-note []
-  (let [note-form (re-frame/subscribe [::subs/note-form])]
+  (let [note-form    (re-frame/subscribe [::subs/note-form])
+        selected-dir (re-frame/subscribe [:nnts2.directory.subs/selected-directory])]
     (fn []
       [:form
        [:fieldset
@@ -14,21 +15,24 @@
         [:textarea
          {:value       (:title @note-form)
           :id          "title-field"
+          :style       {:margin 0}
           :placeholder "What are you thinking of"
           :on-change   #(re-frame/dispatch
                          [:nnts2.note.events/note-form-changed :title (-> % .-target .-value)])}]
         [:label {:for "content-field"} "Content"]
         [:textarea
          {:id          "content-field"
+          :style       {:height "200px"}
           :placeholder "Just start typing"
           :value       (:content @note-form)
           :on-change   #(re-frame/dispatch
                          [:nnts2.note.events/note-form-changed :content (-> % .-target .-value)])}]
         [:button {:type     "submit"
+                  :disabled (if @selected-dir false true)
                   :value    "Save"
                   :on-click (fn [e]
                               (.preventDefault e)
-                              (re-frame/dispatch [:nnts2.note.events/note-submit @note-form]))}
+                              (re-frame/dispatch [:nnts2.note.events/note-submit @note-form @selected-dir]))}
          "Save"]]])))
 
 (defn note [note-data]

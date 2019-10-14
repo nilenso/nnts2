@@ -1,0 +1,4 @@
+{:up   ["ALTER TABLE notes
+       ADD COLUMN directory_id UUID references directories(id)"]
+ :down ["ALTER TABLE notes
+         DROP COLUMN IF EXISTS directory_id"]}

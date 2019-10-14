@@ -1,6 +1,7 @@
 (ns nnts2.directory.events
   (:require [re-frame.core :as re-frame]
-            [nnts2.directory.api-data :as api-data]))
+            [nnts2.directory.api-data :as api-data]
+            [nnts2.note.api-data :as note-api]))
 
 (enable-console-print!)
 
@@ -26,14 +27,17 @@
  (fn [cofx [_ org-id]]
    {:http-xhrio (api-data/get-directories org-id)}))
 
-(re-frame/reg-event-db
+(re-frame/reg-event-fx
  ::directory-selected
- (fn [db [_ dir-id]]
+ (fn [{db :db} [_ dir-id]]
    (if dir-id
-     (assoc db :selected-dir dir-id)
-     db)))
+     {:db         (assoc db :selected-dir dir-id)
+      :http-xhrio (note-api/get-notes dir-id)}
+     {:db (assoc db :selected-dir dir-id)})))
 
 (re-frame/reg-event-db
  ::directory-add-new-subdir
  (fn [db [_ dir-id]]
-   (assoc db :add-subdir-in-directory dir-id)))
+   (if (= dir-id (:add-subdir-in-directory db))
+     (assoc db :add-subdir-in-directory nil)
+     (assoc db :add-subdir-in-directory dir-id))))
