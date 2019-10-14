@@ -1,6 +1,7 @@
 (ns nnts2.db.organization
   (:require [honeysql.helpers :as h]
             [honeysql.core :as sql]
+            [honeysql-postgres.format :refer :all]
             [honeysql-postgres.helpers :as ph]
             [nnts2.config :as config]
             [nnts2.utils :as utils]
@@ -26,7 +27,7 @@
      (-> (jdbc/query (db-spec)
                      (-> (h/insert-into :members)
                          (h/values [casted-data])
-                         (ph/on-conflict-constraint :unique_org_id_user_id)
+                         (ph/on-conflict-constraint :unique-org-id-user-id)
                          (ph/do-nothing)
                          (ph/returning :*)
                          sql/format)

@@ -1,5 +1,6 @@
-(ns migrate-notes-without-directories
-  (:require [nnts2.model.organization :as org-model]
+(ns nnts2.scripts.migrate-notes-without-directories
+  (:require [nnts2.config :as config]
+            [nnts2.model.organization :as org-model]
             [nnts2.model.directory :as dir-model]
             [nnts2.model.note :as note-model]
             [nnts2.db.note :as note-db]))
@@ -34,9 +35,12 @@
    users))
 
 
-(defn run []
+(defn run
+  [args]
   (let [notes                 (get-notes-wo-directories)
         unique-users-of-notes (set (map :created-by-id notes))
         users-with-dirs       (create-orgs-dirs-for-users unique-users-of-notes)]
+
+    (prn "updating " (count notes) " notes")
     (for [item notes]
       (note-db/update (users-with-dirs (:created-by-id item)) {:id (:id item)}))))
