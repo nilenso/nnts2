@@ -1,5 +1,6 @@
-(ns migrate-notes-without-directories
-  (:require [nnts2.model.organization :as org-model]
+(ns nnts2.scripts.migrate-notes-without-directories
+  (:require [nnts2.config :as config]
+            [nnts2.model.organization :as org-model]
             [nnts2.model.directory :as dir-model]
             [nnts2.model.note :as note-model]
             [nnts2.db.note :as note-db]))
@@ -36,6 +37,10 @@
 
 (defn -main
   [& args]
+  (cond
+    (= (first args) "dev")  (do (prn "dev dev") (config/read :dev))
+    (= (first args) "test") (config/read :test)
+    :else                   (config/read :prod))
   (let [notes                 (get-notes-wo-directories)
         unique-users-of-notes (set (map :created-by-id notes))
         users-with-dirs       (create-orgs-dirs-for-users unique-users-of-notes)]

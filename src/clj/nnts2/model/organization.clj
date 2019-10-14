@@ -12,6 +12,7 @@
 
 (defn add-member [member-data]
   (db/add-user member-data))
+  (db/add-user member-data)
 
 (defn get-org [org-params]
   (db/get org-params))

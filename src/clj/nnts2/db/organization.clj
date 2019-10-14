@@ -26,7 +26,7 @@
      (-> (jdbc/query (db-spec)
                      (-> (h/insert-into :members)
                          (h/values [casted-data])
-                         (ph/on-conflict-constraint :unique_org_id_user_id)
+                         (ph/on-conflict-constraint :unique-org-id-user-id)
                          (ph/do-nothing)
                          (ph/returning :*)
                          sql/format)
