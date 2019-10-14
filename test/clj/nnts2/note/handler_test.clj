@@ -7,7 +7,6 @@
 (use-fixtures :each fixtures/clear)
 (use-fixtures :once fixtures/setup fixtures/adduser)
 
-
 (deftest create-note
   (with-redefs [nnts2.db.note/create (fn [data] data)]
     (let [directory (factory/create-dir "root")]

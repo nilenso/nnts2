@@ -1,6 +1,7 @@
 (ns nnts2.db.organization
   (:require [honeysql.helpers :as h]
             [honeysql.core :as sql]
+            [honeysql-postgres.format :refer :all]
             [honeysql-postgres.helpers :as ph]
             [nnts2.config :as config]
             [nnts2.utils :as utils]
@@ -42,7 +43,6 @@
                    (db-utils/multi-param-where where-param-map)
                    sql/format)
                {:identifiers utils/snake->kebab})))
-
 
 (defn get-by-user-id
   ([user-id] (get-by-user-id user-id config/db-spec))

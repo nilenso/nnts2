@@ -8,7 +8,6 @@
 (use-fixtures :each fixtures/clear)
 (use-fixtures :once fixtures/setup fixtures/adduser)
 
-
 (deftest create-note-test
   (testing "should return note map when given correct params"
     (let [directory (factory/create-dir "root")

@@ -14,6 +14,6 @@
 
 (defn get-notes [note-directory]
   {:method          :get
-   :uri             (str "/dirs/" note-directory "/notes" )
+   :uri             (str "/dirs/" note-directory "/notes")
    :response-format (ajax/json-response-format {:keywords? true})
    :on-success      [:nnts2.note.events/note-received-list]})
