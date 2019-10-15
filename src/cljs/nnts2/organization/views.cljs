@@ -54,5 +54,6 @@
          (if @show-create-org-form
            [create-form]
            [:div])
-         (for [[k v] orgs]
-           [organization-view k v])]))))
+         [:div {:style {:overflow-x "auto"}}
+          (for [[k v] orgs]
+            [organization-view k v])]]))))
