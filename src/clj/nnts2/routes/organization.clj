@@ -6,7 +6,8 @@
 (defroutes routes
   (context "/orgs" []
     :coercion :spec
-    (GET "/" [] handler/get-orgs)
+    (GET "/" []
+      handler/get-orgs-for-member)
     (POST "/" []
       :body [org-details ::spec/organization]
       #(handler/create % org-details))))

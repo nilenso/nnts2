@@ -17,5 +17,6 @@
     (res/response (directory/list params))))
 
 (defn find [request org-id id]
+  "get full details of a single directory with id"
   (let [params {:org-id org-id :id id}]
     (res/response (directory/get-one-item params))))

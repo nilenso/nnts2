@@ -11,7 +11,7 @@
   (note-db/get {:directory-id nil}))
 
 (defn create-general-directory-under-private-org-for-user [user-id]
-  (let [{org-id :id}         (org-model/create-org-add-membership
+  (let [{org-id :id}         (org-model/create-org-with-member
                               {:name "MyNotes" :slug (str "MyNotes-" user-id)}
                               user-id)
         dir-data             {:org-id org-id :name "general" :parent-id nil :created-by-id user-id}

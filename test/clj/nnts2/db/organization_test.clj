@@ -13,10 +13,9 @@
           org      (db/create org-data)]
       (is (not (nil? org)))))
 
-  (testing "should return nil if a conflicting slug is given"
-    (let [org-data (factory/build-organization)
-          org      (db/create org-data)]
-      (is (nil? org)))))
+  (testing "should raise exception if a conflicting slug is given"
+    (let [org-data (factory/build-organization)]
+      (is (thrown? Exception (db/create org-data))))))
 
 (deftest add-user-test
   (let [org-data (factory/build-organization)
@@ -43,13 +42,7 @@
             member-data {:user-id (:id user)
                          :org-id  (:id org)
                          :role    "newmember"}]
-        (is (thrown? Exception (db/add-user member-data)))))
-                                        ;TODO
-    #_(testing "should raise exception when given no role"
-        (let [user        (factory/create-user "new3@gmail.com")
-              member-data {:user-id (:id user)
-                           :org-id  (:id org)}]
-          (is (thrown? Exception (db/add-user member-data)))))))
+        (is (thrown? Exception (db/add-user member-data)))))))
 
 (deftest get-by-userid-test
   (let [user (factory/create-user)]
@@ -59,6 +52,7 @@
             mem1         (db/add-user (factory/build-membership (:id org1) "admin" (:id user)))
             get-response (db/get-by-user-id (:id user))]
         (is (= 1 (count get-response)))))
+
     (testing "should give two organization when a user is member of two org"
       (let [org2-data    (factory/build-organization "org2" "slug2")
             org3-data    (factory/build-organization "org3" "slug3")

@@ -8,8 +8,5 @@
 (defn create [{:keys [google-user]}]
   (if (user-spec/valid? google-user)
     (do (user-db/create google-user)
-        (-> (res/redirect (str "/home"))))
+        (res/redirect (str "/home")))
     (spec-helper/invalid (user-spec/explain-str google-user))))
-
-(defn info [id]
-  (res/response (user-db/get-by-id (Integer/parseInt id))))
