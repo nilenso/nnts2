@@ -13,8 +13,6 @@
   ([details db-spec]
    (-> (jdbc/query (db-spec) (-> (h/insert-into :organizations)
                                  (h/values [details])
-                                 (ph/on-conflict :slug)
-                                 (ph/do-nothing)
                                  (ph/returning :*)
                                  sql/format)
                    {:identifiers utils/snake->kebab})

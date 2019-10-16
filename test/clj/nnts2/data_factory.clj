@@ -17,7 +17,13 @@
     :given-name  given-name
     :family-name family-name
     :email       email
-    :picture-url picture-url}))
+    :picture     picture-url}))
+
+(defn create-user
+  "creats a new user"
+  ([] (user-db/create (build-user)))
+  ([email]
+   (user-db/create (assoc (build-user) :email email))))
 
 (defn build-organization
   ([] (build-organization "org" "slug"))
