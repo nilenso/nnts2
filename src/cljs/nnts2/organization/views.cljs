@@ -10,14 +10,15 @@
   ^{:key id}
   [:ul.dir-list
    [:li.org-name
-     [directories/directory {:name   name
-                             :org-id id
-                             :id     nil}]]
+    [directories/directory {:name   name
+                            :org-id id
+                            :id     nil}]]
    [directories/directory-list id]])
 
 (defn create-form []
-  (let [org-details (reagent/atom {:name ""
-                                   :slug ""})]
+  (let [add-org-error (re-frame/subscribe [::subs/create-org-form-failure])
+        org-details   (reagent/atom {:name ""
+                                     :slug ""})]
     (fn []
       (let [{:keys [name slug]} @org-details]
         [:div
@@ -26,6 +27,7 @@
           [:input {:type        :text
                    :id          "org-name"
                    :style       {:color "white"}
+                   :class       [(if (:error @add-org-error) :error-form)]
                    :placeholder "Org Name"
                    :on-change   (fn [e]
                                   (swap! org-details assoc :name (-> e .-target .-value)))}]]
@@ -33,9 +35,11 @@
           [:input {:type        :text
                    :id          "org-slug"
                    :style       {:color "white"}
+                   :class       [(if (:error @add-org-error) :error-form)]
                    :placeholder "Slug"
                    :on-change   (fn [e]
                                   (swap! org-details assoc :slug (-> e .-target .-value)))}]]
+         (when (:error @add-org-error) [:label.error-msg (:message @add-org-error)])
          [:button
           {:on-click (fn [_event]
                        (re-frame/dispatch [::events/create-organization @org-details]))} "Create"]]))))
@@ -53,13 +57,14 @@
                  :style {:color "#d5d5d5"}}
            [:h6 "Organizations"]]
           [:div {:class "column column-20"} [:a
-                                             {:href "#"
+                                             {:href     "#"
                                               :on-click #(re-frame/dispatch [::events/show-create-org-form])}
                                              "+"]]]
          (if @show-create-org-form
            [create-form]
            [:div])
-         [:div {:style {:overflow-x "auto"
-                        :overflow-y "auto"}}
+         [:div
+          {:style {:overflow-x "auto"
+                   :overflow-y "auto"}}
           (for [[k v] orgs]
             [organization-view k v])]]))))

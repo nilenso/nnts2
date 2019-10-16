@@ -12,7 +12,8 @@
    :format          (ajax/json-request-format)
    :params          details
    :uri             "/orgs"
-   :on-success      [:nnts2.organization.events/organization-created]})
+   :on-success      [:nnts2.organization.events/organization-created-success]
+   :on-failure      [:nnts2.organization.events/organization-created-failure]})
 
 (defn get-org []
   {:method          :get

@@ -1,7 +1,6 @@
 (ns nnts2.handler.directory
-  (:require
-   [nnts2.model.directory :as directory]
-   [ring.util.response :as res]))
+  (:require   [nnts2.model.directory :as directory]
+              [ring.util.response :as res]))
 
 (defn create [request org-id body]
   "create a directory for an org, with/without a parent directory"
