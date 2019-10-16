@@ -25,7 +25,7 @@
                          :margin-bottom 0}
               :on-click #(re-frame/dispatch [:nnts2.directory.events/create-directory-submit @dir-details])}
              "→"]]]
-     (when (:error @add-dir-error) [:label (:message @add-dir-error)])]))
+     (when (:error @add-dir-error) [:label.error-msg (:message @add-dir-error)])]))
 
 (defn directory [{:keys [id name org-id] :as dir}]
   (let [selected (re-frame/subscribe [::subs/is-selected-directory id])

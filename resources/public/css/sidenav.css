@@ -78,3 +78,8 @@
   border-color: red !important; 
   border-width: 2px !important;
 }
+
+.error-msg {
+  font-size: 13px !important;
+  color: red !important;
+}

@@ -45,6 +45,8 @@
 (re-frame/reg-event-fx
  ::create-directory-failure
  (fn [{db :db} [_ dir-data]]
-   {:db (-> db
-            (assoc-in [:add-sub-directory-form :submit-status :error] true)
-            (assoc-in [:add-sub-directory-form :submit-status :message] (:original-text (:parse-error dir-data))))}))
+   (let [err-msg (if (get-in dir-data [:response :spec]) "invalid input"
+                     (get-in dir-data [:parse-error :original-text]))]
+     {:db (-> db
+              (assoc-in [:add-sub-directory-form :submit-status :error] true)
+              (assoc-in [:add-sub-directory-form :submit-status :message] err-msg))})))
