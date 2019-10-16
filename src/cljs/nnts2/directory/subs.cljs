@@ -19,4 +19,14 @@
 (re-frame/reg-sub
  ::add-sub-directory
  (fn [db [_ dir-id]]
-   (and dir-id (= dir-id (:add-subdir-in-directory db)))))
+   (and dir-id (= dir-id (get-in db [:add-sub-directory-form :parent-dir])))))
+
+(re-frame/reg-sub
+ ::add-sub-directory-failure
+ (fn [db _]
+   (get-in db [:add-sub-directory-form :submit-status])))
+
+#_(re-frame/reg-sub
+   ::add-sub-directory-form
+   (fn [db _]
+     (:add-sub-directory-form db)))

@@ -4,7 +4,6 @@
 
 (enable-console-print!)
 
-                                        ; TODO: handle on-failure.
 (defn user-info []
   {:method          :get
    :uri             "/user-info"

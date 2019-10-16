@@ -56,19 +56,20 @@
   (fn [request]
     (let [access-token (or (get-in request [:session :ring.middleware.oauth2/access-tokens :google :token])
                            (get-in request [:headers "authorization"]))]
-
-      (let [response (clj-http/get "https://www.googleapis.com/oauth2/v3/userinfo"
-                                   {:throw-exceptions false
-                                    :headers          {"Authorization" (if (not (str/starts-with? access-token "Bearer "))
-                                                                         (str "Bearer " access-token)
-                                                                         access-token)}
-                                    :as               :json})]
-        (if (< (:status response) 400)
-          (handler (assoc-in request [:google-user] (-> response
-                                                        (:body)
-                                                        (utils/hyphenize-collection))))
-          (-> (res/response "Not authorized")
-              (res/status 401)))))))
+      (if access-token
+        (let [response (clj-http/get "https://www.googleapis.com/oauth2/v3/userinfo"
+                                     {:throw-exceptions false
+                                      :headers          {"Authorization" (if (not (str/starts-with? access-token "Bearer "))
+                                                                           (str "Bearer " access-token)
+                                                                           access-token)}
+                                      :as               :json})]
+          (if (< (:status response) 400)
+            (handler (assoc-in request [:google-user] (-> response
+                                                          (:body)
+                                                          (utils/hyphenize-collection))))
+            (-> (res/response "Not authorized")
+                (res/status 401))))
+        (res/redirect "/login")))))
 
 (defn wrap-nnts-user-id [handler]
   (fn [request]

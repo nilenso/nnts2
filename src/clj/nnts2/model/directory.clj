@@ -36,12 +36,17 @@
   (let [directory (first (db/get params))]
     (assoc directory :directories (list (clojure.set/rename-keys params {:id :parent-id})))))
 
+(defn dir-exists [params]
+  (> (count (db/get (select-keys params [:name :parent-id :org-id]))) 0))
+
 (defn create [params]
-  " create directory if org exists and orgs match if there is a parent directory mentioned"
+  "create directory if org exists and orgs match if there is a parent directory mentioned"
   (if (org/org-exists (:org-id params) (:created-by-id params))
-    (if (:parent-id params)
-      (if (= (:org-id params) (:org-id (get-one-item {:id (:parent-id params)})))
+    (if-not (dir-exists params)
+      (if-not (:parent-id params)
         (db/create params)
-        "organizations dont match")
-      (db/create params))
-    "org doesn't exist"))
+        (if (= (:org-id params) (:org-id (get-one-item {:id (:parent-id params)})))
+          (db/create params)
+          {:error :organizations-dont-match}))
+      {:error :dir-already-exists})
+    {:error :org-doesnt-exist}))

@@ -13,8 +13,7 @@
     (testing "should fail if org doesnt exist"
       (let [dir-data (factory/build-directory "dir-with-fake-org" (UUID/randomUUID))
             dir      (model/create dir-data)]
-        (is (string? dir))
-        (is (= dir "org doesn't exist"))))))
+        (is (= :org-doesnt-exist (:error dir)))))))
 
 (deftest create-root-dir-test
   (testing "should add root dir if parent-id is nil and org exists"))
@@ -35,7 +34,7 @@
           new-org             (factory/create-org "neworg1" "newslug1")
           child-diff-org-data (factory/build-directory "child-dir-diff-org" new-org (:id parent-dir))
           child-dir-diff-org  (model/create child-diff-org-data)]
-      (is (string? child-dir-diff-org)))))
+      (is (= :organizations-dont-match (:error child-dir-diff-org))))))
 
 (deftest rows->nested-conversion-test
   (testing "should produce depth 3 map when given 3 nested directory rows"
@@ -72,22 +71,14 @@
             output-notree1 (model/list params)
             output-notree2 (model/list (dissoc params :show-tree))
             output-tree    (model/list (assoc params :show-tree true))]
-        (is (= 1 (count output-notree1)))
+        (is (= {:name "root" :directories []} (select-keys (first output-notree1) [:name :directories])))
         (is (= output-notree1 output-notree2))
-        (is (= "root" (:name (first output-notree1))))
-        (is (empty? (:directories (first output-notree1))))
-        (is (= 1 (count output-tree)))
         (is (= 2 (count (:directories (first output-tree)))))))
 
     (testing "should give children of a directory when that directory id is passed as parent-id"
-      (let [params         {:parent-id (:id dir-root)
-                            :org-id    org-id
-                            :show-tree false}
-            output-notree1 (model/list params)
-            output-notree2 (model/list (dissoc params :show-tree))
-            output-tree    (model/list (assoc params :show-tree true))]
-        (is (= 2 (count output-notree1)))
-        (is (empty? (:directories (first output-notree1))))
-        (is (= output-notree1 output-notree2))
+      (let [params      {:parent-id (:id dir-root)
+                         :org-id    org-id
+                         :show-tree true}
+            output-tree (model/list params)]
         (is (= 2 (count output-tree)))
         (is (not (empty? (:directories (first output-tree)))))))))

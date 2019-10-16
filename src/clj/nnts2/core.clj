@@ -13,6 +13,10 @@
   (db/migrate)
   (server/start))
 
+(defn restart-server! []
+  (stop!)
+  (start!))
+
 (defn -main
   [& args]
   (cond
