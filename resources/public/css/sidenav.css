@@ -73,3 +73,8 @@
   color: white;
   font-size: 16px !important;
 }
+
+.error-form {
+  border-color: red !important; 
+  border-width: 2px !important;
+}

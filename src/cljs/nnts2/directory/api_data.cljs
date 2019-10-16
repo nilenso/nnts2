@@ -8,7 +8,8 @@
    :response-format (ajax/json-response-format {:keywords? true})
    :params          (dissoc data :org-id)
    :format          (ajax/json-request-format)
-   :on-success      [:nnts2.directory.events/create-directory-success]})
+   :on-success      [:nnts2.directory.events/create-directory-success]
+   :on-failure      [:nnts2.directory.events/create-directory-failure]})
 
 (defn get-directories [org-id]
   {:method          :get
