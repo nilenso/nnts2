@@ -20,3 +20,8 @@
  ::add-sub-directory
  (fn [db [_ dir-id]]
    (and dir-id (= dir-id (:add-subdir-in-directory db)))))
+
+(re-frame/reg-sub
+ ::add-sub-directory-error
+ (fn [db _]
+   (:add-sub-directory-error db)))

@@ -52,6 +52,24 @@
   .sidenav a {font-size: 18px;}
 }
 
-ul {
-  font-size: 100% !important
+.dir-list {
+  font-size: 100% !important;
+  margin-left: .8rem !important;
+  color: #d5d5d5;
+}
+
+.dir-list li {
+  list-style: none;
+  border-left: 1px dotted grey;
+  padding-left: 10px;
+  font-size: 14.5px;
+  cursor: default;
+}
+
+.org-name {
+  border-left: none !important;
+  background: #404040;
+  padding: 5px;
+  color: white;
+  font-size: 16px !important;
 }

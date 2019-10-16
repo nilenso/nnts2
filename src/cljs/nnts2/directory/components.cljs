@@ -28,13 +28,18 @@
   (let [selected (re-frame/subscribe [::subs/is-selected-directory id])
         add-new  (re-frame/subscribe [::subs/add-sub-directory  (or id org-id)])]
     (fn []
-      [:text
+      [:span
        {:id            id
         :onDoubleClick #(re-frame/dispatch [:nnts2.directory.events/directory-add-new-subdir (or id org-id)])
         :on-click      #(re-frame/dispatch [:nnts2.directory.events/directory-selected id])
         :style         (if @selected {:color "orange"} {})}
        name
-       [:dl  [:dt (if (not @add-new) {:style {:display "none"}}) [add-child-directory dir]]]])))
+       [:div {:style (if (not @add-new)
+                      {:display "none"}
+                      {:min-width "130px"
+                       :margin-left "0.8rem"
+                       :margin-top ".4rem"})}
+        [add-child-directory dir]]])))
 
 (defn directory-collection->directory-element [{:keys [id directories] :as dir-coll}]
   "create a hiccup element out of directory collection. A map within the collection is mapped to 'li' and a list is mapped to 'ul'"
@@ -42,7 +47,7 @@
     nil
     (if (map? dir-coll)
       ^{:key id} [:li [directory dir-coll] (directory-collection->directory-element directories)]
-      [:ul (map directory-collection->directory-element dir-coll)])))
+      [:ul.dir-list (map directory-collection->directory-element dir-coll)])))
 
 (defn directory-list [org-id]
   (let [directories (re-frame/subscribe [::subs/org-directories org-id])]

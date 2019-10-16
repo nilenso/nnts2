@@ -11,21 +11,20 @@
  (fn [{db :db}  [_ org-details]]
    {:http-xhrio (api-data/create-org org-details)}))
 
-(re-frame/reg-event-db
+(re-frame/reg-event-fx
  ::organization-created
  (fn [db [_ org-details]]
-   (-> db
-       (assoc-in [:organization (:id org-details)] (dissoc org-details :id))
-       (assoc-in [:organization :show-create-org-form] false))))
+   {:db         (assoc-in db [:organization :show-create-org-form] false)
+    :http-xhrio (api-data/get-org)}))
 
 (re-frame/reg-event-fx
  ::organizations-retrieved
  (fn [{db :db} [_ org-details]]
    {:http-xhrio (map #(dir-api/get-directories (:id %)) org-details)
-    :db         (assoc db :organization
+    :db         (assoc-in db [:organization :orgs]
                        (reduce
                         (fn [acc {:keys [id] :as org}] (assoc acc id org))
-                        (:organization db)
+                        (get-in db [:organization :orgs])
                         org-details))}))
 
 (re-frame/reg-event-db

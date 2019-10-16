@@ -8,9 +8,11 @@
 (defn organization-view [id {:keys [name]}]
   "showing organization using directory view but with nil id, also initializing org-directories component"
   ^{:key id}
-  [:ul  [:b [directories/directory {:name   name
-                                    :org-id id
-                                    :id     nil}]]
+  [:ul.dir-list
+   [:li.org-name
+     [directories/directory {:name   name
+                             :org-id id
+                             :id     nil}]]
    [directories/directory-list id]])
 
 (defn create-form []
@@ -47,13 +49,17 @@
         [:div
          {:class "container"}
          [:div {:class "row"}
-          [:div {:class "column column-80"} [:h6 "Organizations"]]
-          [:div {:class "column column-20"} [:button-clear
-                                             {:on-click #(re-frame/dispatch [::events/show-create-org-form])}
+          [:div {:class "column column-80"
+                 :style {:color "#d5d5d5"}}
+           [:h6 "Organizations"]]
+          [:div {:class "column column-20"} [:a
+                                             {:href "#"
+                                              :on-click #(re-frame/dispatch [::events/show-create-org-form])}
                                              "+"]]]
          (if @show-create-org-form
            [create-form]
            [:div])
-         [:div {:style {:overflow-x "auto"}}
+         [:div {:style {:overflow-x "auto"
+                        :overflow-y "auto"}}
           (for [[k v] orgs]
             [organization-view k v])]]))))

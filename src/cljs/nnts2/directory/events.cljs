@@ -17,6 +17,11 @@
    {:db         (assoc db :add-subdir-in-directory nil)
     :http-xhrio (api-data/get-directories (:org-id dir-data))}))
 
+(re-frame/reg-event-fx
+ ::create-directory-error
+ (fn [{db :db} [_ dir-data]]
+   {:db (assoc db :add-sub-directory-error true)}))
+
 (re-frame/reg-event-db
  ::received-directory-list
  (fn [db [_ directories]]
