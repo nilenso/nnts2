@@ -10,7 +10,8 @@
    :response-format (ajax/json-response-format {:keywords? true})
    :params          data
    :format          (ajax/json-request-format)
-   :on-success      [:nnts2.note.events/note-submit-success]})
+   :on-success      [:nnts2.note.events/note-submit-success]
+   :on-failure      [:nnts2.note.events/note-submit-failure]})
 
 (defn get-notes [note-directory]
   {:method          :get

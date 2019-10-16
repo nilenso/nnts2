@@ -7,6 +7,12 @@
    (:notes db)))
 
 (re-frame/reg-sub
- ::note-form
+ ::note-form-data
  (fn [db _]
-   (:note-form db)))
+   (:data (:note-form db))))
+
+
+(re-frame/reg-sub
+ ::note-form-submit-error
+ (fn [db _]
+   (:submit-status (:note-form db))))

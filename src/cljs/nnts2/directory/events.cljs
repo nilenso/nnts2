@@ -42,11 +42,11 @@
    {:db         (assoc db :add-sub-directory-form {})
     :http-xhrio (api-data/get-directories (:org-id dir-data))}))
 
-(re-frame/reg-event-fx
+(re-frame/reg-event-db
  ::create-directory-failure
- (fn [{db :db} [_ dir-data]]
+ (fn [db [_ dir-data]]
    (let [err-msg (if (get-in dir-data [:response :spec]) "invalid input"
                      (get-in dir-data [:parse-error :original-text]))]
-     {:db (-> db
-              (assoc-in [:add-sub-directory-form :submit-status :error] true)
-              (assoc-in [:add-sub-directory-form :submit-status :message] err-msg))})))
+     (-> db
+         (assoc-in [:add-sub-directory-form :submit-status :error] true)
+         (assoc-in [:add-sub-directory-form :submit-status :message] err-msg)))))
