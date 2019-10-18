@@ -27,7 +27,7 @@
 (defn find-or-create-org [org-data]
   (let [existing-org (first (get-org org-data))]
     (if existing-org
-      existing-org
+      {:error :org-same-name-slug-exists}
       (create-org org-data))))
 
 (defn create-org-with-member [org-data user-id]

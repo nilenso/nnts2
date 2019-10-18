@@ -31,11 +31,11 @@
         (is (= (count get-req-output) 1))
         (is (first get-req-output) created-note)))
 
-    (testing "should return two notes if two have been created"
-      (let [note2          (factory/note (:id directory) "note2" "content2")
+    (testing "should return two notes if two have been created in a directory by two different users"
+      (let [other-user     (factory/create-user "second@gmail.com")
+            note2          (factory/note (:id directory) "note2" "content2" (:id other-user))
             created-note2  (db/create note2)
-            get-req-body   {:directory-id  (:id directory)
-                            :created-by-id factory/user-id}
+            get-req-body   {:directory-id (:id directory)}
             get-req-output (db/get get-req-body)]
         (is (= (count get-req-output) 2))
         (is (last get-req-output) created-note2)))

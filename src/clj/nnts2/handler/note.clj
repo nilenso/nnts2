@@ -9,6 +9,5 @@
     (res/response (db/create note-data))))
 
 (defn get-notes [{:keys [nnts-user]} dir-id]
-  (let [filter-params {:created-by-id nnts-user
-                       :directory-id  dir-id}]
+  (let [filter-params {:directory-id dir-id}]
     (res/response (db/get filter-params))))

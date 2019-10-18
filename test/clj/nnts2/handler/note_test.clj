@@ -25,4 +25,4 @@
       (let [directory                     (factory/create-dir "root")
             req-data                      {:nnts-user factory/user-id}
             {:keys [status body headers]} (handler/get-notes req-data (:id directory))]
-        (is (= body {:directory-id (:id directory) :created-by-id factory/user-id}))))))
+        (is (= body {:directory-id (:id directory)}))))))

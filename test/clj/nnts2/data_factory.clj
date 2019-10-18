@@ -6,7 +6,9 @@
              [nnts2.model.organization :as org])
   (:import (java.util UUID)))
 
-(def user-id (UUID/fromString "820bb852-445f-4101-b257-f84f66aa74ff"))
+(def user-id
+  "default user id created in fixtures"
+  (UUID/fromString "820bb852-445f-4101-b257-f84f66aa74ff"))
 
 (defn get-uuid [] (UUID/randomUUID))
 
