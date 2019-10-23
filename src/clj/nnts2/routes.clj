@@ -3,6 +3,7 @@
             [nnts2.routes.note :as note]
             [nnts2.routes.organization :as organization]
             [nnts2.routes.directory :as directory]
+            [nnts2.routes.invitation :as invitation]
             [compojure.api.sweet :refer [api]]))
 
 (def auth-routes
@@ -10,4 +11,5 @@
    user/routes
    organization/routes
    note/routes
-   directory/dir-routes))
+   directory/dir-routes
+   invitation/routes))

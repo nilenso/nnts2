@@ -11,7 +11,7 @@
         dir         (directory/create dir-details)]
     (condp #(contains? %2 %1) dir
       :error (-> (res/response (str (:error dir)))
-                 (res/status 409))
+                 (res/status 400))
       :id    (-> (res/response dir)
                  (res/status 200)))))
 

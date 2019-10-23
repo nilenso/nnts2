@@ -12,6 +12,7 @@
   [tree
    parent-id
    remaining-rows]
+                                        ;use group by
   (let [to-insert      (filter #(= parent-id (:parent-id %)) remaining-rows)
         next-iter-rows (clojure.set/difference (set remaining-rows) (set to-insert))]
     (reduce
@@ -41,7 +42,7 @@
 
 (defn create [params]
   "create directory if org exists and orgs match if there is a parent directory mentioned"
-  (if (org/org-exists (:org-id params) (:created-by-id params))
+  (if (org/is-member-of-org (:created-by-id params) (:org-id params))
     (if-not (dir-exists params)
       (if-not (:parent-id params)
         (db/create params)

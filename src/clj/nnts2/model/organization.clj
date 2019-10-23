@@ -10,11 +10,18 @@
 (defn add-member [member-data]
   (db/add-user member-data))
 
-(defn org-exists [org-id nnts-user]
-  "check if organization exists and if user is member"
+(defn is-member-of-org [user-id org-id]
+  "check if a user is part of an organization"
   (> (count (get-membership-orgs
              {:org-id  org-id
-              :user-id nnts-user})) 0))
+              :user-id user-id})) 0))
+
+(defn is-admin-of-org [user-id org-id]
+  "check if a user is part of an organization"
+  (> (count (get-membership-orgs
+             {:org-id  org-id
+              :member  "admin"
+              :user-id user-id})) 0))
 
 (defn create-org [{:keys [slug] :as org-data}]
   (let [does-slug-exist (-> {:slug slug}

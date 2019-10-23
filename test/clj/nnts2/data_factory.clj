@@ -43,14 +43,17 @@
 (defn create-org
   "creates org and a membership entry also"
   ([] (create-org "default-org" "default-slug"))
-  ([name slug] (let [org-id      (:id (org-db/create (build-organization name slug)))
-                     member-data (build-membership org-id)
-                     member      (org-db/add-user member-data)]
-                 org-id)))
+  ([userid] (create-org "default-org" "default-slug" userid))
+  ([name slug] (create-org name slug user-id))
+  ([name slug userid]
+   (let [org         (org-db/create (build-organization name slug))
+         member-data (build-membership (:id org) "admin" userid)
+         member      (org-db/add-user member-data)]
+     org)))
 
 (defn build-directory
   ([name]
-   (build-directory name (create-org)))
+   (build-directory name (:id create-org)))
   ([name org-id]
    (build-directory name org-id nil))
   ([name org-id parent-id]
@@ -73,11 +76,20 @@
   ([name org-id  parent-id]
    (dir-db/create (build-directory name org-id parent-id))))
 
-(defn note
-  ([dir-id] (note dir-id "title" "content"))
-  ([dir-id title content] (note dir-id title content user-id))
+(defn build-note
+  ([dir-id] (build-note dir-id "title" "content"))
+  ([dir-id title content] (build-note dir-id title content user-id))
   ([dir-id title content userid]
    {:title         title
     :content       content
     :directory-id  dir-id
     :created-by-id userid}))
+
+(defn build-invitation
+  ([email] (build-invitation email "member"))
+  ([email role] (build-invitation email role (:id (create-org user-id))))
+  ([email role org-id userid]
+   {:email           email
+    :invite-for-role role
+    :org-id          org-id
+    :created-by-id   userid}))

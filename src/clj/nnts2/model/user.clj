@@ -11,3 +11,7 @@
         dir-data              {:name "general" :org-id (:id org) :parent-id nil :created-by-id id}
         dir                   (dir-model/create dir-data)]
     user-data))
+
+
+(defn get-by-id [id]
+  (user-db/get-by-id id))
